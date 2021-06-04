@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.ServiceModel;
-using System.Windows.Forms;
-using DevExpress.Data;
+﻿using DevExpress.Data;
+using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
+using FIS.AppClient.Properties;
 using FIS.AppClient.Utils;
+using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraGrid.Views.Grid;
-using FIS.AppClient.Properties;
-using System.Xml.Serialization;
-using System.IO;
-using FIS.Base;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using DevExpress.XtraGrid;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml.Serialization;
 namespace FIS.AppClient.Controls
 {
     public partial class ucStatisticsMaster : ucModule,
@@ -77,7 +77,7 @@ namespace FIS.AppClient.Controls
         public ucStatisticsMaster()
         {
             InitializeComponent();
-           
+
         }
 
         protected override void BuildButtons()
@@ -198,7 +198,7 @@ namespace FIS.AppClient.Controls
                     using (var ctrlSA = new SAController())
                     {
                         var exportInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEARCH_EXPORT);
-                        ctrlSA.CheckRole(exportInfo);                                            
+                        ctrlSA.CheckRole(exportInfo);
                         var sendMailInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEND_MAIL);
                         ctrlSA.CheckRole(sendMailInfo);
                         btnMail.Enabled = true;
@@ -228,7 +228,7 @@ namespace FIS.AppClient.Controls
         {
             base.UnLockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 HideWaitingBox();
                 Enabled = true;
@@ -239,7 +239,7 @@ namespace FIS.AppClient.Controls
         {
             base.LockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 ShowWaitingBox();
                 gcMain.DataSource = null;
@@ -309,7 +309,7 @@ namespace FIS.AppClient.Controls
                     // TODO: Optimize code
                     cboPages.Properties.NullText = string.Format(Language.PageInfo, SelectedPage + 1, BufferResult.StartRow + 1, BufferResult.StartRow + BufferResult.Rows.Count);
                 }
-                else if(StatisticsInfo.PageMode == CODES.MODSEARCH.PAGEMODE.ALL_FROM_DATASET)
+                else if (StatisticsInfo.PageMode == CODES.MODSEARCH.PAGEMODE.ALL_FROM_DATASET)
                 {
                     cboPages.Properties.Buttons[0].Visible = false;
                     cboPages.Properties.ShowDropDown = ShowDropDown.Never;
@@ -381,7 +381,7 @@ namespace FIS.AppClient.Controls
                 if (BufferResult.Rows.Count > 0)
                 {
                     btnExport.Enabled = true;
-                }               
+                }
 
                 gcMain.DataSource = BufferResult;
                 gvMain.ExpandAllGroups();
@@ -413,7 +413,7 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-        
+
         public void ChangeStatusText(Image statusImage, string status, params object[] objs)
         {
             var strStatusText = Language.GetSpecialStatus(status);
@@ -460,7 +460,7 @@ namespace FIS.AppClient.Controls
                                 DateTime lastSearchTime;
 
                                 ctrlSA.ExecuteStatistics(out lastSearchResultKey, out lastSearchTime, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);
-                                BufferResult = new BufferedResultManager(ModuleInfo, lastSearchResultKey, lastSearchTime);                                
+                                BufferResult = new BufferedResultManager(ModuleInfo, lastSearchResultKey, lastSearchTime);
                                 ExecuteFetchResult();
                             }
                         }
@@ -558,8 +558,8 @@ namespace FIS.AppClient.Controls
 
             e.Allow = false;
             if (gridColumn != null && e.HitInfo.InRowCell)
-            {                
-                switch(gridColumn.SortOrder)
+            {
+                switch (gridColumn.SortOrder)
                 {
                     case ColumnSortOrder.Ascending:
                         btnAscending.Enabled = false;
@@ -577,7 +577,7 @@ namespace FIS.AppClient.Controls
                         btnNoSort.Enabled = false;
                         break;
                 }
-                
+
                 mnuSort.Tag = gridColumn;
                 e.Allow = true;
             }
@@ -604,36 +604,36 @@ namespace FIS.AppClient.Controls
                         ucColumnEx.listLayout = listLayout;
                         ucColumnEx.Bands = Bands;
                     }
-                    ucColumnEx.ShowDialogModule(this);                    
+                    ucColumnEx.ShowDialogModule(this);
                 }
                 else
                 {
-                     var expInfo = SysvarUtils.GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_EXPORT);
-                     var exportInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEARCH_EXPORT);
-                     var ucExport = (ucSearchExport)MainProcess.CreateModuleInstance(exportInfo.ModuleID, exportInfo.SubModule, "CALL_MODULE");
-                     if (expInfo == CONSTANTS.Yes)
-                     {                                                  
-                         ucExport.LastSearchResultKey = BufferResult.LastSearchResultKey;
-                         ucExport.LastSearchTime = BufferResult.LastSearchTime;
-                         ucExport.PrintGrid = gcMain;
-                         ucExport.ShowDialogModule(this);
-                     }
-                     else
-                     {
-                         var saveDialog = new SaveFileDialog
-                         {
-                             Filter = IMPORTMASTER.EXPORT_FILE_EXTENSIONS
-                         };
-                         if (saveDialog.ShowDialog() == DialogResult.OK)
-                         {
-                             ucExport.FileName = saveDialog.FileName;
-                             ucExport.LastSearchResultKey = BufferResult.LastSearchResultKey;
-                             ucExport.LastSearchTime = BufferResult.LastSearchTime;
-                             ucExport.PrintGrid = gcMain;
-                             ucExport.Execute(); 
-                         }                            
-                     }                    
-               }                              
+                    var expInfo = SysvarUtils.GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_EXPORT);
+                    var exportInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEARCH_EXPORT);
+                    var ucExport = (ucSearchExport)MainProcess.CreateModuleInstance(exportInfo.ModuleID, exportInfo.SubModule, "CALL_MODULE");
+                    if (expInfo == CONSTANTS.Yes)
+                    {
+                        ucExport.LastSearchResultKey = BufferResult.LastSearchResultKey;
+                        ucExport.LastSearchTime = BufferResult.LastSearchTime;
+                        ucExport.PrintGrid = gcMain;
+                        ucExport.ShowDialogModule(this);
+                    }
+                    else
+                    {
+                        var saveDialog = new SaveFileDialog
+                        {
+                            Filter = IMPORTMASTER.EXPORT_FILE_EXTENSIONS
+                        };
+                        if (saveDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            ucExport.FileName = saveDialog.FileName;
+                            ucExport.LastSearchResultKey = BufferResult.LastSearchResultKey;
+                            ucExport.LastSearchTime = BufferResult.LastSearchTime;
+                            ucExport.PrintGrid = gcMain;
+                            ucExport.Execute();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -656,7 +656,7 @@ namespace FIS.AppClient.Controls
             {
                 ShowError(ex);
             }
-        }   
+        }
 
         //TUDQ them
         public void checkFormatConditions()
@@ -667,7 +667,7 @@ namespace FIS.AppClient.Controls
                 DataContainer con;
                 values.Add(ModuleInfo.ModuleID);
                 values.Add(App.Environment.ClientInfo.UserName);
-                ctrlSA.ExecuteProcedureFillDataset(out con, "sp_formatconditions_selbyid", values);                
+                ctrlSA.ExecuteProcedureFillDataset(out con, "sp_formatconditions_selbyid", values);
                 DataTable dt = con.DataTable;
                 if (dt.Rows.Count > 0)
                 {
@@ -678,22 +678,41 @@ namespace FIS.AppClient.Controls
                             condition1.Appearance.BackColor = Color.FromName(dt.Rows[i]["BACKCOLOR"].ToString());
                         else condition1.Appearance.BackColor = Color.Transparent;
                         if (Convert.ToString(dt.Rows[i]["FORECOLOR"]) != "0")
-                        condition1.Appearance.ForeColor = Color.FromName(dt.Rows[i]["FORECOLOR"].ToString());
+                            condition1.Appearance.ForeColor = Color.FromName(dt.Rows[i]["FORECOLOR"].ToString());
                         else condition1.Appearance.ForeColor = Color.Transparent;
                         condition1.Appearance.Options.UseBackColor = true;
                         condition1.Appearance.Options.UseForeColor = true;
                         if (dt.Rows[i]["BOLD"].ToString() == "Y" && dt.Rows[i]["ITALIC"].ToString() == "Y")
                             condition1.Appearance.Font = new Font(this.Font, FontStyle.Bold | FontStyle.Italic);
-                        else  if (dt.Rows[i]["BOLD"].ToString() == "Y")
+                        else if (dt.Rows[i]["BOLD"].ToString() == "Y")
                             condition1.Appearance.Font = new Font(this.Font, FontStyle.Bold);
                         else if ((dt.Rows[i]["ITALIC"].ToString() == "Y"))
-                            condition1.Appearance.Font = new Font(this.Font, FontStyle.Italic);                     
+                            condition1.Appearance.Font = new Font(this.Font, FontStyle.Italic);
                         condition1.Condition = FormatConditionEnum.Expression;
                         condition1.Expression = dt.Rows[i]["CONDITIONS"].ToString();
                         condition1.Appearance.Options.UseFont = true;
                         gvMain.FormatConditions.Add(condition1);
                     }
                 }
+            }
+        }
+        GridColumnSummaryItem sumItem;
+        private void gvMain_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
+        {
+            if (e.MenuType == DevExpress.XtraGrid.Views.Grid.GridMenuType.Summary)
+            {
+                sumItem = e.HitInfo.FooterCell.SummaryItem as GridColumnSummaryItem;
+                DXMenuItem item = new DXMenuItem("Copy to clipboard");
+                e.Menu.Items.Add(item);
+                item.Click += new EventHandler(item_Click);
+            }
+        }
+        void item_Click(object sender, EventArgs e)
+        {
+            if (sumItem != null)
+            {
+                string s = sumItem.SummaryValue.ToString();
+                Clipboard.SetText(s);
             }
         }
         //

@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text.RegularExpressions;
+﻿using ClientWS.Stuffs;
+using DevExpress.XtraReports.UI;
 using FIS.Base;
 using FIS.Common;
 using FIS.Entities;
 using FIS.Utils;
-using Oracle.DataAccess.Client;
-using ClientWS.Stuffs;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Mail;
-using System.Text;
+using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.DirectoryServices.Protocols;
-using DevExpress.XtraReports.UI;
-using DevExpress.XtraReports.Wizards;
-using DevExpress.XtraPrinting;
-using System.Drawing;
-
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
+using System.Text.RegularExpressions;
 
 namespace FIS.Controllers
 {
@@ -160,7 +154,7 @@ namespace FIS.Controllers
                 if (Session.Type == CONSTANTS.USER_TYPE_UBCKNN)
                 {
                     OracleHelper.ExecuteStoreProcedure(ConnectionString, null, SYSTEM_STORE_PROCEDURES.CHECK_USER_ROLE, Session.UserID, moduleInfo.RoleID);
-                }                
+                }
             }
         }
 
@@ -259,7 +253,7 @@ namespace FIS.Controllers
             //                 where language.LanguageID == languageID && language.AppType == apptype || language.BrType == apptype
             //                 select language).ToList();
             languageInfos = (from language in AllCaches.BaseLanguageInfo
-                             where language.LanguageID == languageID 
+                             where language.LanguageID == languageID
                              select language).ToList();
         }
 
@@ -290,7 +284,7 @@ namespace FIS.Controllers
             try
             {
 #if DEBUG
-                ribbonItems = OracleHelper.ExecuteStoreProcedure<RibbonItemInfo>(ConnectionString, null, SYSTEM_STORE_PROCEDURES.LIST_DEFRIBBON, Session.Type);                
+                ribbonItems = OracleHelper.ExecuteStoreProcedure<RibbonItemInfo>(ConnectionString, null, SYSTEM_STORE_PROCEDURES.LIST_DEFRIBBON, Session.Type);
 #else
                 ribbonItems = OracleHelper.ExecuteStoreProcedure<RibbonItemInfo>(ConnectionString, null, SYSTEM_STORE_PROCEDURES.LIST_DEFRIBBON,Session.Type);
 #endif
@@ -311,7 +305,7 @@ namespace FIS.Controllers
                     {
                         try
                         {
-                            if (ribbonParent.ModuleID != null && Session.Type ==1 )
+                            if (ribbonParent.ModuleID != null && Session.Type == 1)
                             {
                                 CheckRole(ModuleUtils.GetModuleInfo(ribbonParent.ModuleID, ribbonParent.SubModule));
                             }
@@ -428,11 +422,11 @@ namespace FIS.Controllers
         }
 
         [OperationContract]
-        public void ListModuleField(out List<ModuleFieldInfo> moduleFields, out int endRow, int startRow,string apptype)
+        public void ListModuleField(out List<ModuleFieldInfo> moduleFields, out int endRow, int startRow, string apptype)
         {
             const int MAX_FIELD_TO_TRANSFER = 1000;
             moduleFields = AllCaches.ModuleFieldsInfo.Skip(startRow).Take(MAX_FIELD_TO_TRANSFER).ToList();
-            endRow = startRow + moduleFields.Count;            
+            endRow = startRow + moduleFields.Count;
         }
 
         [OperationContract]
@@ -463,7 +457,7 @@ namespace FIS.Controllers
         {
             try
             {
-                session = OracleHelper.ExecuteStoreProcedure<Session>(ConnectionString, null, SYSTEM_STORE_PROCEDURES.CREATE_NEW_SESSION, userName, password,clientIP)[0];
+                session = OracleHelper.ExecuteStoreProcedure<Session>(ConnectionString, null, SYSTEM_STORE_PROCEDURES.CREATE_NEW_SESSION, userName, password, clientIP)[0];
 
                 session.SessionKey = CommonUtils.MD5Standard(session.SessionID.ToString());
                 session.ClientIP = clientIP;
@@ -494,36 +488,23 @@ namespace FIS.Controllers
                     OperationContext.Current
                     .IncomingMessageProperties[RemoteEndpointMessageProperty.Name];
 
-                //IPHostEntry entry = null;                
                 string dnsName;
-                //try
-                //{                                        
-                //    entry = Dns.GetHostByAddress(endpoint.Address);
-                //    dnsName = Dns.GetHostEntry(endpoint.Address).Aliases[0];                    
-                //}
-                //catch
-                //{
-                //    if (entry == null)
-                //        dnsName = "Not Resolved";
-                //    else
-                //        dnsName = entry.HostName;
-                //}
                 dnsName = "Not Resolved";
-                if (GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_DOMAINLOGIN) == CONSTANTS.Yes)
-                {
-                    if (ValidateUser(userName, password))
-                    {
-                        CreateUserSession(out session, userName, password, endpoint.Address, dnsName);
-                    }
-                    else
-                    {
-                        throw ErrorUtils.CreateError(1);
-                    }
-                }
-                else
-                {
+                //if (GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_DOMAINLOGIN) == CONSTANTS.Yes)
+                //{
+                //    if (ValidateUser(userName, password))
+                //    {
+                //        CreateUserSession(out session, userName, password, endpoint.Address, dnsName);
+                //    }
+                //    else
+                //    {
+                //        throw ErrorUtils.CreateError(1);
+                //    }
+                //}
+                //else
+                //{
                     CreateUserSession(out session, userName, password, endpoint.Address, dnsName);
-                }                                
+                //}
             }
             catch (FaultException)
             {
@@ -535,23 +516,24 @@ namespace FIS.Controllers
             }
         }
 
-        private bool ValidateUser(string username,string password)
+        private bool ValidateUser(string username, string password)
         {
             bool blValidation;
             try
             {
                 string AddSrv = GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_DOMAINSRV);
                 string DomainName = GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_DOMAINNAME);
-                if (username.IndexOf("@") ==-1)
+                if (username.IndexOf("@") == -1)
                 {
                     username = username + "@" + DomainName;
                 }
 
                 LdapDirectoryIdentifier ldapDir = new LdapDirectoryIdentifier(AddSrv);
                 LdapConnection lcon = new LdapConnection(ldapDir);
-                NetworkCredential nc = new NetworkCredential(username,password);
+                NetworkCredential nc = new NetworkCredential(username, password);
+                nc.Domain = DomainName;
                 lcon.Credential = nc;
-                lcon.AuthType = AuthType.Basic;                
+                lcon.AuthType = AuthType.Basic;
                 lcon.Bind(nc);
                 blValidation = true;
             }
@@ -562,7 +544,7 @@ namespace FIS.Controllers
             return blValidation;
         }
 
-        private  string GetVarValue(string grname, string varname)
+        private string GetVarValue(string grname, string varname)
         {
             string result = null;
             try
@@ -571,14 +553,14 @@ namespace FIS.Controllers
                 values.Add(grname);
                 values.Add(varname);
                 DataTable dt = new DataTable();
-                OracleHelper.FillDataTable(ConnectionString, "sp_sysvar_sel_bygrame", out dt, values.ToArray());                                
+                OracleHelper.FillDataTable(ConnectionString, "sp_sysvar_sel_bygrame", out dt, values.ToArray());
                 if (dt.Rows.Count > 0)
                 {
-                    result = dt.Rows[0]["VARVALUE"].ToString();                                                
-                }                
+                    result = dt.Rows[0]["VARVALUE"].ToString();
+                }
             }
-            catch(Exception ex)
-                {                  
+            catch (Exception ex)
+            {
             }
             return result;
         }
@@ -663,8 +645,8 @@ namespace FIS.Controllers
                     case CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT:
                         OracleHelper.FillDataTable(ConnectionString, Session, maintainInfo.EditSelectStore, out table, values.ToArray());
                         break;
-                    case CODES.DEFMOD.SUBMOD.MAINTAIN_VIEW:                                               
-                        OracleHelper.FillDataTable(ConnectionString, Session, maintainInfo.ViewSelectStore, out table, values.ToArray());                       
+                    case CODES.DEFMOD.SUBMOD.MAINTAIN_VIEW:
+                        OracleHelper.FillDataTable(ConnectionString, Session, maintainInfo.ViewSelectStore, out table, values.ToArray());
                         break;
                 }
                 executeResult = new DataContainer { DataTable = table };
@@ -686,8 +668,8 @@ namespace FIS.Controllers
             {
                 var maintainInfo = (MaintainModuleInfo)ModuleUtils.GetModuleInfo(moduleID, subModule);
                 CheckRole(maintainInfo);
-                DataTable table = null;               
-                OracleHelper.FillDataTable(ConnectionString, Session, SYSTEM_STORE_PROCEDURES.TRANS_STOREPROC, out table, values.ToArray());                       
+                DataTable table = null;
+                OracleHelper.FillDataTable(ConnectionString, Session, SYSTEM_STORE_PROCEDURES.TRANS_STOREPROC, out table, values.ToArray());
                 executeResult = new DataContainer { DataTable = table };
             }
             catch (FaultException)
@@ -734,7 +716,7 @@ namespace FIS.Controllers
                 //CheckRole(ReportInfo);
                 DataSet ds;
                 DataTable dt;
-                                                    
+
                 // Send Email
                 if (ReportInfo.SendEmail == CONSTANTS.Yes)
                 {
@@ -743,17 +725,17 @@ namespace FIS.Controllers
                     string content = null; string subject = null; string contractno = null; string client = null; string email = null; string payment_date = null; string statement_date = null;
                     List<String> tempValue = new List<string>();
                     tempValue.Add(moduleID);
-                    OracleHelper.FillDataTable(ConnectionString, Session, "sp_mailrouter_sel", out dt, tempValue.ToArray());                    
+                    OracleHelper.FillDataTable(ConnectionString, Session, "sp_mailrouter_sel", out dt, tempValue.ToArray());
                     if (dt.Rows.Count != 0)
                     {
                         content = dt.Rows[0]["content"].ToString();
                         subject = dt.Rows[0]["subject"].ToString();
-                    }                    
-                    
-                    OracleHelper.FillDataTable(ConnectionString, Session, "sp_list_mail_visa", out dt, values[1]);                    
+                    }
+
+                    OracleHelper.FillDataTable(ConnectionString, Session, "sp_list_mail_visa", out dt, values[1]);
 
                     string[] arr = values[0].Split(',');
-                    
+
                     foreach (string arrItem in arr)
                     {
                         List<string> ValueArray = new List<string>();
@@ -761,7 +743,7 @@ namespace FIS.Controllers
                         ValueArray.Add(values[1]);
                         OracleHelper.FillDataSet(ConnectionString, Session, ReportInfo.StoreName, out ds, ValueArray.ToArray());
 
-                        for (int i = 0; i < dt.Rows.Count;i++ )
+                        for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             if (dt.Rows[i]["contractno"].ToString() == ValueArray[0].ToString())
                             {
@@ -773,7 +755,7 @@ namespace FIS.Controllers
 
                                 Directory.CreateDirectory("Reports");
                                 ds.WriteXml("Reports\\" + ReportInfo.ReportName + ".xml", XmlWriteMode.WriteSchema);
-                                var report = XtraReport.FromFile("Reports\\" + ReportInfo.ReportName + ".repx", true);                                                                
+                                var report = XtraReport.FromFile("Reports\\" + ReportInfo.ReportName + ".repx", true);
                                 report.XmlDataPath = "Reports\\" + ReportInfo.ReportName + ".xml";
 
                                 string strProcedureName = ReportInfo.StoreName.ToString();
@@ -785,16 +767,16 @@ namespace FIS.Controllers
                                 SendEmailSaoke(report, subject, content, client, email, payment_date, statement_date, contractno);
                             }
 
-                        }                        
+                        }
                     }
-                   
+
                     container = null;
                 }
                 else
                 {
                     OracleHelper.FillDataSet(ConnectionString, Session, ReportInfo.StoreName, out ds, values.ToArray());
-                    container = new DataContainer() { DataSet = ds };      
-                }                                
+                    container = new DataContainer() { DataSet = ds };
+                }
             }
             catch (FaultException)
             {
@@ -826,8 +808,8 @@ namespace FIS.Controllers
 
                     subReport.ReportSource = reportDetail;
                 }
-            }            
-        }        
+            }
+        }
 
         //add by TrungTT - 8.11.2011 - Auto Report
         [OperationContract]
@@ -1043,7 +1025,7 @@ namespace FIS.Controllers
         {
             try
             {
-            var importInfo = (ImportModuleInfo)ModuleUtils.GetModuleInfo(moduleID, subModule);
+                var importInfo = (ImportModuleInfo)ModuleUtils.GetModuleInfo(moduleID, subModule);
                 CheckRole(importInfo);
                 OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, importInfo.ImportStore, values.ToArray());
             }
@@ -1059,7 +1041,7 @@ namespace FIS.Controllers
 
         [OperationContract]
         public void ExecuteMaintain(out DataContainer container, string moduleID, string subModule, List<string> values)
-        {            
+        {
             try
             {
                 var maintainInfo = (MaintainModuleInfo)ModuleUtils.GetModuleInfo(moduleID, subModule);
@@ -1069,7 +1051,7 @@ namespace FIS.Controllers
                 DataSet ds = new DataSet();
                 DataSet dsLog = new DataSet();
                 List<string> values1 = new List<string>();
-               
+
                 switch (subModule)
                 {
                     case CODES.DEFMOD.SUBMOD.MAINTAIN_ADD:
@@ -1118,12 +1100,12 @@ namespace FIS.Controllers
                                             if (dsLog.Tables[0].Rows[i]["DATA_TYPE"].ToString() == "DATE")
                                             {
                                                 DateTime d = Convert.ToDateTime(values[i], App.Environment.ServerInfo.Culture);
-                                                valuesFLDCD.Add(String.Format("{0:dd/MM/yyyy}",d));
+                                                valuesFLDCD.Add(String.Format("{0:dd/MM/yyyy}", d));
                                             }
                                             else
                                             {
                                                 valuesFLDCD.Add(values[i].ToString());
-                                            }      
+                                            }
                                             //valuesFLDCD.Add(values[i].ToString());
                                             valuesFLDCD.Add(dsLog.Tables[0].Rows[i]["DATA_TYPE"].ToString());
                                             OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_tllogfld_ins", valuesFLDCD.ToArray());
@@ -1133,10 +1115,10 @@ namespace FIS.Controllers
                                 //SendMail(moduleID, maintainInfo.SubModule, null, null,null);
                             }
                             catch (Exception ex)
-                            {                               
+                            {
                                 OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_tllog_udp", txnum);
                                 throw ex;
-                            }                                                        
+                            }
                         }
                         //add by trungtt - 10.19.2014
                         else if (maintainInfo.Report == "SML")
@@ -1160,10 +1142,10 @@ namespace FIS.Controllers
                                 //}
                                 //SendMail(moduleID, maintainInfo.SubModule, null, RptName, null);  
                                 SendMail(moduleID, maintainInfo.SubModule);
-                            }                            
-                        }                            
+                            }
+                        }
                         break;
-                    case CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT:                       
+                    case CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT:
                         // Bo sung truong hop doi voi log
                         if (maintainInfo.Approve == CODES.MODMAINTAIN.APROVE.YES)
                         {
@@ -1215,7 +1197,7 @@ namespace FIS.Controllers
                                             {
                                                 valuesFLDCD.Add(values[i].ToString());
                                             }
-                                            
+
                                             valuesFLDCD.Add(dsLog.Tables[0].Rows[i]["DATA_TYPE"].ToString());
                                             OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_tllogfld_ins", valuesFLDCD.ToArray());
                                         }
@@ -1225,11 +1207,11 @@ namespace FIS.Controllers
                                 //SendMail(moduleID, maintainInfo.SubModule, null, null, null);
                             }
                             catch (Exception ex)
-                            {                                
+                            {
                                 OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_tllog_udp", txnum);
                                 throw ex;
                             }
-                           
+
                         }
                         else
                         {
@@ -1261,10 +1243,10 @@ namespace FIS.Controllers
                                 //    //end trungtt
                                 //}
 
-                                
+
                                 SendMail(moduleID, maintainInfo.SubModule);
-                            }            
-                        }                        
+                            }
+                        }
                         break;
                 }
             }
@@ -1273,16 +1255,16 @@ namespace FIS.Controllers
                 throw;
             }
             catch (Exception ex)
-            {               
+            {
                 throw ErrorUtils.CreateError(ex);
             }
         }
 
-        
+
 
         //add by trungtt - 28.3.2013
         [OperationContract]
-        public void ExecApprove(out DataContainer container, string moduleID, string subModule,string secID, List<string> values)
+        public void ExecApprove(out DataContainer container, string moduleID, string subModule, string secID, List<string> values)
         {
             try
             {
@@ -1316,7 +1298,7 @@ namespace FIS.Controllers
             }
         }
         //end trungtt
- 
+
         //add by TrungTT - 28.11.2011 - Execute Procedure Fill Dataset
         [OperationContract]
         public void ExecuteProcedureFillDataset(out DataContainer container, string storeData, List<string> values)
@@ -1378,7 +1360,7 @@ namespace FIS.Controllers
             {
                 var execProcInfo = (ExecProcModuleInfo)ModuleUtils.GetModuleInfo(moduleID, subModule);
                 CheckRole(execProcInfo);
-                OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, execProcInfo.ExecuteStore, values.ToArray());               
+                OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, execProcInfo.ExecuteStore, values.ToArray());
                 if (execProcInfo.SendEmail == CODES.DEFMOD.SENDMAIL.YES)
                 {
                     DataTable resultTable;
@@ -1393,7 +1375,7 @@ namespace FIS.Controllers
                     {
                         OracleHelper.FillDataTable(ConnectionString, Session, "SP_RPTNAME_SEL", out resultTable, values.ToArray());
                     }
-                    
+
                     if (resultTable.Rows.Count > 0)
                     {
                         RptName = resultTable.Rows[0][0].ToString();
@@ -2480,8 +2462,8 @@ namespace FIS.Controllers
                 if (file.SecID > 0)
                 {
                     SaveFileToDisk(file, filedata);
-                }                
-                OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, SYSTEM_STORE_PROCEDURES.SAVE_FILE, file.FileName, filedata,Session.SessionKey);
+                }
+                OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, SYSTEM_STORE_PROCEDURES.SAVE_FILE, file.FileName, filedata, Session.SessionKey);
                 //File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n", DateTime.Now.ToLongTimeString()));                
             }
             catch (FaultException)
@@ -2496,7 +2478,7 @@ namespace FIS.Controllers
 
         private byte[] ReadFully(Stream input)
         {
-            byte[] buffer = new byte[16 * 1024];            
+            byte[] buffer = new byte[16 * 1024];
             using (MemoryStream ms = new MemoryStream())
             {
                 int read;
@@ -2504,10 +2486,10 @@ namespace FIS.Controllers
                 {
                     ms.Write(buffer, 0, read);
                 }
-                return  ms.ToArray();            
-            }            
-        }       
-        private void SaveFileToDisk(FileUpload file,byte[] filedata)
+                return ms.ToArray();
+            }
+        }
+        private void SaveFileToDisk(FileUpload file, byte[] filedata)
         {
             try
             {
@@ -2525,11 +2507,11 @@ namespace FIS.Controllers
                     bool isExists = System.IO.Directory.Exists(_subPath);
                     if (!isExists)
                         System.IO.Directory.CreateDirectory(_subPath);
-                    
+
                     string _FileName = _subPath + "\\" + file.FileName;
                     File.WriteAllBytes(_FileName, filedata);
-                    OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_reportfilelogs_ins", file.SecID, file.RptID, file.Term, file.TermNo, file.RYear,_FileName);
-                }                
+                    OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_reportfilelogs_ins", file.SecID, file.RptID, file.Term, file.TermNo, file.RYear, _FileName);
+                }
             }
             catch (FaultException)
             {
@@ -2551,7 +2533,7 @@ namespace FIS.Controllers
                 processData request = new processData();
                 request.worker = worker.ToUpper();
                 request.data = file;
-                processDataResponse response = ws.processData(request);                
+                processDataResponse response = ws.processData(request);
                 OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, SYSTEM_STORE_PROCEDURES.SAVE_FILE, filename, response.@return.data);
             }
             catch (FaultException)
@@ -2721,7 +2703,7 @@ namespace FIS.Controllers
             }
         }
 
-//#if DEBUG
+        //#if DEBUG
         [OperationContract]
         public void ForceLoadModule(
             out List<ModuleInfo> modulesInfo,
@@ -2787,7 +2769,7 @@ namespace FIS.Controllers
                 throw ErrorUtils.CreateError(ex);
             }
         }
-//#endif
+        //#endif
 
         [OperationContract]
         public void ExecuteStatistics(out string searchResultKey, out DateTime searchTime, string moduleID, string subModule, List<string> values)
@@ -3048,20 +3030,20 @@ namespace FIS.Controllers
             }
             else
             {
-            // Bo sung stt vao ket qua
+                // Bo sung stt vao ket qua
                 dtReturn = dt.Clone();
                 int rowNum = 0;
                 for (int j = 0; j < dt.Rows.Count; j++)
                 {
                     for (int k = 0; k < tableRole.Rows.Count; k++)
                     {
-                           if (flagStt == true)
-                            {
-                                dt.Rows[j]["STT"] = rowNum + 1;
-                                rowNum++;
-                            }                            
-                            dtReturn.ImportRow(dt.Rows[j]);
-                            break;                        
+                        if (flagStt == true)
+                        {
+                            dt.Rows[j]["STT"] = rowNum + 1;
+                            rowNum++;
+                        }
+                        dtReturn.ImportRow(dt.Rows[j]);
+                        break;
                     }
                 }
                 dtReturn = dt;
@@ -3141,7 +3123,7 @@ namespace FIS.Controllers
             catch (Exception ex)
             {
                 throw ErrorUtils.CreateError(ex);
-            }        
+            }
         }
 
         public List<SysvarInfo> BuildSysvarInfo()
@@ -3200,24 +3182,24 @@ namespace FIS.Controllers
         //End
 
         // Gui mail sao ke tai khoan cho khach hang
-        private void SendEmailSaoke(XtraReport report,string Subject,string Content,string client,string email,string payment_date,string statement_date,string contractno)
+        private void SendEmailSaoke(XtraReport report, string Subject, string Content, string client, string email, string payment_date, string statement_date, string contractno)
         {
             List<string> log = new List<string>();
             try
-            {                
+            {
                 MailMessage mail = new MailMessage();
                 ConfigMail(mail);
-                
+
                 if (EmailIsValid(email))
-                {                    
+                {
                     MemoryStream mem = new MemoryStream();
                     mem.SetLength(0);
-                    report.ExportToPdf(mem);                    
-                    mem.Seek(0, System.IO.SeekOrigin.Begin);                    
-                    Attachment att = new Attachment(mem, "Statement_" + client + "_" + contractno +".pdf", "application/pdf");
+                    report.ExportToPdf(mem);
+                    mem.Seek(0, System.IO.SeekOrigin.Begin);
+                    Attachment att = new Attachment(mem, "Statement_" + client + "_" + contractno + ".pdf", "application/pdf");
                     mail.Attachments.Add(att);
                     mail.To.Add(email);
-                    mail.Subject = string.Format(Subject,statement_date);
+                    mail.Subject = string.Format(Subject, statement_date);
                     mail.Body = string.Format(Content, client, statement_date, payment_date);
                     mail.IsBodyHtml = true;
                     smtp.Send(mail);
@@ -3226,14 +3208,14 @@ namespace FIS.Controllers
                     log.Add(statement_date);
                     WriteMailLogs(log);
                     mem.Close();
-                }                                       
+                }
             }
             catch (Exception ex)
             {
                 log.Add("02248");
-                log.Add(string.Format("Gửi email thất bại tới địa chỉ {0}: Lỗi {1}", email,ex.Message.ToString()));
+                log.Add(string.Format("Gửi email thất bại tới địa chỉ {0}: Lỗi {1}", email, ex.Message.ToString()));
                 log.Add(statement_date);
-                WriteMailLogs(log);                
+                WriteMailLogs(log);
             }
         }
         // Send email thong bao       
@@ -3248,7 +3230,7 @@ namespace FIS.Controllers
                     List<string> values = new List<string>();
                     DataTable dtEmail = new DataTable();
                     DataTable dtContent = new DataTable();
-                    string content = String.Empty ,subject = String.Empty;
+                    string content = String.Empty, subject = String.Empty;
                     DataContainer container;
                     values.Add(Modid);
                     // Get content
@@ -3275,12 +3257,13 @@ namespace FIS.Controllers
                                 {
                                     smtp.Send(mail);
                                 }
-                                catch(Exception ex) {
+                                catch (Exception ex)
+                                {
                                     List<string> log = new List<string>();
                                     log.Add(Modid);
                                     log.Add(ex.Message.ToString());
                                     WriteMailLogs(log);
-                                }                                
+                                }
                             }
                         }
                     }
@@ -3300,10 +3283,10 @@ namespace FIS.Controllers
         {
             string strMailServer, strMailUser, strMailPass;
             int iMailPort;
-            DataTable dt = new DataTable();           
+            DataTable dt = new DataTable();
             DataContainer container;
             List<string> values = new List<string>();
-            
+
             ExecuteProcedureFillDataset(out container, "sp_sysvar_list", values);
             dt = container.DataSet.Tables[0];
             if (dt.Rows.Count != 0)
@@ -3312,7 +3295,7 @@ namespace FIS.Controllers
                 strMailServer = row["MAIL_SERVER"].ToString();
                 strMailUser = row["MAIL_USER"].ToString();
                 strMailPass = row["MAIL_PASSWORD"].ToString();
-                iMailPort = int.Parse(row["MAIL_PORT"].ToString());               
+                iMailPort = int.Parse(row["MAIL_PORT"].ToString());
 
                 smtp = new SmtpClient(strMailServer);
                 smtp.Port = iMailPort;
@@ -3320,12 +3303,12 @@ namespace FIS.Controllers
                 smtp.EnableSsl = false;
                 mail.From = new MailAddress(strMailUser);
             }
-            
+
         }
 
         private void WriteMailLogs(List<string> values)
         {
-            OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_emaillogs_add", values.ToArray());    
+            OracleHelper.ExecuteStoreProcedure(ConnectionString, Session, "sp_emaillogs_add", values.ToArray());
         }
         private static Regex CreateValidEmailRegex()
         {
@@ -3358,23 +3341,23 @@ namespace FIS.Controllers
             SmtpClient SmtpServer = new SmtpClient(dsResult2.Tables[0].Rows[0]["MAIL_ID"].ToString());
             mail.From = new MailAddress(dsResult2.Tables[0].Rows[0]["MAIL_NAME"].ToString());
             SmtpServer.Port = Int32.Parse(dsResult2.Tables[0].Rows[0]["PORT"].ToString());
-            SmtpServer.Credentials = new System.Net.NetworkCredential(dsResult2.Tables[0].Rows[0]["MAIL_NAME"].ToString(), dsResult2.Tables[0].Rows[0]["PASSWORD"].ToString());                                    
+            SmtpServer.Credentials = new System.Net.NetworkCredential(dsResult2.Tables[0].Rows[0]["MAIL_NAME"].ToString(), dsResult2.Tables[0].Rows[0]["PASSWORD"].ToString());
             SmtpServer.EnableSsl = false;
-            
+
             //--Send mail
             foreach (string item in strArrayAddressTo)
             {
                 //--Subject and Body 
                 mail.To.Add(item);
-                mail.BodyEncoding = System.Text.Encoding.UTF8;                
-                mail.Subject = strSubject;                
+                mail.BodyEncoding = System.Text.Encoding.UTF8;
+                mail.Subject = strSubject;
                 mail.Body = strBody;
                 mail.Priority = MailPriority.High;
                 mail.IsBodyHtml = true;
                 //--attachment
                 List<string> listparam = new List<string>();
                 listparam.Add(null);
-                ExecuteProcedureFillDataset(out container, "SP_FILE_ATTACHMENT", listparam);                
+                ExecuteProcedureFillDataset(out container, "SP_FILE_ATTACHMENT", listparam);
                 var resultTable = container.DataTable;
                 if (resultTable.Rows.Count > 0)
                 {
@@ -3395,11 +3378,11 @@ namespace FIS.Controllers
                             ms.Close();
                         }
                     }
-                }                
+                }
                 else
                 {
                     try
-                    {                      
+                    {
                         SmtpServer.Send(mail);
                     }
                     catch (Exception ex)

@@ -122,7 +122,7 @@
             // 
             // btnFolderBrowser
             // 
-            this.btnFolderBrowser.Location = new System.Drawing.Point(749, 43);
+            this.btnFolderBrowser.Location = new System.Drawing.Point(749, 42);
             this.btnFolderBrowser.MaximumSize = new System.Drawing.Size(88, 22);
             this.btnFolderBrowser.MinimumSize = new System.Drawing.Size(88, 22);
             this.btnFolderBrowser.Name = "btnFolderBrowser";
@@ -134,7 +134,7 @@
             // 
             // txtFolderHome
             // 
-            this.txtFolderHome.Location = new System.Drawing.Point(332, 43);
+            this.txtFolderHome.Location = new System.Drawing.Point(332, 42);
             this.txtFolderHome.Name = "txtFolderHome";
             this.txtFolderHome.Size = new System.Drawing.Size(413, 20);
             this.txtFolderHome.StyleController = this.layoutControl1;
@@ -143,17 +143,16 @@
             // txtLog
             // 
             this.txtLog.EditValue = "";
-            this.txtLog.Location = new System.Drawing.Point(257, 69);
+            this.txtLog.Location = new System.Drawing.Point(257, 68);
             this.txtLog.Name = "txtLog";
-            this.txtLog.Size = new System.Drawing.Size(580, 367);
+            this.txtLog.Size = new System.Drawing.Size(580, 368);
             this.txtLog.StyleController = this.layoutControl1;
             this.txtLog.TabIndex = 7;
-            this.txtLog.UseOptimizedRendering = true;
             // 
             // btnLogin
             // 
             this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLogin.Location = new System.Drawing.Point(24, 123);
+            this.btnLogin.Location = new System.Drawing.Point(24, 122);
             this.btnLogin.MaximumSize = new System.Drawing.Size(205, 22);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(205, 22);
@@ -164,7 +163,7 @@
             // 
             // txtPassWord
             // 
-            this.txtPassWord.Location = new System.Drawing.Point(24, 99);
+            this.txtPassWord.Location = new System.Drawing.Point(24, 98);
             this.txtPassWord.MaximumSize = new System.Drawing.Size(205, 20);
             this.txtPassWord.Name = "txtPassWord";
             this.txtPassWord.Size = new System.Drawing.Size(205, 20);
@@ -174,7 +173,7 @@
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(24, 59);
+            this.txtUserName.Location = new System.Drawing.Point(24, 58);
             this.txtUserName.MaximumSize = new System.Drawing.Size(205, 20);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(205, 20);
@@ -190,10 +189,8 @@
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlGroup3,
             this.layoutControlGroup2});
-            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(861, 486);
-            this.layoutControlGroup1.Text = "Root";
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlGroup3
@@ -216,10 +213,8 @@
             this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 26);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(584, 371);
-            this.layoutControlItem4.Text = "layoutControlItem4";
+            this.layoutControlItem4.Size = new System.Drawing.Size(584, 372);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem4.TextToControlDistance = 0;
             this.layoutControlItem4.TextVisible = false;
             // 
             // layoutControlItem5
@@ -239,31 +234,26 @@
             this.layoutControlItem6.Location = new System.Drawing.Point(492, 0);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Size = new System.Drawing.Size(92, 26);
-            this.layoutControlItem6.Text = "layoutControlItem6";
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem6.TextToControlDistance = 0;
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem7
             // 
             this.layoutControlItem7.Control = this.btnStart;
             this.layoutControlItem7.CustomizationFormText = "layoutControlItem7";
-            this.layoutControlItem7.Location = new System.Drawing.Point(492, 397);
+            this.layoutControlItem7.Location = new System.Drawing.Point(492, 398);
             this.layoutControlItem7.Name = "layoutControlItem7";
             this.layoutControlItem7.Size = new System.Drawing.Size(92, 26);
-            this.layoutControlItem7.Text = "layoutControlItem7";
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem7.TextToControlDistance = 0;
             this.layoutControlItem7.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
             this.emptySpaceItem1.CustomizationFormText = "emptySpaceItem1";
-            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 397);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 398);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
             this.emptySpaceItem1.Size = new System.Drawing.Size(492, 26);
-            this.emptySpaceItem1.Text = "emptySpaceItem1";
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlGroup2
@@ -310,9 +300,7 @@
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 80);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(209, 26);
-            this.layoutControlItem3.Text = "layoutControlItem3";
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextToControlDistance = 0;
             this.layoutControlItem3.TextVisible = false;
             // 
             // emptySpaceItem2
@@ -321,30 +309,26 @@
             this.emptySpaceItem2.CustomizationFormText = "emptySpaceItem2";
             this.emptySpaceItem2.Location = new System.Drawing.Point(0, 106);
             this.emptySpaceItem2.Name = "emptySpaceItem2";
-            this.emptySpaceItem2.Size = new System.Drawing.Size(209, 293);
-            this.emptySpaceItem2.Text = "emptySpaceItem2";
+            this.emptySpaceItem2.Size = new System.Drawing.Size(209, 294);
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // lblStatus
             // 
             this.lblStatus.AllowHotTrack = false;
             this.lblStatus.CustomizationFormText = "LabellblStatus";
-            this.lblStatus.Location = new System.Drawing.Point(0, 399);
+            this.lblStatus.Location = new System.Drawing.Point(0, 400);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(180, 24);
-            this.lblStatus.Text = "LabellblStatus";
             this.lblStatus.TextSize = new System.Drawing.Size(72, 13);
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.btnReconnect;
             this.layoutControlItem8.CustomizationFormText = "layoutControlItem8";
-            this.layoutControlItem8.Location = new System.Drawing.Point(180, 399);
+            this.layoutControlItem8.Location = new System.Drawing.Point(180, 400);
             this.layoutControlItem8.Name = "layoutControlItem8";
             this.layoutControlItem8.Size = new System.Drawing.Size(29, 24);
-            this.layoutControlItem8.Text = "layoutControlItem8";
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem8.TextToControlDistance = 0;
             this.layoutControlItem8.TextVisible = false;
             // 
             // frmMain

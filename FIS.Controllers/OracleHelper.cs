@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-using System.ServiceModel;
-using System.Text;
-using System.Linq;
-using System.Text.RegularExpressions;
-using FIS.Base;
+﻿using FIS.Base;
 using FIS.Common;
 using FIS.Entities;
 using FIS.Utils;
-using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
+using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.ServiceModel;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FIS
 {
@@ -95,10 +95,10 @@ namespace FIS
                 var index = 0;
                 foreach (OracleParameter param in comm.Parameters)
                 {
-                    if(param.ParameterName == CONSTANTS.ORACLE_SESSION_USER)
-                    {                        
+                    if (param.ParameterName == CONSTANTS.ORACLE_SESSION_USER)
+                    {
                         param.Value = session.Username;
-                    }              
+                    }
                     else if (param.ParameterName == CONSTANTS.ORACLE_SESSIONKEY)
                     {
                         param.Value = session.SessionKey;
@@ -126,7 +126,7 @@ namespace FIS
                             switch (param.OracleDbType)
                             {
                                 case OracleDbType.Date:
-                                    param.Value = Convert.ToDateTime(values[index], App.Environment.ServerInfo.Culture);                                                                        
+                                    param.Value = Convert.ToDateTime(values[index], App.Environment.ServerInfo.Culture);
                                     break;
                                 case OracleDbType.Byte:
                                 case OracleDbType.Int16:
@@ -158,7 +158,7 @@ namespace FIS
             }
         }
 
-        private static void AssignParameters(OracleCommand comm, Session session,string moduleID, params object[] values)
+        private static void AssignParameters(OracleCommand comm, Session session, string moduleID, params object[] values)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace FIS
                     {
                         param.Value = moduleID;
                         index++;
-                    
+
                     }
                     else if (param.OracleDbType == OracleDbType.RefCursor)
                     {
@@ -249,7 +249,7 @@ namespace FIS
 
                 try
                 {
-                    var comm = new OracleCommand(commandText, conn) {CommandType = CommandType.StoredProcedure};
+                    var comm = new OracleCommand(commandText, conn) { CommandType = CommandType.StoredProcedure };
                     AssignParameters(comm, session, values);
 
                     using (var dr = comm.ExecuteReader())
@@ -300,10 +300,10 @@ namespace FIS
                 {
                     conn.Open();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ErrorUtils.CreateErrorWithSubMessage(
-                        ERR_SQL.ERR_SQL_OPEN_CONNECTION_FAIL, ex.Message, 
+                        ERR_SQL.ERR_SQL_OPEN_CONNECTION_FAIL, ex.Message,
                         commandText, values);
                 }
 
@@ -346,7 +346,7 @@ namespace FIS
                         if (comm.Parameters.Contains(CONSTANTS.ORACLE_EXCEPTION_PARAMETER_NAME))
                         {
                             var value = comm.Parameters[CONSTANTS.ORACLE_EXCEPTION_PARAMETER_NAME].Value;
-                            if(value != DBNull.Value)
+                            if (value != DBNull.Value)
                             {
                                 throw ErrorUtils.CreateError(int.Parse(value.ToString()));
                             }
@@ -387,7 +387,7 @@ namespace FIS
                     m_CachedParameters.Add(cachedKey, source);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ErrorUtils.CreateErrorWithSubMessage(
                     ERR_SQL.ERR_SQL_DISCOVERY_PARAMS_FAIL, ex.Message,
@@ -395,7 +395,7 @@ namespace FIS
             }
         }
 
-        
+
         public static void ExecuteStoreProcedure(string connectionString, Session session, string commandText, params object[] values)
         {
             using (var conn = new OracleConnection(connectionString))
@@ -413,8 +413,8 @@ namespace FIS
 
                 try
                 {
-                    var comm = new OracleCommand(commandText, conn) {CommandType = CommandType.StoredProcedure};
-                    
+                    var comm = new OracleCommand(commandText, conn) { CommandType = CommandType.StoredProcedure };
+
                     AssignParameters(comm, session, values);
 
                     comm.ExecuteNonQuery();
@@ -424,7 +424,7 @@ namespace FIS
                         )
                     {
                         var errCode = int.Parse(comm.Parameters[CONSTANTS.ORACLE_EXCEPTION_PARAMETER_NAME].Value.ToString());
-                        if(errCode != 0) throw ErrorUtils.CreateError(errCode, commandText, values);
+                        if (errCode != 0) throw ErrorUtils.CreateError(errCode, commandText, values);
                     }
                 }
                 catch (OracleException ex)
@@ -497,7 +497,7 @@ namespace FIS
             {
                 throw ErrorUtils.CreateErrorWithSubMessage(
                     ERR_SQL.ERR_SQL_EXECUTE_COMMAND_FAIL, ex.Message, commandText);
-            }            
+            }
         }
         public static void FillDataTable(string connectionString, string commandText, out DataTable resultTable, params object[] values)
         {
@@ -586,7 +586,7 @@ namespace FIS
                             var errCode = int.Parse(comm.Parameters[CONSTANTS.ORACLE_EXCEPTION_PARAMETER_NAME].Value.ToString());
                             if (errCode != 0) throw ErrorUtils.CreateError(errCode, commandText, values);
                         }
-                        resultTable = ds.Tables[0];                      
+                        resultTable = ds.Tables[0];
                     }
                 }
                 catch (OracleException ex)
@@ -609,7 +609,7 @@ namespace FIS
             }
         }
 
-        public static void FillDataTable(string connectionString, Session session, string commandText, out DataTable resultTable,out string SecID, params object[] values)
+        public static void FillDataTable(string connectionString, Session session, string commandText, out DataTable resultTable, out string SecID, params object[] values)
         {
             using (var conn = new OracleConnection(connectionString))
             {
@@ -667,7 +667,7 @@ namespace FIS
             }
         }
 
-        public static void FillDataSet(string connectionString, Session session, string commandText, string tableName, DataSet ds, params object[] values) 
+        public static void FillDataSet(string connectionString, Session session, string commandText, string tableName, DataSet ds, params object[] values)
         {
             using (var conn = new OracleConnection(connectionString))
             {
@@ -776,7 +776,7 @@ namespace FIS
                 }
             }
         }
-        public static void FillDataSet(string connectionString, Session session, string moduleID ,string commandText, out DataSet ds, params object[] values)
+        public static void FillDataSet(string connectionString, Session session, string moduleID, string commandText, out DataSet ds, params object[] values)
         {
             using (var conn = new OracleConnection(connectionString))
             {
@@ -796,7 +796,7 @@ namespace FIS
                     using (var comm = new OracleCommand(commandText, conn))
                     {
                         comm.CommandType = CommandType.StoredProcedure;
-                        AssignParameters(comm, session, moduleID,values);
+                        AssignParameters(comm, session, moduleID, values);
                         ds = new DataSet();
                         var adap = new OracleDataAdapter(comm);
                         adap.Fill(ds);

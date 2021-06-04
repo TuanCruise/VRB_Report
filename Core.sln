@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.DLL Ref", "1.DLL Ref", "{
 		Aspose.Cells.dll = Aspose.Cells.dll
 		ICSharpCode.SharpZipLib.dll = ICSharpCode.SharpZipLib.dll
 		Interop.XceedZipLib.dll = Interop.XceedZipLib.dll
+		MD5.dll = MD5.dll
 		Xceed.Compression.dll = Xceed.Compression.dll
 		Xceed.FileSystem.dll = Xceed.FileSystem.dll
 		Xceed.Zip.dll = Xceed.Zip.dll
@@ -45,6 +46,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIS.FReader", "FIS.FReader\FIS.FReader.csproj", "{2538DA93-B628-405A-9BD7-572E9F32CC5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIS.FReader.Controllers", "FIS.FReader.Controllers\FIS.FReader.Controllers.csproj", "{3D9388EC-68B2-49BF-943F-5A2361E0C921}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ServerSetup", "ServerSetup\ServerSetup.vdproj", "{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Client", "Client\Client.vdproj", "{D5DA1F31-598A-49EE-A860-2214DEE5D86C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,6 +223,22 @@ Global
 		{3D9388EC-68B2-49BF-943F-5A2361E0C921}.Release|x64.Build.0 = Release|Any CPU
 		{3D9388EC-68B2-49BF-943F-5A2361E0C921}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D9388EC-68B2-49BF-943F-5A2361E0C921}.Release|x86.Build.0 = Release|Any CPU
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Debug|Any CPU.ActiveCfg = Debug
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Debug|Itanium.ActiveCfg = Debug
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Debug|x64.ActiveCfg = Debug
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Debug|x86.ActiveCfg = Debug
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Release|Any CPU.ActiveCfg = Release
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Release|Itanium.ActiveCfg = Release
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Release|x64.ActiveCfg = Release
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06}.Release|x86.ActiveCfg = Release
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Debug|Any CPU.ActiveCfg = Debug
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Debug|Itanium.ActiveCfg = Debug
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Debug|x64.ActiveCfg = Debug
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Debug|x86.ActiveCfg = Debug
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Release|Any CPU.ActiveCfg = Release
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Release|Itanium.ActiveCfg = Release
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Release|x64.ActiveCfg = Release
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,16 +252,10 @@ Global
 		{9E4E9410-1628-4EEF-90B2-A721B1348252} = {EAC8D962-477D-4D25-B21B-202C5D2E1B07}
 		{2538DA93-B628-405A-9BD7-572E9F32CC5D} = {A2106580-23D4-4253-8569-C7FB6E837470}
 		{3D9388EC-68B2-49BF-943F-5A2361E0C921} = {A2106580-23D4-4253-8569-C7FB6E837470}
+		{9F971C7A-DB60-4221-A8C3-E1FB0E6D0C06} = {8184D47F-3C89-424D-B6E6-B21D772AD80D}
+		{D5DA1F31-598A-49EE-A860-2214DEE5D86C} = {8184D47F-3C89-424D-B6E6-B21D772AD80D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD6B5854-3BEC-482E-BA1F-40C3C95293FF}
-	EndGlobalSection
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 1
-		SccProjectUniqueName0 = C:\\Users\\vuqua\\Downloads\\Core\\Core\\FIS.FReader\\FIS.FReader.csproj
-		SccProjectTopLevelParentUniqueName0 = Core.sln
-		SccProjectName0 = \u0022$/VRB/10.\u0020WIP/50.\u0020PROGRAM/Source/Core/FIS.FReader\u0022,\u0020GHHAAAAA
-		SccLocalPath0 = C:\\Users\\vuqua\\Downloads\\Core\\Core\\FIS.FReader
-		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
 	EndGlobalSection
 EndGlobal

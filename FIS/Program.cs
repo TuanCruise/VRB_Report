@@ -1,20 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using DevExpress.Skins;
+using FIS.Common;
+using FIS.Utils;
+using System;
 using System.Globalization;
 using System.ServiceModel;
-using FIS.AppClient.Utils;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using DevExpress.Skins;
-using FIS.Common;
-using FIS.Extensions;
-using FIS.Utils;
-using System.IO;
-using System.Xml;
-using System.Reflection;
-using System.Configuration;
-using System.Net;
 
 namespace FIS.AppClient
 {
@@ -28,10 +19,10 @@ namespace FIS.AppClient
         public static bool blCheckFile = false;
         public static string FileName = "";
         public static string strExecMod = "";
-        public static string treeModuleID = "";       
+        public static string treeModuleID = "";
         public static bool blVerifyImport = false;
-        public static bool blEnableImport = false;        
-        public static string txnum = "";        
+        public static bool blEnableImport = false;
+        public static string txnum = "";
         public static string rptid = "";
         public static string rptlogID = "";
         /// <summary>
@@ -39,99 +30,100 @@ namespace FIS.AppClient
         /// </summary>
         /// 
         [STAThread]
-        
+
         static void Main(string[] args)
-        {                        
-            string strExeFile = "COMS.EXE";                      
+        {
+            // TuanLM tam bo AutoUpdate
+            //string strExeFile = "COMS.EXE";                      
 
-            string autoUpdateUri = ConfigurationSettings.AppSettings["AutoUpdateUri"];
-            string autoUpdateConfig = ConfigurationSettings.AppSettings["AutoUpdateConfig"];
-            string curentVersionApp = null;
-            string ManifestFile = "AutoUpdate.xml";
-            string strName = null;
-            string strVersion = null;
-            string strDate = null;
-            if (autoUpdateConfig == CONSTANTS.AutoConfigYes)
-            {
-                try
-                {
-                    XmlDocument xmld = new XmlDocument();                    
-                    var webClient = new WebClient();
+            //string autoUpdateUri = ConfigurationSettings.AppSettings["AutoUpdateUri"];
+            //string autoUpdateConfig = ConfigurationSettings.AppSettings["AutoUpdateConfig"];
+            //string curentVersionApp = null;
+            //string ManifestFile = "AutoUpdate.xml";
+            //string strName = null;
+            //string strVersion = null;
+            //string strDate = null;
+            //if (autoUpdateConfig == CONSTANTS.AutoConfigYes)
+            //{
+            //    try
+            //    {
+            //        XmlDocument xmld = new XmlDocument();                    
+            //        var webClient = new WebClient();
 
-                    if (webClient.Proxy != null)
-                    {                                                
-                        MemoryStream ms = new MemoryStream(webClient.DownloadData(autoUpdateUri + ManifestFile));
-                        XmlTextReader rdr = new XmlTextReader(autoUpdateUri + ManifestFile);
-                        xmld.Load(rdr);
-                    }
-                    else
-                    {
-                        xmld.Load(autoUpdateUri + ManifestFile);
-                    }
-                    //TRUNGTT_20140804_End
-                    XmlNodeList xmlNodeList = xmld.SelectNodes("/update/Entry");
-                    foreach (XmlNode xmlNode in xmlNodeList)
-                    {
-                        strName = xmlNode.Attributes.GetNamedItem("filename").Value;
-                        strVersion = xmlNode.Attributes.GetNamedItem("version").Value;
-                        strDate = xmlNode.Attributes.GetNamedItem("date").Value;
-                        if (strName.ToUpper() == strExeFile.ToUpper())
-                            break;
-                    }
+            //        if (webClient.Proxy != null)
+            //        {                                                
+            //            MemoryStream ms = new MemoryStream(webClient.DownloadData(autoUpdateUri + ManifestFile));
+            //            XmlTextReader rdr = new XmlTextReader(autoUpdateUri + ManifestFile);
+            //            xmld.Load(rdr);
+            //        }
+            //        else
+            //        {
+            //            xmld.Load(autoUpdateUri + ManifestFile);
+            //        }
+            //        //TRUNGTT_20140804_End
+            //        XmlNodeList xmlNodeList = xmld.SelectNodes("/update/Entry");
+            //        foreach (XmlNode xmlNode in xmlNodeList)
+            //        {
+            //            strName = xmlNode.Attributes.GetNamedItem("filename").Value;
+            //            strVersion = xmlNode.Attributes.GetNamedItem("version").Value;
+            //            strDate = xmlNode.Attributes.GetNamedItem("date").Value;
+            //            if (strName.ToUpper() == strExeFile.ToUpper())
+            //                break;
+            //        }
 
-                    if (File.Exists(Application.StartupPath + @"\" + strExeFile))
-                    {
-                        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(strExeFile);
-                        curentVersionApp = fileVersionInfo.FileMajorPart.ToString() + "." + fileVersionInfo.FileMinorPart.ToString() + "." + fileVersionInfo.FileBuildPart.ToString();
-                        //Application.ProductVersion
-                        //Version curVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;  
+            //        if (File.Exists(Application.StartupPath + @"\" + strExeFile))
+            //        {
+            //            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(strExeFile);
+            //            curentVersionApp = fileVersionInfo.FileMajorPart.ToString() + "." + fileVersionInfo.FileMinorPart.ToString() + "." + fileVersionInfo.FileBuildPart.ToString();
+            //            //Application.ProductVersion
+            //            //Version curVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;  
 
-                       // if (curentVersionApp != strVersion)
-                        if (curentVersionApp.CompareTo(strVersion) < 0)
-                        {
-                            if (File.Exists(Application.StartupPath + @"\" + "FIS.AutoUpdate.exe"))
-                            {
-                                Process p = new Process();
-                                p.StartInfo.FileName = "FIS.AutoUpdate.exe";
-                                p.Start();
-                                return;
-                            }
-                            else
-                            {
-                                throw new FileNotFoundException("Không tìm thấy file FIS.AutoUpdate.exe trong thư mục cài đặt");
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    File.AppendAllText("LastErrors.log", string.Format("Check Auto Update Hệ Thống : {0} : {1} \r\n-------------\r\n", System.DateTime.Now.ToLongTimeString(), ex.ToString()));
-                    MessageBox.Show("Có lỗi trong quá trình Auto Update hệ thống", "Auto Update hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            //           // if (curentVersionApp != strVersion)
+            //            if (curentVersionApp.CompareTo(strVersion) < 0)
+            //            {
+            //                if (File.Exists(Application.StartupPath + @"\" + "FIS.AutoUpdate.exe"))
+            //                {
+            //                    Process p = new Process();
+            //                    p.StartInfo.FileName = "FIS.AutoUpdate.exe";
+            //                    p.Start();
+            //                    return;
+            //                }
+            //                else
+            //                {
+            //                    throw new FileNotFoundException("Không tìm thấy file FIS.AutoUpdate.exe trong thư mục cài đặt");
+            //                }
+            //            }
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        File.AppendAllText("LastErrors.log", string.Format("Check Auto Update Hệ Thống : {0} : {1} \r\n-------------\r\n", System.DateTime.Now.ToLongTimeString(), ex.ToString()));
+            //        MessageBox.Show("Có lỗi trong quá trình Auto Update hệ thống", "Auto Update hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
 
-            }
-                       
-            if (args.Length == 2)
-            {
-                switch (args[0].ToUpper())
-                {
-                    case "/I":
-                        foreach (var process in Process.GetProcesses())
-                        {
-                            Win32.COPYDATASTRUCT fileInfo;
-                            var bytes = Encoding.UTF8.GetBytes(args[1]);
-                            fileInfo.m_DwData = (IntPtr)0;
-                            fileInfo.m_LpData = args[1];
-                            fileInfo.m_CbData = bytes.Length + 1;
+            //}
 
-                            Win32.SendMessage(process.MainWindowHandle, Win32.WM_COPYDATA, process.MainWindowHandle, ref fileInfo);
-                        }
-                        return;
-                }
-            }
+            //if (args.Length == 2)
+            //{
+            //    switch (args[0].ToUpper())
+            //    {
+            //        case "/I":
+            //            foreach (var process in Process.GetProcesses())
+            //            {
+            //                Win32.COPYDATASTRUCT fileInfo;
+            //                var bytes = Encoding.UTF8.GetBytes(args[1]);
+            //                fileInfo.m_DwData = (IntPtr)0;
+            //                fileInfo.m_LpData = args[1];
+            //                fileInfo.m_CbData = bytes.Length + 1;
 
-            if(args.Length == 0)
+            //                Win32.SendMessage(process.MainWindowHandle, Win32.WM_COPYDATA, process.MainWindowHandle, ref fileInfo);
+            //            }
+            //            return;
+            //    }
+            //}
+
+            if (args.Length == 0)
             {
                 //MessageBox.Show("TrungTT");
             }
@@ -156,8 +148,8 @@ namespace FIS.AppClient
                     try
                     {
                         App.Environment = new ClientEnvironment
-                                              {
-                                                  ClientInfo =
+                        {
+                            ClientInfo =
                                                       {
                                                           Culture = new CultureInfo("en-US")
                                                                         {
@@ -168,17 +160,17 @@ namespace FIS.AppClient
                                                                                 }
                                                                         }
                                                       }
-                                              };
+                        };
 
                         ThreadUtils.SetClientCultureInfo();
 
                         isInited = true;
                         break;
                     }
-                    
-                    catch(Exception e)
+
+                    catch (Exception e)
                     {
-                        var ex = ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_UNKNOWN, e.Message);                        
+                        var ex = ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_UNKNOWN, e.Message);
 
                         for (var i = 5; i > 0; i--)
                         {
@@ -188,12 +180,12 @@ namespace FIS.AppClient
                     }
                 }
 
-                if(isInited)
+                if (isInited)
                 {
                     frmSplash.ChangeSplashStatus("Initializing application...");
                     frmSplash.CloseForm();
 
-                    
+
                     var frmMain = new frmMainRibbon();
                     Application.Run(frmMain);
                 }

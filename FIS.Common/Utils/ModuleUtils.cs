@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FIS.Common;
+﻿using FIS.Common;
 using FIS.Entities;
-using Oracle.DataAccess.Client;
+using Oracle.ManagedDataAccess.Client;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace FIS.Utils
@@ -43,20 +43,20 @@ namespace FIS.Utils
         public static ModuleInfo GetModuleInfo(string moduleID, string subModule)
         {
             var module = (from item in AllCaches.ModulesInfo
-                           where item.ModuleID == moduleID && (string.IsNullOrEmpty(subModule) || subModule == item.SubModule)
-                           select item).ToList();
+                          where item.ModuleID == moduleID && (string.IsNullOrEmpty(subModule) || subModule == item.SubModule)
+                          select item).ToList();
 
             if (module.Count == 0)
                 throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_MODULE_NOT_FOUND, moduleID + "." + subModule);
-            
+
             if (module.Count > 1)
                 throw ErrorUtils.CreateError(ERR_SYSTEM.ERR_SYSTEM_MODULE_HAVE_TO_CALL_SUB, moduleID + "." + subModule);
 
             return NewCopyModule(module[0]);
         }
 
-//#if DEBUG
-        public static void ForceLoad(string moduleID, 
+        //#if DEBUG
+        public static void ForceLoad(string moduleID,
             List<ModuleInfo> moduleInfos,
             List<ModuleFieldInfo> fieldInfos,
             List<ButtonInfo> buttonsInfo,
@@ -82,7 +82,7 @@ namespace FIS.Utils
                     from item in AllCaches.SearchButtonsInfo
                     where item.ModuleID != moduleID
                     select item).ToList();
-                AllCaches.SearchButtonsInfo.AddRange(buttonsInfo);                
+                AllCaches.SearchButtonsInfo.AddRange(buttonsInfo);
             }
 
             if (AllCaches.SearchButtonParamsInfo != null)
@@ -117,7 +117,7 @@ namespace FIS.Utils
             }
         }
 
-//#endif
+        //#endif
         #endregion
 
         public static List<ButtonInfo> GetSearchButtons(string moduleID)
@@ -156,11 +156,11 @@ namespace FIS.Utils
 
                 if (conditions.Count == 0)
                     return string.Empty;
-                
+
                 switch (conditionIntance.SQLLogic)
                 {
                     case CODES.SQL_EXPRESSION.SQL_LOGIC.OR:
-                        return "(" +  string.Join(" OR ", conditions.ToArray()) + ")";
+                        return "(" + string.Join(" OR ", conditions.ToArray()) + ")";
                     default:
                         return "(" + string.Join(" AND ", conditions.ToArray()) + ")";
                 }
@@ -259,7 +259,7 @@ namespace FIS.Utils
 
                 if (conditions.Count == 0)
                     return string.Empty;
-                
+
                 switch (conditionIntance.SQLLogic)
                 {
                     case CODES.SQL_EXPRESSION.SQL_LOGIC.OR:
@@ -314,7 +314,7 @@ namespace FIS.Utils
 
             // Build Left Operator
             var leftOperator = condition.ParameterName;
-            switch(condition.TextCase)
+            switch (condition.TextCase)
             {
                 case CODES.DEFMODFLD.TEXTCASE.UPPER:
                     leftOperator = string.Format("UPPER({0})", condition.ParameterName);
@@ -345,7 +345,7 @@ namespace FIS.Utils
                     parameterNames[i] = paramName;
                     comm.Parameters.Add(paramName, values[i].Decode(condition));
                 }
-                    
+
                 rightOperator = string.Join(",", parameterNames);
 
             }
@@ -369,13 +369,13 @@ namespace FIS.Utils
                 rightOperator = paramName;
             }
 
-            if(!string.IsNullOrEmpty(condition.WhereExtension))
+            if (!string.IsNullOrEmpty(condition.WhereExtension))
             {
                 whereExtension = whereExtension.Replace("{" + condition.ParameterName + ":RIGHT}", string.Format(conditionFormat, "", rightOperator));
                 whereExtension = whereExtension.Replace("{" + condition.ParameterName + ":VALUE}", rightOperator);
             }
 
-            if(!string.IsNullOrEmpty(condition.CustomSearchCondition))
+            if (!string.IsNullOrEmpty(condition.CustomSearchCondition))
             {
                 var customSearchInstance = condition.CustomSearchCondition;
                 customSearchInstance = customSearchInstance.Replace("{" + condition.ParameterName + ":RIGHT}", string.Format(conditionFormat, "", rightOperator));

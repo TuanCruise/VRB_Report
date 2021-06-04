@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraLayout;
+using DevExpress.XtraReports.UI;
+using DevExpress.XtraRichEdit;
 using FIS.AppClient.Interface;
+using FIS.AppClient.Utils;
 using FIS.Base;
+using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Extensions;
 using FIS.Utils;
-using FIS.Common;
-using DevExpress.XtraLayout;
-using DevExpress.XtraReports.UI;
-using DevExpress.XtraRichEdit;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Drawing;
-using DevExpress.XtraRichEdit.API.Native;
-using DevExpress.XtraRichEdit.Commands;
-using DevExpress.Utils.Commands;
-using System.Text;
-using System.Reflection;
-using System.Net;
-using System.Threading;
 using System.Diagnostics;
-using FIS.AppClient.Utils;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 
 namespace FIS.AppClient.Controls
@@ -697,7 +689,7 @@ namespace FIS.AppClient.Controls
 
                     foreach (HtmlElement y in x)
                     {
-                        if (y.InnerText == "cursor")
+                        if (y.InnerText == "cursor")    
                             strArray += "cursor,";
                         else if (isNumber)
                         {

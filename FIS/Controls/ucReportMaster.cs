@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
+﻿using DevExpress.LookAndFeel;
+using DevExpress.XtraCharts;
 using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;
 using DevExpress.XtraReports.UI;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using DevExpress.XtraCharts;
+using DevExpress.XtraReports.UserDesigner;
 using FIS.AppClient.Interface;
 using FIS.Base;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraReports.UserDesigner;
-using DevExpress.LookAndFeel;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.ServiceModel;
 
 
 namespace FIS.AppClient.Controls
@@ -23,7 +23,7 @@ namespace FIS.AppClient.Controls
     public partial class ucReportMaster : ucModule,
         IParameterFieldSupportedModule,
         ICommonFieldSupportedModule
-    {             
+    {
         #region Properties & Members
 
         public ReportModuleInfo ReportInfo
@@ -40,7 +40,7 @@ namespace FIS.AppClient.Controls
         {
             base.InitializeModuleData();
             lbTitle.Text = Language.Title;
-            if (ModuleInfo.SendEmail == "Y") { btnReport.Text = "Gửi Mail";}
+            if (ModuleInfo.SendEmail == "Y") { btnReport.Text = "Gửi Mail"; }
             if (ActiveControl is ComboBoxEdit)
                 LoadComboxListSource((ActiveControl as ComboBoxEdit).Properties);
         }
@@ -88,61 +88,61 @@ namespace FIS.AppClient.Controls
 
         public override void Execute()
         {
-                        
+
             try
-            {                
+            {
                 if (ModuleInfo.SendEmail == "Y")
                 {
                     ExecuteReportAndSendMail();
                 }
                 else
                 {
-                        using (SAController ctrlSA = new SAController())
+                    using (SAController ctrlSA = new SAController())
+                    {
+                        DataContainer container;
+                        #region Create Data
+                        List<string> Values;
+                        GetOracleParameterValues(out Values, ReportInfo.StoreName);
+                        ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
+
+                        var dsResult = container.DataSet;
+
+                        var dt = new DataTable("ReportParameter");
+                        foreach (var field in CommonFields)
                         {
-                            DataContainer container;
-                            #region Create Data
-                            List<string> Values;
-                             GetOracleParameterValues(out Values, ReportInfo.StoreName);
-                            ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
-                    
-                            var dsResult = container.DataSet;
-                    
-                            var dt = new DataTable("ReportParameter");
-                            foreach (var field in CommonFields)
-                            {
-                                var name = field.FieldName;
-                                var col = new DataColumn(name, FieldUtils.GetType(field.FieldType));
-                                dt.Columns.Add(col);
-                            }
-
-                            var row = dt.NewRow();
-                            dt.Rows.Add(row);
-                            dsResult.Tables.Add(dt);
-
-                            foreach (var field in CommonFields)
-                            {
-                                row[field.FieldName] = this[field.FieldID];
-                            }
-
-                            #endregion
-
-                            #region Create Report
-                            dsResult.WriteXml(Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".xml", XmlWriteMode.WriteSchema);
-                            var report = XtraReport.FromFile(Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".repx", true);
-                            report.XmlDataPath = Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".xml";
-
-                            string strProcedureName = ReportInfo.StoreName.ToString();
-                            string strReportName = ReportInfo.ReportName.ToString();
-                            if (strProcedureName.Length > 9)
-                            {
-                                CreateReportMultiDetail(strProcedureName, strReportName, report, dsResult);
-                            }
-                    
-                            #endregion
-                            report.RequestParameters = false;
-                            report.ShowPreviewDialog();                    
+                            var name = field.FieldName;
+                            var col = new DataColumn(name, FieldUtils.GetType(field.FieldType));
+                            dt.Columns.Add(col);
                         }
+
+                        var row = dt.NewRow();
+                        dt.Rows.Add(row);
+                        dsResult.Tables.Add(dt);
+
+                        foreach (var field in CommonFields)
+                        {
+                            row[field.FieldName] = this[field.FieldID];
+                        }
+
+                        #endregion
+
+                        #region Create Report
+                        dsResult.WriteXml(Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".xml", XmlWriteMode.WriteSchema);
+                        var report = XtraReport.FromFile(Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".repx", true);
+                        report.XmlDataPath = Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName + ".xml";
+
+                        string strProcedureName = ReportInfo.StoreName.ToString();
+                        string strReportName = ReportInfo.ReportName.ToString();
+                        //if (strProcedureName.Length > 9)
+                        //{
+                        //    CreateReportMultiDetail(strProcedureName, strReportName, report, dsResult);
+                        //}
+
+                        #endregion
+                        report.RequestParameters = false;
+                        report.ShowPreviewDialog();
                     }
+                }
                 //RequireRefresh = true;                
             }
             catch (FaultException ex)
@@ -155,17 +155,17 @@ namespace FIS.AppClient.Controls
             }
         }
 
-        private  void ExecuteReportAndSendMail()
+        private void ExecuteReportAndSendMail()
         {
-            DataContainer container;            
+            DataContainer container;
             try
-            {                
+            {
                 using (SAController ctrlSA = new SAController())
-                {                    
+                {
                     List<string> Values;
                     GetOracleParameterValues(out Values, ReportInfo.StoreName);
-                    ctrlSA.ExecuteMaintainReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);                                     
-                }               
+                    ctrlSA.ExecuteMaintainReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
+                }
             }
             catch (FaultException ex)
             {
@@ -176,7 +176,7 @@ namespace FIS.AppClient.Controls
                 ShowError(ex);
             }
         }
-       
+
         private void ViewReport()
         {
             try
@@ -205,7 +205,7 @@ namespace FIS.AppClient.Controls
                         //    report.Parameters[name].Value = dt.Columns[name].DefaultValue.Encode(field);
                         //}
                         report.RequestParameters = false;
-                        report.ShowPreviewDialog(UserLookAndFeel.Default);                        
+                        report.ShowPreviewDialog(UserLookAndFeel.Default);
                     }
                     else
                     {
@@ -242,7 +242,7 @@ namespace FIS.AppClient.Controls
         //END TRUNGTT
         private void ucReportMaster_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         //13.8.2010
@@ -312,7 +312,7 @@ namespace FIS.AppClient.Controls
                             dataMember = "Table";
                         else
                             dataMember = "Table" + j;
-                        if(ds.Tables[0].Rows.Count != 0)
+                        if (ds.Tables[0].Rows.Count != 0)
                             DrawChart(reportMaster, ds, "Table");
                     }
                     else
@@ -385,7 +385,7 @@ namespace FIS.AppClient.Controls
             //-------------------------------------------------------------------
             ((XYDiagram)chartMain.Diagram).AxisX.Label.Angle = -45;
             //-------------------------------------------------------------------
-            chartMain.CustomDrawAxisLabel += delegate(object sender, CustomDrawAxisLabelEventArgs e)
+            chartMain.CustomDrawAxisLabel += delegate (object sender, CustomDrawAxisLabelEventArgs e)
             {
                 if (e.Item.Axis == ((XYDiagram)chartMain.Diagram).AxisX)
                 {
@@ -432,5 +432,9 @@ namespace FIS.AppClient.Controls
             get { return Language.Layout; }
         }
 
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

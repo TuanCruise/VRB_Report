@@ -1,38 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
-using DevExpress.Utils;
+using Aspose.Cells;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Columns;
-using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
 using FIS.AppClient.Threads;
 using FIS.AppClient.Utils;
-using FIS.Common;
-using FIS.Entities;
-using FIS.Utils;
-using FIS.Extensions;
-using System.Data.OleDb;
-using System.IO;
-using FIS.Controllers;
-using System.Threading;
 using FIS.Base;
-using Aspose.Cells;
+using FIS.Common;
+using FIS.Controllers;
+using FIS.Entities;
+using FIS.Extensions;
+using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.OleDb;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.ServiceModel;
 using System.Text;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Core;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
     public delegate void workerFunctionDelegate(string strStatusText);
-    public delegate void poplateLableDelegate(string text);    
+    public delegate void poplateLableDelegate(string text);
 
     public partial class ucIMWizard : ucModule,
         IParameterFieldSupportedModule,
@@ -48,8 +43,8 @@ namespace FIS.AppClient.Controls
         private int _RPTLOGSID;
 
         protected List<ModuleFieldInfo> ImportFields { get; set; }
-        protected Dictionary<string, ImageComboBoxEdit> ImportControlByID { get; set; }       
-               
+        protected Dictionary<string, ImageComboBoxEdit> ImportControlByID { get; set; }
+
         public object this[string fieldID, DataRow row]
         {
             get
@@ -57,10 +52,10 @@ namespace FIS.AppClient.Controls
                 var field = FieldUtils.GetModuleFieldByID(
                     ModuleInfo.ModuleID, fieldID);
 
-                var columnName =int.Parse(GetColumnName(field.FieldID));
-                if(row[columnName] is string)
+                var columnName = int.Parse(GetColumnName(field.FieldID));
+                if (row[columnName] is string)
                 {
-                    return ((string) row[columnName]).Trim();
+                    return ((string)row[columnName]).Trim();
                 }
 
                 return row[columnName].DecodeAny(field);
@@ -71,7 +66,7 @@ namespace FIS.AppClient.Controls
         {
             get
             {
-                return (ImportModuleInfo) ModuleInfo;
+                return (ImportModuleInfo)ModuleInfo;
             }
         }
 
@@ -163,7 +158,7 @@ namespace FIS.AppClient.Controls
         protected override void InitializeModuleData()
         {
             base.InitializeModuleData();
-            try 
+            try
             {
                 StopCallback = true;
                 if (ImportInfo.SelectStore != null && Program.rptlogID != null)
@@ -228,7 +223,7 @@ namespace FIS.AppClient.Controls
                     {
                         param.Value = this[field.FieldID].Encode(field);
                     }
-                    
+
                     switch (param.Name)
                     {
                         case CONSTANTS.ORACLE_REPORT_ID:
@@ -339,7 +334,7 @@ namespace FIS.AppClient.Controls
         {
             // Edit Create
             var cboImport = new ImageComboBoxEdit
-                                {
+            {
                 Name = string.Format(CONSTANTS.COMBOX_NAME_FORMAT, fieldInfo.FieldName),
                 Tag = fieldInfo,
                 EnterMoveNextControl = true
@@ -366,14 +361,14 @@ namespace FIS.AppClient.Controls
             wzpReadFile.AllowNext = false;
             wzpSetting.AllowNext = false;
             Program.strExecMod = ModuleInfo.ModuleID;
-            
+
             //gcMain.DataSource = null;
         }
 
         void Thread_DoUpdateGUI(object sender, EventArgs e)
         {
             //var workerThread = (WorkerThread)sender;
-           // pgbImport.EditValue = workerThread.PercentComplete;
+            // pgbImport.EditValue = workerThread.PercentComplete;
             //pgbReadFile.EditValue = workerThread.PercentComplete;
             //lblStatusText.Text = workerThread.StatusText;
 
@@ -383,9 +378,9 @@ namespace FIS.AppClient.Controls
         private void txtFileName_ButtonClick(object sender, ButtonPressedEventArgs e)
         {
             var openDialog = new OpenFileDialog
-                                 {
-                                     Filter = IMPORTMASTER.IMPORT_FILE_EXTENSIONS
-                                 };
+            {
+                Filter = IMPORTMASTER.IMPORT_FILE_EXTENSIONS
+            };
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
@@ -411,7 +406,7 @@ namespace FIS.AppClient.Controls
         //    sheetname = getExcelSheets(txtFileNameImp.Text);
         //    using (var ctrlSA = new SAController())
         //    {
-               
+
         //        ctrlSA.GetModImport(out ds, rptID);
         //        // Lay thong tin toan bo cac modimport tuong ung voi file Excel
         //        if (ds.Tables[0] != null)
@@ -431,11 +426,11 @@ namespace FIS.AppClient.Controls
         //                    //}                            
         //                }
         //            }
-                      
+
         //        }                
         //        //SYSTEM_STORE_PROCEDURES.MODULE_TREE = dt.Rows[0][0].ToString();
         //    }
-                                              
+
 
         //    //var thread = sender as ImportReadFileThread;
 
@@ -495,7 +490,7 @@ namespace FIS.AppClient.Controls
         public override void SetDefaultValues()
         {
             base.SetDefaultValues();
-            foreach(var importField in ImportFields)
+            foreach (var importField in ImportFields)
             {
                 ImportControlByID[importField.FieldID].EditValue = importField.DefaultValue;
             }
@@ -505,9 +500,9 @@ namespace FIS.AppClient.Controls
         {
             base.LockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
-                if(CurrentThread is ImportReadFileThread)
+                if (CurrentThread is ImportReadFileThread)
                 {
                     ShowWaitingBox(Language.ReadingStatus);
                 }
@@ -676,7 +671,7 @@ namespace FIS.AppClient.Controls
                                     }
                                 }
                             }
-                                #endregion
+                            #endregion
                         }
                     }
 
@@ -713,13 +708,13 @@ namespace FIS.AppClient.Controls
         }
         private int getReportID()
         {
-            int result;           
+            int result;
             var ctrlSA = new SAController();
             DataContainer container = null;
             List<string> lstParam = new List<string>();
-            ctrlSA.ExecuteProcedureFillDataset(out container, "sp_get_reportid", lstParam);         
-            result = Convert.ToInt32(container.DataTable.Rows[0][0].ToString());         
-            return result;                  
+            ctrlSA.ExecuteProcedureFillDataset(out container, "sp_get_reportid", lstParam);
+            result = Convert.ToInt32(container.DataTable.Rows[0][0].ToString());
+            return result;
         }
         private int getRptlogsID()
         {
@@ -730,168 +725,168 @@ namespace FIS.AppClient.Controls
             ctrlSA.ExecuteProcedureFillDataset(out container, "sp_get_rptlogsid", lstParam);
             result = Convert.ToInt32(container.DataTable.Rows[0][0].ToString());
             return result;
-        }    
+        }
         //private Boolean SendFileToServer(string filename)
         //{
-            //try
-            //{
-            //    var ctrlSA = new SAController();
-            //    DataContainer container = null;
-            //    DataContainer conSinger = null;
-            //    List<string> lstParam = new List<string>();
-            //    ctrlSA.ExecuteProcedureFillDataset(out container, "SP_CHECKSIGNER", lstParam);
-            //    ctrlSA.ExecuteProcedureFillDataset(out conSinger, "SP_GETSIGNER", lstParam);
+        //try
+        //{
+        //    var ctrlSA = new SAController();
+        //    DataContainer container = null;
+        //    DataContainer conSinger = null;
+        //    List<string> lstParam = new List<string>();
+        //    ctrlSA.ExecuteProcedureFillDataset(out container, "SP_CHECKSIGNER", lstParam);
+        //    ctrlSA.ExecuteProcedureFillDataset(out conSinger, "SP_GETSIGNER", lstParam);
 
-            //    // Xoa het file trong Deffile trong session 
-            //    ctrlSA.ExecuteStoreProcedure("sp_deffile_del_bysession", lstParam);
+        //    // Xoa het file trong Deffile trong session 
+        //    ctrlSA.ExecuteStoreProcedure("sp_deffile_del_bysession", lstParam);
 
-            //    string IsCert = CONSTANTS.No;
+        //    string IsCert = CONSTANTS.No;
 
-            //    // Tao file Zip
-            //    var outPathname = System.Environment.GetEnvironmentVariable("TEMP") + "\\" + RandomString(10, false) + ".zip"; ;
-            //    FileStream fsOut = File.Create(outPathname);
-            //    ZipOutputStream zipStream = new ZipOutputStream(fsOut);
-            //    zipStream.SetLevel(9); //0-9, 9 being the highest level of compression                    
+        //    // Tao file Zip
+        //    var outPathname = System.Environment.GetEnvironmentVariable("TEMP") + "\\" + RandomString(10, false) + ".zip"; ;
+        //    FileStream fsOut = File.Create(outPathname);
+        //    ZipOutputStream zipStream = new ZipOutputStream(fsOut);
+        //    zipStream.SetLevel(9); //0-9, 9 being the highest level of compression                    
 
-            //    string _filenamesigned;
-            //    string _filetemplate = string.Empty;                                    
-            //    // Ky file truoc khi nen                
-            //    int result;
-            //    int errcode=10;
-            //    //if (IsCert == CONSTANTS.Yes)
-            //    bool chkCA = false;
-            //    if (container.DataSet.Tables[0].Rows.Count > 0)
-            //    {
-            //        IsCert = container.DataSet.Tables[0].Rows[0][0].ToString();
-            //        if (IsCert == CONSTANTS.Yes)
-            //        {
-            //            try
-            //            {
-            //                string serial = VNPTLIB.CertificateInfos.getCertSerial();
-            //                for (int i = 0; i < conSinger.DataSet.Tables[0].Rows.Count; i++)
-            //                {
-            //                    if (conSinger.DataSet.Tables[0].Rows[i]["serial"].ToString() == serial)
-            //                    {
-            //                        chkCA = true;
-            //                    }
-            //                }
-            //            }
-            //            catch
-            //            {
-            //                errcode = 16;
-            //            }
-                        
-            //        }
-            //    }
-            //    _filenamesigned = filename;
-            //    if (IsCert == CONSTANTS.Yes)
-            //    {
-            //        if (chkCA)
-            //        {
-            //            // Lay gio tu timestamp server
-            //            string datetime = VNPTLIB.TSA.checkTSA();
-            //            if (datetime == null)
-            //            {
-            //                datetime = DateTime.Now.ToString("dd/MM/yyyy");
-            //            }
-            //            if (Path.GetExtension(_filenamesigned).ToUpper() == ".PDF")
-            //            {
-            //                result = VNPTLIB.SignPDF.SignDetached(filename, datetime);
-            //                if (result == 0)
-            //                {
-            //                    _filenamesigned = VNPTLIB.SignPDF.fileSigned;
-            //                }
-            //                else
-            //                {
-            //                    ShowMessVNPTCA(result, VNPTLIB.SignPDF.errorPDF);
-            //                    Program.FileName = null;
-            //                    return false;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                result = VNPTLIB.SignOffice.Sign2k7XLS(filename, datetime);
-            //                if (result == 0)
-            //                {
-            //                    _filenamesigned = filename;
-            //                }
-            //                else
-            //                {
-            //                    ShowMessVNPTCA(result, VNPTLIB.SignOffice.error);
-            //                    Program.FileName = null;
-            //                    return false;
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            RollBackData(Program.rptid, _RPTLOGSID.ToString());                       
-            //            var cex = ErrorUtils.CreateError(errcode);
-            //            ShowError(cex);
-            //            Program.FileName = null;
-            //            return false;
-            //        }
-            //    }                                            
+        //    string _filenamesigned;
+        //    string _filetemplate = string.Empty;                                    
+        //    // Ky file truoc khi nen                
+        //    int result;
+        //    int errcode=10;
+        //    //if (IsCert == CONSTANTS.Yes)
+        //    bool chkCA = false;
+        //    if (container.DataSet.Tables[0].Rows.Count > 0)
+        //    {
+        //        IsCert = container.DataSet.Tables[0].Rows[0][0].ToString();
+        //        if (IsCert == CONSTANTS.Yes)
+        //        {
+        //            try
+        //            {
+        //                string serial = VNPTLIB.CertificateInfos.getCertSerial();
+        //                for (int i = 0; i < conSinger.DataSet.Tables[0].Rows.Count; i++)
+        //                {
+        //                    if (conSinger.DataSet.Tables[0].Rows[i]["serial"].ToString() == serial)
+        //                    {
+        //                        chkCA = true;
+        //                    }
+        //                }
+        //            }
+        //            catch
+        //            {
+        //                errcode = 16;
+        //            }
 
-            //    FileInfo fi = new FileInfo(_filenamesigned);                    
-            //    string entryName = System.IO.Path.GetFileName(_filenamesigned);
-            //    entryName = ZipEntry.CleanName(entryName); 
-            //    ZipEntry newEntry = new ZipEntry(entryName);
-            //    newEntry.DateTime = fi.LastWriteTime; 
-                           
-            //    newEntry.Size = fi.Length;
-            //    zipStream.PutNextEntry(newEntry);
+        //        }
+        //    }
+        //    _filenamesigned = filename;
+        //    if (IsCert == CONSTANTS.Yes)
+        //    {
+        //        if (chkCA)
+        //        {
+        //            // Lay gio tu timestamp server
+        //            string datetime = VNPTLIB.TSA.checkTSA();
+        //            if (datetime == null)
+        //            {
+        //                datetime = DateTime.Now.ToString("dd/MM/yyyy");
+        //            }
+        //            if (Path.GetExtension(_filenamesigned).ToUpper() == ".PDF")
+        //            {
+        //                result = VNPTLIB.SignPDF.SignDetached(filename, datetime);
+        //                if (result == 0)
+        //                {
+        //                    _filenamesigned = VNPTLIB.SignPDF.fileSigned;
+        //                }
+        //                else
+        //                {
+        //                    ShowMessVNPTCA(result, VNPTLIB.SignPDF.errorPDF);
+        //                    Program.FileName = null;
+        //                    return false;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                result = VNPTLIB.SignOffice.Sign2k7XLS(filename, datetime);
+        //                if (result == 0)
+        //                {
+        //                    _filenamesigned = filename;
+        //                }
+        //                else
+        //                {
+        //                    ShowMessVNPTCA(result, VNPTLIB.SignOffice.error);
+        //                    Program.FileName = null;
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            RollBackData(Program.rptid, _RPTLOGSID.ToString());                       
+        //            var cex = ErrorUtils.CreateError(errcode);
+        //            ShowError(cex);
+        //            Program.FileName = null;
+        //            return false;
+        //        }
+        //    }                                            
 
-            //    // Zip the file in buffered chunks                                
-            //    byte[] buffer = new byte[4096];
-            //    using (FileStream streamReader = File.OpenRead(_filenamesigned))
-            //    {
-            //        StreamUtils.Copy(streamReader, zipStream, buffer);
-            //    }
-            //    zipStream.CloseEntry();                                                                                                            
+        //    FileInfo fi = new FileInfo(_filenamesigned);                    
+        //    string entryName = System.IO.Path.GetFileName(_filenamesigned);
+        //    entryName = ZipEntry.CleanName(entryName); 
+        //    ZipEntry newEntry = new ZipEntry(entryName);
+        //    newEntry.DateTime = fi.LastWriteTime; 
 
-            //    zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
-            //    zipStream.Close();
+        //    newEntry.Size = fi.Length;
+        //    zipStream.PutNextEntry(newEntry);
 
-            //    // Send file to server                                     
-            //    var _streamAttr = File.OpenRead(outPathname);                        
-            //    var fileUpload = new UploadFileStream(_streamAttr);
-                      
-            //    FileUpload upload = new FileUpload();           
+        //    // Zip the file in buffered chunks                                
+        //    byte[] buffer = new byte[4096];
+        //    using (FileStream streamReader = File.OpenRead(_filenamesigned))
+        //    {
+        //        StreamUtils.Copy(streamReader, zipStream, buffer);
+        //    }
+        //    zipStream.CloseEntry();                                                                                                            
 
-            //    List<string> value = new List<string>();
-            //    GetOracleParameterValues(out value, "sp_reportfilelogs_ins");
-            //    // Đoạn này thằng hâm nào thay đổi thứ tự thì vẹo con mẹ luôn                
-            //    upload.SecID = Convert.ToInt32(value[0].ToString());
-            //    upload.RptID = value[1].ToString();
-            //    upload.Term = value[2].ToString();
-            //    try
-            //    {
-            //        upload.TermNo = value[3].ToString();
-            //    }
-            //    catch
-            //    {
-            //        upload.TermNo = null;
-            //    }
-            //    upload.RYear = Convert.ToInt32(value[4].ToString());
-            //    // Ket thuc
-            //    upload.FileName = System.IO.Path.GetFileName(outPathname);
-            //    upload.UploadStream = fileUpload;
-            //    ctrlSA.SaveFile(upload);
-            //    _streamAttr.Dispose();                
-                
-                                      
-            //    File.Delete(outPathname);
-            //    return true;                                 
-            //}
-            //catch (Exception ex)
-            //{
-            //    ShowError(ex);
-            //    RollBackData(Program.rptid, _iReportID.ToString());
-            //    return false;
-            //}
+        //    zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
+        //    zipStream.Close();
+
+        //    // Send file to server                                     
+        //    var _streamAttr = File.OpenRead(outPathname);                        
+        //    var fileUpload = new UploadFileStream(_streamAttr);
+
+        //    FileUpload upload = new FileUpload();           
+
+        //    List<string> value = new List<string>();
+        //    GetOracleParameterValues(out value, "sp_reportfilelogs_ins");
+        //    // Đoạn này thằng hâm nào thay đổi thứ tự thì vẹo con mẹ luôn                
+        //    upload.SecID = Convert.ToInt32(value[0].ToString());
+        //    upload.RptID = value[1].ToString();
+        //    upload.Term = value[2].ToString();
+        //    try
+        //    {
+        //        upload.TermNo = value[3].ToString();
+        //    }
+        //    catch
+        //    {
+        //        upload.TermNo = null;
+        //    }
+        //    upload.RYear = Convert.ToInt32(value[4].ToString());
+        //    // Ket thuc
+        //    upload.FileName = System.IO.Path.GetFileName(outPathname);
+        //    upload.UploadStream = fileUpload;
+        //    ctrlSA.SaveFile(upload);
+        //    _streamAttr.Dispose();                
+
+
+        //    File.Delete(outPathname);
+        //    return true;                                 
         //}
-        
+        //catch (Exception ex)
+        //{
+        //    ShowError(ex);
+        //    RollBackData(Program.rptid, _iReportID.ToString());
+        //    return false;
+        //}
+        //}
+
 
         private void ImportCheck(string v_modid)
         {
@@ -922,7 +917,7 @@ namespace FIS.AppClient.Controls
         {
             using (var ctrlSA = new SAController())
             {
-                int SubType=0;
+                int SubType = 0;
                 List<string> fldid = new List<string>();
                 fldid.Add(v_rptid);
                 DataContainer dc;
@@ -933,24 +928,24 @@ namespace FIS.AppClient.Controls
                     SubType = int.Parse(dt.Rows[0][0].ToString());
                 }
 
-                return SubType;                
+                return SubType;
             }
         }
 
-        private void CheckRptMasterDetails(string v_rptid,List<string> v_sheetname)
+        private void CheckRptMasterDetails(string v_rptid, List<string> v_sheetname)
         {
             using (var ctrlSA = new SAController())
             {
                 Boolean bCheck = true;
                 List<string> fldid = new List<string>();
-                fldid.Add(v_rptid);                
+                fldid.Add(v_rptid);
                 DataContainer dc;
                 ctrlSA.ExecuteProcedureFillDataset(out dc, "sp_modimport_sel", fldid);
                 DataTable dt = dc.DataTable;
                 if (dt.Rows.Count > 0)
                 {
                     for (int j = 0; j < v_sheetname.Count; j++)
-                    { 
+                    {
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             if (v_sheetname[j].IndexOf("_") > 0)
@@ -964,15 +959,15 @@ namespace FIS.AppClient.Controls
                                     bCheck = true;
                                     break;
                                 }
-                            }                            
+                            }
                         }
                         if (bCheck == false)
-                        {                            
-                            throw ErrorUtils.CreateError(172);                            
+                        {
+                            throw ErrorUtils.CreateError(172);
                         }
                     }
                 }
-                
+
             }
         }
         void ExecuteImportThread_ProcessComplete(object sender, EventArgs e)
@@ -981,38 +976,38 @@ namespace FIS.AppClient.Controls
 
             //if (thread != null)
             //{
-                //foreach (var importRow in thread.ImportRows)
-                //{
-                //    if (thread.ErrorInfos.ContainsKey(importRow))
-                //    {
-                //        importRow.RowError = thread.ErrorInfos[importRow];
-                //        importRow["COLUMN_ERROR"] = thread.ErrorInfos[importRow];
-                //    }
-                //    else 
-                //    {
-                //        //add by trungtt - 20130508 - verify data before import
-                //        if(Program.blVerifyImport == false)
-                //            m_ExcelBufferTable.Rows.Remove(importRow);
-                //    }
-                //}
-                //if (Program.blEnableImport == true)
-                //{
-                //    btnImport.Enabled = true;
-                //    wzpSetting.AllowNext = true;
-                //}
-                //else if (Program.blEnableImport == false && ImportInfo.VerifyData == "N") 
-                //{
-                //    btnImport.Enabled = true;
-                //    wzpSetting.AllowNext = false;
-                //}
-                //else
-                //{
-                //    btnImport.Enabled = false;
-                //    wzpSetting.AllowNext = false;
-                //}
+            //foreach (var importRow in thread.ImportRows)
+            //{
+            //    if (thread.ErrorInfos.ContainsKey(importRow))
+            //    {
+            //        importRow.RowError = thread.ErrorInfos[importRow];
+            //        importRow["COLUMN_ERROR"] = thread.ErrorInfos[importRow];
+            //    }
+            //    else 
+            //    {
+            //        //add by trungtt - 20130508 - verify data before import
+            //        if(Program.blVerifyImport == false)
+            //            m_ExcelBufferTable.Rows.Remove(importRow);
+            //    }
+            //}
+            //if (Program.blEnableImport == true)
+            //{
+            //    btnImport.Enabled = true;
+            //    wzpSetting.AllowNext = true;
+            //}
+            //else if (Program.blEnableImport == false && ImportInfo.VerifyData == "N") 
+            //{
+            //    btnImport.Enabled = true;
+            //    wzpSetting.AllowNext = false;
+            //}
+            //else
+            //{
+            //    btnImport.Enabled = false;
+            //    wzpSetting.AllowNext = false;
+            //}
 
-                wzpSetting.AllowBack = true;
-                wzpSetting.AllowCancel = true;
+            wzpSetting.AllowBack = true;
+            wzpSetting.AllowCancel = true;
             //}
         }
 
@@ -1072,19 +1067,19 @@ namespace FIS.AppClient.Controls
             InitializeComponent();
             m_ExcelBufferTable = new DataTable();
             lblStatusText.Text = null;
-            
+
         }
 
         private static ImportRange[] CalcRanges(string importRows)
         {
             var ranges = new List<ImportRange>();
-            var strRanges = importRows.Trim().Split(new []{","}, StringSplitOptions.RemoveEmptyEntries);
+            var strRanges = importRows.Trim().Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var strRange in strRanges)
             {
                 if (strRange.Contains("-"))
                 {
-                    var values = strRange.Split(new []{"-"}, StringSplitOptions.None);
+                    var values = strRange.Split(new[] { "-" }, StringSplitOptions.None);
                     var min = string.IsNullOrEmpty(values[0]) ? 0 : int.Parse(values[0]);
                     var max = string.IsNullOrEmpty(values[1]) ? int.MaxValue : int.Parse(values[1]);
                     ranges.Add(new ImportRange(min, max));
@@ -1096,7 +1091,7 @@ namespace FIS.AppClient.Controls
             }
 
             return ranges.ToArray();
-        }       
+        }
         public bool ValidateRequire
         {
             get { return true; }
@@ -1147,7 +1142,7 @@ namespace FIS.AppClient.Controls
         {
 
         }
-                
+
         private void wzMain_Leave(object sender, EventArgs e)
         {
             Program.blEnableImport = false;
@@ -1156,13 +1151,13 @@ namespace FIS.AppClient.Controls
         #region Import Excel New
         public static string getConnectionString(string mFile)
         {
-           
-                string strXlsConnString = null;                                
-                FileInfo fi = new FileInfo(mFile);               
-                strXlsConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                      mFile + ";Extended Properties='Excel 12.0 Xml;HDR=Yes;IMEX=1'";
-                return strXlsConnString;            
-        }              
+
+            string strXlsConnString = null;
+            FileInfo fi = new FileInfo(mFile);
+            strXlsConnString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                                  mFile + ";Extended Properties='Excel 12.0 Xml;HDR=Yes;IMEX=1'";
+            return strXlsConnString;
+        }
         public static List<string> getExcelSheets(string mFile)
         {
             try
@@ -1173,31 +1168,31 @@ namespace FIS.AppClient.Controls
                 List<string> strExcelSheetNames = new List<string>();
                 string sheetName;
                 for (var i = 0; i < worksheets.Count; i++)
-                {                    
+                {
                     sheetName = worksheets[i].Name;
-                    strExcelSheetNames.Add(sheetName);                    
-                }                                              
+                    strExcelSheetNames.Add(sheetName);
+                }
                 return strExcelSheetNames;
             }
             catch (Exception exp)
             {
                 throw new Exception("Không lấy được thông tin các sheet của file Excel " + exp.Message, exp);
             }
-        }       
+        }
 
-        public static DataSet getXLData(string xlSheetName,string xlFileName, string AdditionalFields)
+        public static DataSet getXLData(string xlSheetName, string xlFileName, string AdditionalFields)
         {
             try
             {
                 DataSet xlTDS = new DataSet("xlDataSet");
                 OleDbConnection xlConn;
                 OleDbDataAdapter xlDA;
-                
 
-                if (xlSheetName.Substring(0,1) == "@")
+
+                if (xlSheetName.Substring(0, 1) == "@")
                 {
                     DataTable xltDT = new DataTable();
-                    
+
                     xlConn = new OleDbConnection(getConnectionString(xlFileName));
                     xlConn.Open();
                     xlDA = new OleDbDataAdapter("Select" + AdditionalFields + " * from [" + xlSheetName + "$]", xlConn);
@@ -1209,17 +1204,17 @@ namespace FIS.AppClient.Controls
                     xltDT.Columns.Add("AccountPlace", typeof(String));
                     xltDT.Columns.Add("InvestorAccount", typeof(String));
 
-                    int n=1;
+                    int n = 1;
                     string strName = null;
                     string strAccount = null;
                     string strAccountPlace = null;
-                    DataTable dt =null;
+                    DataTable dt = null;
                     foreach (DataRow rows in xltDT.Rows)
-                    { 
-                        if(rows[0].ToString() == "@" && n==3)
+                    {
+                        if (rows[0].ToString() == "@" && n == 3)
                         {
                             strAccount = rows[2].ToString();
-                            n=1;
+                            n = 1;
                         }
                         else if (rows[0].ToString() == "@" && n == 2)
                         {
@@ -1247,7 +1242,7 @@ namespace FIS.AppClient.Controls
                 else
                 {
                     xlConn = new OleDbConnection(getConnectionString(xlFileName));
-                    
+
                     xlConn.Open();
                     xlDA = new OleDbDataAdapter("Select" + AdditionalFields +
                                             " * from [" + xlSheetName + "$]", xlConn);
@@ -1261,12 +1256,12 @@ namespace FIS.AppClient.Controls
                 }
             }
             catch (Exception ex)
-            {                
-                throw new Exception("Lỗi đọc file Excel ! ",ex);                
+            {
+                throw new Exception("Lỗi đọc file Excel ! ", ex);
             }
         }
 
-        private static DataSet ReadFileExcel(string xlSheetName,string xlFileName)
+        private static DataSet ReadFileExcel(string xlSheetName, string xlFileName)
         {
             try
             {
@@ -1339,9 +1334,9 @@ namespace FIS.AppClient.Controls
             {
                 throw ex;
             }
-            
+
         }
-        public static void RemoveEmptyRows(DataTable dtbl,System.Int32 intNumberOfFieldsToIgnore,string sheetname)
+        public static void RemoveEmptyRows(DataTable dtbl, System.Int32 intNumberOfFieldsToIgnore, string sheetname)
         {
             try
             {
@@ -1407,16 +1402,16 @@ namespace FIS.AppClient.Controls
 
                 if (SubType == 1)
                 {
-                    CheckData(dtbl,sheetname);
+                    CheckData(dtbl, sheetname);
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
-            }           
+            }
         }
 
-        private static void CheckData(DataTable data,string sheetname)
+        private static void CheckData(DataTable data, string sheetname)
         {
             for (int i = 1; i < data.Rows.Count; i++)
             {
@@ -1440,7 +1435,7 @@ namespace FIS.AppClient.Controls
                             count = count + 1;
                             if (count == 2)
                             {
-                                throw ErrorUtils.CreateErrorWithSubMessage(310, string.Format("Chỉ tiêu [{0}] của sheet [{1}] bị trùng ", fldid,sheetname ));
+                                throw ErrorUtils.CreateErrorWithSubMessage(310, string.Format("Chỉ tiêu [{0}] của sheet [{1}] bị trùng ", fldid, sheetname));
                             }
                         }
 
@@ -1448,17 +1443,17 @@ namespace FIS.AppClient.Controls
                 }
 
             }
-                     
-            
+
+
         }
         #endregion
         void workerFunction(string strStatusText)
         {
             this.Invoke(new poplateLableDelegate(populateLable), new object[] { strStatusText });
-            Thread.Sleep(10);        
+            Thread.Sleep(10);
         }
         void populateLable(string text)
-        {            
+        {
             lblStatusText.Text = text;
         }
 
@@ -1476,7 +1471,7 @@ namespace FIS.AppClient.Controls
                 app.DisplayAlerts = false;
                 Microsoft.Office.Interop.Excel.Workbook workbook = null;
                 workbook = app.Workbooks.Open(filename);
-                var outPathname = System.Environment.GetEnvironmentVariable("TEMP") + "\\" + RandomString(10, false) + ".xlsx" ;
+                var outPathname = System.Environment.GetEnvironmentVariable("TEMP") + "\\" + RandomString(10, false) + ".xlsx";
 
                 //workbook.SaveAs(outPathname, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel12,
                 //    System.Reflection.Missing.Value,
@@ -1525,7 +1520,7 @@ namespace FIS.AppClient.Controls
             }
             catch (Exception ex)
             {
-                obj = null;                
+                obj = null;
             }
             finally
             {

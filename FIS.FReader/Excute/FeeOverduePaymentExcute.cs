@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FIS.FReader.Entities;
-using System.Globalization;
+﻿using FIS.FReader.Entities;
 using FIS.FReader.Utilities;
-using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace FIS.FReader.Excute
 {
@@ -16,7 +13,7 @@ namespace FIS.FReader.Excute
         FeeOverduePayment feeReport;
         List<FeeOverduePayment> listFeeReport;
 
-        FeeContractType contractType = null;
+        FeeContractType contractType = new FeeContractType();
         FeeContract contract = null;
         Boolean inContractT = false;
 
@@ -64,7 +61,7 @@ namespace FIS.FReader.Excute
                 {
                     feeReport.FileRow = rowNumber;
                 }
-                ReadLine(line,rowNumber);
+                ReadLine(line, rowNumber);
             }
 
             // the code that you want to measure comes here
@@ -77,65 +74,80 @@ namespace FIS.FReader.Excute
 
         private void ReadLine(String inputString, int inputRowNumber)
         {
-            if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.REPORTDATE))
+            try
             {
-                this.feeReport.ReportDate = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLON)[1].Trim();
-            }
-
-            if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.REPORTCREATIONTIME))
-            {
-                this.feeReport.ReportCreationTime = inputString.Replace(Constant.FeeOverduePayment.ReportConstant.REPORTCREATIONTIME, " ").Trim();
-            }
-
-            if (inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE).Length == 3)
-            {
-                if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.CURRENCY))
+                if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.REPORTDATE))
                 {
-                    contractType.Currency = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLON)[1].Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim();
+                    this.feeReport.ReportDate = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLON)[1].Trim();
                 }
-                //else if (!inContractT && !inputString.Contains(Constant.FeeOverduePayment.ReportConstant.ROWSEPARATE))
-                //{
-                //    contractType = new FeeContractType();
-                //    try
-                //    {
-                //        contractType.PreFix = inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[0].Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim();
-                //        if (inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[1] == null)
-                //        {
-                //            contractType.ConType = string.Empty;
-                //        }
-                //        else
-                //        { contractType.ConType = inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[1].Replace(Constant.FeeOverduePayment.ReportConstant.SEPARATEDASH, Constant.FeeOverduePayment.ReportConstant.SPACE).Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim(); }
-                //    }
-                //    catch (Exception)
-                //    {
-                //        contractType.PreFix = inputString;
-                //    }
-                //}
-                else if (!inputString.Contains("Total                                    " )&& inputString.Contains("Contract Type"))
-                {
-                    contractType = new FeeContractType();
-                    contractType.ConType = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim();
-                }
-               
-            }
 
-            if (inputString.StartsWith(Constant.FeeOverduePayment.ReportConstant.TOTAL))
-            {
-                feeReport.ListContractType.Add(contractType);
-            }
-
-            if (inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE).Length == 6)
-            {
-                if (!String.IsNullOrEmpty(inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim()) || !String.IsNullOrEmpty(inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[2].Trim()))
+                if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.REPORTCREATIONTIME))
                 {
-                    contract = new FeeContract();
-                    contract.ContractNo = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim();
-                    contract.Account = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[2].Trim();
-                    contract.Due = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[3].Trim();
-                    contract.Paid = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[4].Trim();
-                    contract.RowNumber = inputRowNumber;
-                    contractType.ListContract.Add(contract);
+                    this.feeReport.ReportCreationTime = inputString.Replace(Constant.FeeOverduePayment.ReportConstant.REPORTCREATIONTIME, " ").Trim();
                 }
+
+                if (inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE).Length == 3)
+                {
+                    if (inputString.Contains(Constant.FeeOverduePayment.ReportConstant.CURRENCY))
+                    {
+                        contractType.Currency = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLON)[1].Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim();
+                    }
+                    //else if (!inContractT && !inputString.Contains(Constant.FeeOverduePayment.ReportConstant.ROWSEPARATE))
+                    //{
+                    //    contractType = new FeeContractType();
+                    //    try
+                    //    {
+                    //        contractType.PreFix = inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[0].Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim();
+                    //        if (inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[1] == null)
+                    //        {
+                    //            contractType.ConType = string.Empty;
+                    //        }
+                    //        else
+                    //        { contractType.ConType = inputString.Split(new[] { Constant.FeeOverduePayment.ReportConstant.CONTRACTTYPE }, StringSplitOptions.None)[1].Replace(Constant.FeeOverduePayment.ReportConstant.SEPARATEDASH, Constant.FeeOverduePayment.ReportConstant.SPACE).Replace(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE, Constant.FeeOverduePayment.ReportConstant.SPACE).Trim(); }
+                    //    }
+                    //    catch (Exception)
+                    //    {
+                    //        contractType.PreFix = inputString;
+                    //    }
+                    //}
+                    else if (!inputString.Contains("Total                                    ") && inputString.Contains("Contract Type"))
+                    {
+                        contractType = new FeeContractType();
+                        contractType.ConType = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim();
+                    }
+
+                }
+
+                if (inputString.StartsWith(Constant.FeeOverduePayment.ReportConstant.TOTAL))
+                {
+                    feeReport.ListContractType.Add(contractType);
+                }
+
+                if (inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE).Length == 6)
+                {
+                    if (!String.IsNullOrEmpty(inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim()) || !String.IsNullOrEmpty(inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[2].Trim()))
+                    {
+                        contract = new FeeContract();
+                        contract.ContractNo = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[1].Trim();
+                        contract.Account = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[2].Trim();
+                        contract.Due = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[3].Trim();
+                        contract.Paid = inputString.Split(Constant.FeeOverduePayment.ReportConstant.COLUMNSEPARATE)[4].Trim();
+                        contract.RowNumber = inputRowNumber;
+                        try
+                        {
+                            var bug = Double.Parse(contract.Paid);
+                            contractType.ListContract.Add(contract);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                //throw ex;
             }
         }
 

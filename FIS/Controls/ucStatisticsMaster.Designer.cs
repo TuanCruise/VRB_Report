@@ -82,7 +82,7 @@
             this.gcMain.Location = new System.Drawing.Point(3, 29);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(661, 352);
+            this.gcMain.Size = new System.Drawing.Size(656, 352);
             this.gcMain.TabIndex = 4;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -141,6 +141,7 @@
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.ShowGridMenu += new DevExpress.XtraGrid.Views.Grid.GridMenuEventHandler(this.gvMain_ShowGridMenu);
+            this.gvMain.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gvMain_PopupMenuShowing);
             // 
             // emptySpaceItem3
             // 
@@ -149,7 +150,6 @@
             this.emptySpaceItem3.Location = new System.Drawing.Point(0, 367);
             this.emptySpaceItem3.Name = "emptySpaceItem3";
             this.emptySpaceItem3.Size = new System.Drawing.Size(88, 10);
-            this.emptySpaceItem3.Text = "emptySpaceItem3";
             this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
             // 
             // splitContainer
@@ -187,7 +187,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(667, 413);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(662, 413);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // cboPages
@@ -198,7 +198,7 @@
             this.cboPages.Name = "cboPages";
             this.cboPages.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cboPages.Size = new System.Drawing.Size(633, 20);
+            this.cboPages.Size = new System.Drawing.Size(628, 20);
             this.cboPages.TabIndex = 5;
             // 
             // btnCopyStatus
@@ -217,19 +217,20 @@
             // txtSearchStatus
             // 
             this.txtSearchStatus.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchStatus.Appearance.Options.UseFont = true;
             this.txtSearchStatus.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.tableLayoutPanel1.SetColumnSpan(this.txtSearchStatus, 2);
             this.txtSearchStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtSearchStatus.Location = new System.Drawing.Point(35, 3);
             this.txtSearchStatus.Name = "txtSearchStatus";
-            this.txtSearchStatus.Size = new System.Drawing.Size(629, 20);
+            this.txtSearchStatus.Size = new System.Drawing.Size(624, 20);
             this.txtSearchStatus.TabIndex = 7;
             // 
             // btnBestFitColumns
             // 
-            this.btnBestFitColumns.Image = global::FIS.AppClient.Properties.Resources.AutoSize;
-            this.btnBestFitColumns.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBestFitColumns.Location = new System.Drawing.Point(642, 387);
+            this.btnBestFitColumns.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.AutoSize;
+            this.btnBestFitColumns.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnBestFitColumns.Location = new System.Drawing.Point(637, 387);
             this.btnBestFitColumns.Name = "btnBestFitColumns";
             this.btnBestFitColumns.Size = new System.Drawing.Size(22, 23);
             this.btnBestFitColumns.TabIndex = 8;
@@ -237,7 +238,7 @@
             // 
             // mainLayout
             // 
-            this.mainLayout.AllowCustomizationMenu = false;
+            this.mainLayout.AllowCustomization = false;
             this.mainLayout.Controls.Add(this.btnMail);
             this.mainLayout.Controls.Add(this.btnExport);
             this.mainLayout.Controls.Add(this.btnExecute);
@@ -252,7 +253,7 @@
             // btnMail
             // 
             this.btnMail.Enabled = false;
-            this.btnMail.Image = global::FIS.AppClient.Properties.Resources.MAIL;
+            this.btnMail.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.MAIL;
             this.btnMail.Location = new System.Drawing.Point(26, 381);
             this.btnMail.Name = "btnMail";
             this.btnMail.Size = new System.Drawing.Size(67, 22);
@@ -265,7 +266,7 @@
             // btnExport
             // 
             this.btnExport.Enabled = false;
-            this.btnExport.Image = global::FIS.AppClient.Properties.Resources.EXPORT;
+            this.btnExport.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.EXPORT;
             this.btnExport.Location = new System.Drawing.Point(97, 381);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(84, 22);
@@ -277,7 +278,7 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Image = global::FIS.AppClient.Properties.Resources.STATISTICS;
+            this.btnExecute.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.STATISTICS;
             this.btnExecute.Location = new System.Drawing.Point(185, 381);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(85, 22);
@@ -293,17 +294,15 @@
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.gpStatisticsParameters});
-            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
             this.layoutControlGroup1.Size = new System.Drawing.Size(280, 413);
-            this.layoutControlGroup1.Text = "Root";
             this.layoutControlGroup1.TextVisible = false;
             // 
             // gpStatisticsParameters
             // 
             this.gpStatisticsParameters.CustomizationFormText = "gpStatisticsParameters";
-            this.gpStatisticsParameters.ExpandButtonLocation = DevExpress.Utils.GroupElementLocation.AfterText;
+            this.gpStatisticsParameters.HeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText;
             this.gpStatisticsParameters.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.emptySpaceItem1,
             this.emptySpaceItem2,
@@ -314,7 +313,6 @@
             this.gpStatisticsParameters.Name = "gpStatisticsParameters";
             this.gpStatisticsParameters.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
             this.gpStatisticsParameters.Size = new System.Drawing.Size(280, 413);
-            this.gpStatisticsParameters.Text = "gpStatisticsParameters";
             // 
             // emptySpaceItem1
             // 
@@ -322,60 +320,52 @@
             this.emptySpaceItem1.CustomizationFormText = "emptySpaceItem1";
             this.emptySpaceItem1.Location = new System.Drawing.Point(0, 0);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(264, 351);
-            this.emptySpaceItem1.Text = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(264, 350);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // emptySpaceItem2
             // 
             this.emptySpaceItem2.AllowHotTrack = false;
             this.emptySpaceItem2.CustomizationFormText = "emptySpaceItem2";
-            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 351);
+            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 350);
             this.emptySpaceItem2.Name = "emptySpaceItem2";
             this.emptySpaceItem2.Size = new System.Drawing.Size(16, 26);
-            this.emptySpaceItem2.Text = "emptySpaceItem2";
             this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.btnExport;
             this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
-            this.layoutControlItem3.Location = new System.Drawing.Point(87, 351);
+            this.layoutControlItem3.Location = new System.Drawing.Point(87, 350);
             this.layoutControlItem3.MaxSize = new System.Drawing.Size(88, 26);
             this.layoutControlItem3.MinSize = new System.Drawing.Size(88, 26);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(88, 26);
             this.layoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem3.Text = "layoutControlItem3";
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextToControlDistance = 0;
             this.layoutControlItem3.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.btnExecute;
             this.layoutControlItem2.CustomizationFormText = "layoutControlItem2";
-            this.layoutControlItem2.Location = new System.Drawing.Point(175, 351);
+            this.layoutControlItem2.Location = new System.Drawing.Point(175, 350);
             this.layoutControlItem2.MaxSize = new System.Drawing.Size(89, 26);
             this.layoutControlItem2.MinSize = new System.Drawing.Size(89, 26);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(89, 26);
             this.layoutControlItem2.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem2.Text = "layoutControlItem2";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem2.TextToControlDistance = 0;
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.btnMail;
             this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
-            this.layoutControlItem1.Location = new System.Drawing.Point(16, 351);
+            this.layoutControlItem1.Location = new System.Drawing.Point(16, 350);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(71, 26);
-            this.layoutControlItem1.Text = "layoutControlItem1";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem1.TextToControlDistance = 0;
             this.layoutControlItem1.TextVisible = false;
             // 
             // ucStatisticsMaster
@@ -393,6 +383,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cboPages.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainLayout)).EndInit();
             this.mainLayout.ResumeLayout(false);

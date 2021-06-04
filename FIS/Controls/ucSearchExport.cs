@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Aspose.Cells;
 using DevExpress.XtraEditors;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.BandedGrid;
+using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
+using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using FIS.Base;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
-using Aspose.Cells;
-using System.Xml.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.IO;
-using DevExpress.XtraGrid.Views.BandedGrid;
 
 namespace FIS.AppClient.Controls
 {
@@ -72,9 +71,9 @@ namespace FIS.AppClient.Controls
 
         private void ClearExportedRows()
         {
-            while(ResultTable.Rows.Count > 0)
+            while (ResultTable.Rows.Count > 0)
             {
-                ResultTable.Rows.RemoveAt(0);                
+                ResultTable.Rows.RemoveAt(0);
             }
         }
 
@@ -114,12 +113,12 @@ namespace FIS.AppClient.Controls
         {
             base.Execute();
 
-            if(ValidateModule())
+            if (ValidateModule())
             {
-                string exportFileName;                
+                string exportFileName;
                 exportFileName = (string)this["E02"];
-                
-                                
+
+
                 var gridView = PrintGrid.DefaultView as GridView;
                 if (gridView != null)
                 {
@@ -135,31 +134,31 @@ namespace FIS.AppClient.Controls
                     var headers = new List<string>();
                     foreach (GridColumn column in gridView.Columns)
                     {
-                         var flagAddColumn = true;
-                         if (column.Visible && column.VisibleIndex >= 0)
-                         {
-                             //TUDQ them
-                             if (modExport == 1 & columnRemove != null)
-                             {
-                                 for (var j = 0; j < columnRemove.Rows.Count; j++)
-                                 {
-                                     if (columnRemove.Rows[j]["Value"].ToString() == column.FieldName)
-                                     {
-                                         flagAddColumn = false;
-                                     }
-                                 }
-                             }
-                             if (flagAddColumn)
-                             {
-                                 var field = (ModuleFieldInfo)column.Tag;
-                                 if (field != null)
-                                 {
-                                     fields.Add(field);
-                                     columns.Add(column.FieldName);
-                                     headers.Add(column.ToolTip);
-                                 }
-                             }
-                         }
+                        var flagAddColumn = true;
+                        if (column.Visible && column.VisibleIndex >= 0)
+                        {
+                            //TUDQ them
+                            if (modExport == 1 & columnRemove != null)
+                            {
+                                for (var j = 0; j < columnRemove.Rows.Count; j++)
+                                {
+                                    if (columnRemove.Rows[j]["Value"].ToString() == column.FieldName)
+                                    {
+                                        flagAddColumn = false;
+                                    }
+                                }
+                            }
+                            if (flagAddColumn)
+                            {
+                                var field = (ModuleFieldInfo)column.Tag;
+                                if (field != null)
+                                {
+                                    fields.Add(field);
+                                    columns.Add(column.FieldName);
+                                    headers.Add(column.ToolTip);
+                                }
+                            }
+                        }
                         //if (column.Visible && column.VisibleIndex >= 0)
                         //{
                         //    var field = (ModuleFieldInfo)column.Tag;
@@ -174,66 +173,66 @@ namespace FIS.AppClient.Controls
 
                     if ((string)this["E01"] == CODES.EXPORT.EXPORTTYPE.XML || (string)this["E01"] == CODES.EXPORT.EXPORTTYPE.TXT)
                     {
-                          CurrentThread = new WorkerThread(
-                            delegate(WorkerThread thread)
-                            {
-                                LockUserAction();
-                                ExportSuccess = false;
-                                    try
-                                    {
-                                        using (var ctrlSA = new SAController())
-                                        {
-                                            DataContainer container;
-                                            DataSet ds = new DataSet("main");
-                                            DataTable tempTable;
-                                            ctrlSA.FetchAllSearchResult(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, LastSearchResultKey, LastSearchTime, 0);
+                        CurrentThread = new WorkerThread(
+                          delegate (WorkerThread thread)
+                          {
+                              LockUserAction();
+                              ExportSuccess = false;
+                              try
+                              {
+                                  using (var ctrlSA = new SAController())
+                                  {
+                                      DataContainer container;
+                                      DataSet ds = new DataSet("main");
+                                      DataTable tempTable;
+                                      ctrlSA.FetchAllSearchResult(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, LastSearchResultKey, LastSearchTime, 0);
 
-                                            tempTable = container.GetTable(
-                                                FieldUtils.GetModuleFields(
-                                                    ModuleInfo.ModuleID,
-                                                    CODES.DEFMODFLD.FLDGROUP.SEARCH_COLUMN
-                                                ));
-                                            tempTable.TableName = "DATA_RECORD";                                                  
-                                            ds.Tables.Add(tempTable);
-                                            //ds.Tables.Add(table);
-                                            if ((string)this["E01"] == CODES.EXPORT.EXPORTTYPE.XML)
-                                            {
-                                                ds.WriteXml((string)this["E02"]);
-                                            }
-                                            else
-                                            {
-                                                WriteFileText(ds.Tables[0], (string)this["E02"]);
-                                            }
-                                            
-                                            
-                                            CurrentThread.JobName = string.Format(Language.SaveToFileStatus, exportFileName);
-                                            thread.ExecuteUpdateGUI(true);                                            
-                                        }
-                                        thread.JobName = Language.CompletedStatus;
-                                        thread.PercentComplete = 100;
-                                        ExportSuccess = true;    
-                                    }
-                                    catch (Exception ex)
-                                    {                            
-                                        ShowError(ex);
-                                    }
-                                    finally
-                                    {
-                                        UnLockUserAction();
-                                    }
-                                    thread.ExecuteUpdateGUI(true);
-                            }, this);
+                                      tempTable = container.GetTable(
+                                            FieldUtils.GetModuleFields(
+                                                ModuleInfo.ModuleID,
+                                                CODES.DEFMODFLD.FLDGROUP.SEARCH_COLUMN
+                                            ));
+                                      tempTable.TableName = "DATA_RECORD";
+                                      ds.Tables.Add(tempTable);
+                                      //ds.Tables.Add(table);
+                                      if ((string)this["E01"] == CODES.EXPORT.EXPORTTYPE.XML)
+                                      {
+                                          ds.WriteXml((string)this["E02"]);
+                                      }
+                                      else
+                                      {
+                                          WriteFileText(ds.Tables[0], (string)this["E02"]);
+                                      }
 
-                          btnExport.Enabled = false;
-                          CurrentThread.ProcessComplete += thread_ProcessComplete;
-                          CurrentThread.DoUpdateGUI += thread_DoUpdateGUI;
-                          CurrentThread.Start();          
+
+                                      CurrentThread.JobName = string.Format(Language.SaveToFileStatus, exportFileName);
+                                      thread.ExecuteUpdateGUI(true);
+                                  }
+                                  thread.JobName = Language.CompletedStatus;
+                                  thread.PercentComplete = 100;
+                                  ExportSuccess = true;
+                              }
+                              catch (Exception ex)
+                              {
+                                  ShowError(ex);
+                              }
+                              finally
+                              {
+                                  UnLockUserAction();
+                              }
+                              thread.ExecuteUpdateGUI(true);
+                          }, this);
+
+                        btnExport.Enabled = false;
+                        CurrentThread.ProcessComplete += thread_ProcessComplete;
+                        CurrentThread.DoUpdateGUI += thread_DoUpdateGUI;
+                        CurrentThread.Start();
                     }
                     else
                     {
                         var exporter = new DataTableExporter(columns.ToArray(), headers.ToArray(), ModuleInfo, fields.ToArray());
                         CurrentThread = new WorkerThread(
-                            delegate(WorkerThread thread)
+                            delegate (WorkerThread thread)
                             {
                                 LockUserAction();
                                 ExportSuccess = false;
@@ -335,7 +334,7 @@ namespace FIS.AppClient.Controls
 
                                 thread.ExecuteUpdateGUI(true);
                             }, this);
-                                       
+
                         btnExport.Enabled = false;
                         CurrentThread.ProcessComplete += thread_ProcessComplete;
                         CurrentThread.DoUpdateGUI += thread_DoUpdateGUI;
@@ -411,24 +410,33 @@ namespace FIS.AppClient.Controls
 
         void thread_DoUpdateGUI(object sender, EventArgs e)
         {
-            lbStatus.Text = ((WorkerThread) sender).JobName;
+            lbStatus.Text = ((WorkerThread)sender).JobName;
         }
 
         void thread_ProcessComplete(object sender, EventArgs e)
         {
-            if(ExportSuccess)
+            if (ExportSuccess)
             {
                 lnkFile.Text = (string)this["E02"];
-                lnkFile.Visible = true;      
-                // Update Feedback
+                lnkFile.Visible = true;
+                // Update Feedback 20/08/2020 bo sung them dieu kien thoi gian
                 if (ModuleInfo.ExecuteMode == CODES.DEFMOD.EXECMODE.FEEDBACK)
                 {
                     using (SAController ctrlSA = new SAController())
                     {
                         List<string> values = new List<string>();
                         values.Add(ModuleInfo.ModuleID);
-                        ctrlSA.ExecuteStoreProcedure("sp_feedback", values);                       
-                    }   
+                        if (LastSearchResultKey.IndexOf("(") > 0)
+                        {
+                            values.Add(LastSearchResultKey.Substring(LastSearchResultKey.IndexOf("(") + 1, LastSearchResultKey.Length - LastSearchResultKey.IndexOf("(") - 2));
+                        }
+                        else
+                        {
+                            values.Add("TRN_DT=" + DateTime.Now.ToString("MM/dd/yyyy"));
+                        }
+                        //ctrlSA.ExecuteStoreProcedure("sp_feedback", values);
+                        ctrlSA.ExecuteStoreProcedure("sp_feedback_by_date", values);
+                    }
                 }
             }
             foreach (var control in CommonControlByID.Values)

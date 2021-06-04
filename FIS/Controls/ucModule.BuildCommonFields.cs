@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using DevExpress.Utils;
+﻿using DevExpress.Utils;
 using DevExpress.Utils.Drawing;
+using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
+using DevExpress.XtraGrid;
 using DevExpress.XtraLayout;
+using DevExpress.XtraRichEdit;
+using DevExpress.XtraRichEdit.API.Native;
+using DevExpress.XtraRichEdit.Menu;
+using DevExpress.XtraSpellChecker;
+using FIS.AppClient.Utils;
 using FIS.Common;
 using FIS.Entities;
 using FIS.Entities.Extensions;
-using FIS.Extensions;
 using FIS.Utils;
-using System.Linq;
-using FIS.AppClient.Utils;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Base;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Controls;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
-using DevExpress.XtraRichEdit;
-using DevExpress.XtraSpellChecker;
-using DevExpress.Utils.Menu;
-using DevExpress.XtraRichEdit.API.Native;
-using DevExpress.XtraRichEdit.Menu;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -90,7 +86,7 @@ namespace FIS.AppClient.Controls
             {
                 if (field.ControlType == CODES.DEFMODFLD.CTRLTYPE.DEFINEDGROUP)
                     continue;
-                
+
                 var control = CreateControl(field);
                 control.Name = field.FieldName;
                 if (control is BaseEdit)
@@ -117,7 +113,7 @@ namespace FIS.AppClient.Controls
                     if (!_CommonControlByID.ContainsKey(field.FieldID))
                     {
                         _CommonControlByID.Add(field.FieldID, control);
-                        SetupControlListSourceControl(field, _CommonControlByID[field.FieldID]);                        
+                        SetupControlListSourceControl(field, _CommonControlByID[field.FieldID]);
                     }
                     else
                     {
@@ -150,10 +146,10 @@ namespace FIS.AppClient.Controls
         {
             var baseEdit = _CreateControl(fieldInfo);
 #if DEBUG
-            if(baseEdit is ButtonEdit && fieldInfo.FieldGroup == CODES.DEFMODFLD.FLDGROUP.COMMON)
+            if (baseEdit is ButtonEdit && fieldInfo.FieldGroup == CODES.DEFMODFLD.FLDGROUP.COMMON)
             {
                 var buttonEdit = baseEdit as ButtonEdit;
-                var button = new EditorButton(ButtonPredefines.Up) {Tag = "DEBUG_EDIT"};
+                var button = new EditorButton(ButtonPredefines.Up) { Tag = "DEBUG_EDIT" };
                 buttonEdit.Properties.Buttons.Add(button);
 
                 var context = new ContextMenuStrip();
@@ -189,9 +185,9 @@ namespace FIS.AppClient.Controls
                         };
 
                 buttonEdit.ButtonClick +=
-                    delegate(object sender, ButtonPressedEventArgs e)
+                    delegate (object sender, ButtonPressedEventArgs e)
                         {
-                            if(e.Button == button)
+                            if (e.Button == button)
                                 context.Show(new Point(MousePosition.X, MousePosition.Y));
                         };
             }
@@ -241,7 +237,7 @@ namespace FIS.AppClient.Controls
 
             return baseEdit;
         }
-        
+
         public virtual void SetupControlListSource(ModuleFieldInfo fieldInfo, BaseEdit edit)
         {
             switch (fieldInfo.ControlType)
@@ -262,7 +258,7 @@ namespace FIS.AppClient.Controls
                 case CODES.DEFMODFLD.CTRLTYPE.CHECKBOX:
                     SetControlListSource(edit);
                     break;
-                //End
+                    //End
             }
         }
         public virtual void SetupControlListSourceControl(ModuleFieldInfo fieldInfo, Control edit)
@@ -289,7 +285,7 @@ namespace FIS.AppClient.Controls
                         var editButton = new EditorButton(ButtonPredefines.Ellipsis);
                         comboBoxEdit.Properties.Buttons.Add(editButton);
 
-                        comboBoxEdit.ButtonClick += delegate(object sender, ButtonPressedEventArgs e)
+                        comboBoxEdit.ButtonClick += delegate (object sender, ButtonPressedEventArgs e)
                         {
                             if (e.Button == editButton)
                             {
@@ -307,7 +303,7 @@ namespace FIS.AppClient.Controls
                     var suggestionTextEdit = CreateSuggestionTextBoxControl(fieldInfo);
                     return suggestionTextEdit;
                 case CODES.DEFMODFLD.CTRLTYPE.DATETIME:
-                    var dateEdit =  CreateDateEdit(fieldInfo);
+                    var dateEdit = CreateDateEdit(fieldInfo);
                     if (string.IsNullOrEmpty(fieldInfo.FieldFormat))
                     {
                         fieldInfo.FieldFormat = CONSTANTS.DEFAULT_DATETIME_FORMAT;
@@ -320,21 +316,21 @@ namespace FIS.AppClient.Controls
                     var editLookUp = CreateLookUpEditControl(fieldInfo);
                     return editLookUp;
                 case CODES.DEFMODFLD.CTRLTYPE.UPLOADFILE:
-                   return CreateOpenFileControl(fieldInfo);
+                    return CreateOpenFileControl(fieldInfo);
                 case CODES.DEFMODFLD.CTRLTYPE.RICHTEXTEDITOR:
-                   return CreateRichTextEdit(fieldInfo);
+                    return CreateRichTextEdit(fieldInfo);
                 //add by TrungTT - 28.11.2011 - Create GridView Control
                 case CODES.DEFMODFLD.CTRLTYPE.GRIDVIEW:
-                   return CreateGridViewControl(fieldInfo);
+                    return CreateGridViewControl(fieldInfo);
                 //End TrungTT
                 //TuDQ them
                 case CODES.DEFMODFLD.CTRLTYPE.RADIOGROUP:
-                   var radioGroupEdit = CreateRadioGroupControl(fieldInfo);
-                   return radioGroupEdit;
+                    var radioGroupEdit = CreateRadioGroupControl(fieldInfo);
+                    return radioGroupEdit;
                 case CODES.DEFMODFLD.CTRLTYPE.CHECKBOX:
-                   var checkBoxEdit = CreateCheckBoxControl(fieldInfo);
-                   return checkBoxEdit;
-                //End
+                    var checkBoxEdit = CreateCheckBoxControl(fieldInfo);
+                    return checkBoxEdit;
+                    //End
             }
 
             throw ErrorUtils.CreateError(ERR_SYSTEM.ERR_SYSTEM_CONTROL_TYPE_NOT_FOUND);
@@ -344,10 +340,10 @@ namespace FIS.AppClient.Controls
         {
             //
             var expression = ExpressionUtils.ParseScript(fieldInfo.ListSource);
-            
+
             if (expression.Operands.Count != 1 && expression.Operands.Count != 2) ErrorUtils.CreateError(ERR_SYSTEM.ERR_SYSTEM_LOOKUP_EXPRESSION_REQUIRE_ONE_OR_TWO_ARGUMENTS);
-            
-            foreach(var operand in expression.Operands)
+
+            foreach (var operand in expression.Operands)
             {
                 if (operand.Type != OperandType.VALUE)
                 {
@@ -356,7 +352,7 @@ namespace FIS.AppClient.Controls
             }
             //
             var moduleLookUp = (SearchModuleInfo)((ICloneable)ModuleUtils.GetModuleInfo(expression.StoreProcName, CODES.DEFMOD.SUBMOD.MODULE_MAIN)).Clone();
-            if(expression.Operands.Count == 1)
+            if (expression.Operands.Count == 1)
                 moduleLookUp.SetAsLookUpWindow(expression.Operands[0].NameOrValue);
             else
                 moduleLookUp.SetAsLookUpWindow(expression.Operands[0].NameOrValue, expression.Operands[1].NameOrValue);
@@ -367,7 +363,7 @@ namespace FIS.AppClient.Controls
             btnEdit.Properties.Buttons.Add(new EditorButton(ButtonPredefines.Delete));
 
             btnEdit.ButtonClick +=
-                delegate(object sender, ButtonPressedEventArgs e)
+                delegate (object sender, ButtonPressedEventArgs e)
                     {
                         if (e.Button.Kind == ButtonPredefines.Delete)
                         {
@@ -378,7 +374,7 @@ namespace FIS.AppClient.Controls
                             var module = (ucSearchMaster)MainProcess.CreateModuleInstance((ModuleInfo)e.Button.Tag);
                             module.ShowDialogModule(this);
 
-                            if(!string.IsNullOrEmpty(module.LookUpValues))
+                            if (!string.IsNullOrEmpty(module.LookUpValues))
                             {
                                 if (btnEdit.EditValue is string && (string)btnEdit.EditValue != string.Empty)
                                     btnEdit.EditValue = string.Format("{0},{1}", btnEdit.EditValue, module.LookUpValues);
@@ -410,21 +406,21 @@ namespace FIS.AppClient.Controls
                 Name = string.Format(CONSTANTS.TEXTINPUT_NAME_FORMAT, fieldInfo.FieldName),
                 Tag = fieldInfo,
                 EnterMoveNextControl = true
-            };          
+            };
 
             var button = txtButtonEdit.Properties.Buttons[0];
             button.Tag = fieldInfo.ListSource;
-            
-            txtButtonEdit.ButtonClick += delegate(object sender, ButtonPressedEventArgs e)
+
+            txtButtonEdit.ButtonClick += delegate (object sender, ButtonPressedEventArgs e)
                                        {
-                                           if(e.Button == button)
+                                           if (e.Button == button)
                                            {
                                                var dialog = new SaveFileDialog { Filter = (string)button.Tag };
 
                                                if (dialog.ShowDialog() == DialogResult.OK)
                                                {
                                                    txtButtonEdit.Text = dialog.FileName;
-                                               }                                               
+                                               }
                                            }
                                        };
             return txtButtonEdit;
@@ -445,31 +441,31 @@ namespace FIS.AppClient.Controls
             var button = txtButtonEdit.Properties.Buttons[0];
             button.Tag = fieldInfo.ListSource;
 
-            txtButtonEdit.ButtonClick += delegate(object sender, ButtonPressedEventArgs e)
+            txtButtonEdit.ButtonClick += delegate (object sender, ButtonPressedEventArgs e)
             {
                 if (e.Button == button)
                 {
-                        try
-                        {
-                            Program.strExecMod = ModuleInfo.ExecuteMode.ToString();
-                            //var targetModule = (ucSearchMaster)MainProcess.CreateModuleInstance(STATICMODULE.UPFILE_MODID);
-                            var targetModule =
-                                (ucUploadFile) MainProcess.CreateModuleInstance(STATICMODULE.UPFILE_MODULE);
+                    try
+                    {
+                        Program.strExecMod = ModuleInfo.ExecuteMode.ToString();
+                        //var targetModule = (ucSearchMaster)MainProcess.CreateModuleInstance(STATICMODULE.UPFILE_MODID);
+                        var targetModule =
+                            (ucUploadFile)MainProcess.CreateModuleInstance(STATICMODULE.UPFILE_MODULE);
 
-                            //if (targetModule is ucSearchMaster)
-                            if(targetModule is ucUploadFile)
-                                targetModule.ShowDialogModule(this);
-                            if(Program.blCheckFile)
-                                //txtButtonEdit.Text = "(File attached)";
-                                txtButtonEdit.Text = Program.FileName;
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowError(ex);
-                        }
-                        
-                 }
-               // }
+                        //if (targetModule is ucSearchMaster)
+                        if (targetModule is ucUploadFile)
+                            targetModule.ShowDialogModule(this);
+                        if (Program.blCheckFile)
+                            //txtButtonEdit.Text = "(File attached)";
+                            txtButtonEdit.Text = Program.FileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowError(ex);
+                    }
+
+                }
+                // }
             };
 
             return txtButtonEdit;
@@ -482,11 +478,11 @@ namespace FIS.AppClient.Controls
             {
                 Name = string.Format(CONSTANTS.TEXTINPUT_NAME_FORMAT, fieldInfo.FieldName),
                 Tag = fieldInfo,
-                EnterMoveNextControl = true               
-            };        
-            
-            switch(fieldInfo.TextCase)
-            {                
+                EnterMoveNextControl = true
+            };
+
+            switch (fieldInfo.TextCase)
+            {
                 case CONSTANTS.TEXTCASE_U:
                     txtControl.Properties.CharacterCasing = CharacterCasing.Upper;
                     break;
@@ -496,13 +492,13 @@ namespace FIS.AppClient.Controls
                 default:
                     txtControl.Properties.CharacterCasing = CharacterCasing.Normal;
                     break;
-            }            
+            }
 
             txtControl.Properties.Buttons.RemoveAt(0);
             if (fieldInfo.MaxLength > 0)
             {
-                txtControl.Properties.MaxLength = fieldInfo.MaxLength;               
-            }            
+                txtControl.Properties.MaxLength = fieldInfo.MaxLength;
+            }
 #else
             var txtControl = new TextEdit
             {
@@ -528,7 +524,7 @@ namespace FIS.AppClient.Controls
             }
 #endif
             return txtControl;
-        }      
+        }
 
         protected virtual TextEdit CreateLabelControl(ModuleFieldInfo fieldInfo)
         {
@@ -584,7 +580,7 @@ namespace FIS.AppClient.Controls
         {
             var gridControl = new GridControl
             {
-                Name = string.Format(CONSTANTS.GRIDVIEW_NAME_FORMAT,fieldInfo.FieldName),
+                Name = string.Format(CONSTANTS.GRIDVIEW_NAME_FORMAT, fieldInfo.FieldName),
                 Tag = fieldInfo
             };
 
@@ -612,7 +608,7 @@ namespace FIS.AppClient.Controls
 
             txtPassword.Properties.PasswordChar = '*';
 
-            return txtPassword;            
+            return txtPassword;
         }
 
         protected virtual MemoEdit CreateTextAreaControl(ModuleFieldInfo fieldInfo)
@@ -630,7 +626,7 @@ namespace FIS.AppClient.Controls
             if (fieldInfo.MaxLength > 0)
             {
                 txtControl.Properties.MaxLength = fieldInfo.MaxLength;
-            } 
+            }
             return txtControl;
         }
         /// <summary>
@@ -656,10 +652,10 @@ namespace FIS.AppClient.Controls
             dictionary1.AlphabetPath = @"..\..\EnglishAlphabet.txt";
             dictionary1.Load();
             spellChecker1.Dictionaries.Add(dictionary1);
-            rtControl.PopupMenuShowing +=new DevExpress.XtraRichEdit.PopupMenuShowingEventHandler(rtControl_PopupMenuShowing);
+            rtControl.PopupMenuShowing += new DevExpress.XtraRichEdit.PopupMenuShowingEventHandler(rtControl_PopupMenuShowing);
             return rtControl;
         }
-        
+
 
         protected ComboBoxEdit CreateSuggestionTextBoxControl(ModuleFieldInfo fieldInfo)
         {
@@ -678,12 +674,12 @@ namespace FIS.AppClient.Controls
         {
             // 1. Create Popup Edit
             var ccbControl = new PopupContainerEdit
-                                 {
-                                     Name = string.Format(CONSTANTS.CHECKEDCOMBOBOX_NAME_FORMAT, fieldInfo.FieldName),
-                                     Tag = fieldInfo,
-                                     EnterMoveNextControl = true,
-                                     EditValue = null
-                                 };
+            {
+                Name = string.Format(CONSTANTS.CHECKEDCOMBOBOX_NAME_FORMAT, fieldInfo.FieldName),
+                Tag = fieldInfo,
+                EnterMoveNextControl = true,
+                EditValue = null
+            };
             //ccbControl.Properties.TextEditStyle = TextEditStyles.Standard;
             ccbControl.Properties.TextEditStyle = TextEditStyles.DisableTextEditor;
             ccbControl.Properties.PopupFormMinSize = new Size(750, 350);
@@ -706,11 +702,11 @@ namespace FIS.AppClient.Controls
 
             // 4. Create Bound Panel
             var boundPanel = new TableLayoutPanel
-                                 {
-                                     Dock = DockStyle.Fill,
-                                     RowCount = 2,
-                                     ColumnCount = 1
-                                };
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 2,
+                ColumnCount = 1
+            };
             // Bound Panel --> Add Items & Buttons Panel to Bound Panel
             boundPanel.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             boundPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
@@ -735,7 +731,7 @@ namespace FIS.AppClient.Controls
                 hozItemsPanel.ResumeLayout(true);
             };
             // QueryResultValue => Parse checked items to Text
-            ccbControl.QueryResultValue += delegate(object sender, QueryResultValueEventArgs e)
+            ccbControl.QueryResultValue += delegate (object sender, QueryResultValueEventArgs e)
             {
                 var list = (from CheckEdit item in hozItemsPanel.Controls
                             where item.Checked
@@ -757,7 +753,7 @@ namespace FIS.AppClient.Controls
             #region Add Checkall button
             var checkAll = new CheckEdit { Text = "" };
             checkAll.Properties.AutoWidth = true;
-            
+
             checkAll.CheckedChanged += delegate
             {
                 hozItemsPanel.SuspendLayout();
@@ -768,7 +764,7 @@ namespace FIS.AppClient.Controls
                 }
                 hozItemsPanel.ResumeLayout(true);
             };
-            
+
             panel.Controls.Add(checkAll);
             #endregion
 
@@ -781,12 +777,12 @@ namespace FIS.AppClient.Controls
             //panel.Controls.Add(txtFilter);
             #region 0-9 button
             var btnNum = new SimpleButton
-                             {
-                                 Width = 44,
-                                 Height = 22,
-                                 Margin = new Padding(0),
-                                 Text = "0-9"
-                             };
+            {
+                Width = 44,
+                Height = 22,
+                Margin = new Padding(0),
+                Text = "0-9"
+            };
             btnNum.Click += delegate
                                 {
                                     hozItemsPanel.SuspendLayout();
@@ -871,9 +867,9 @@ namespace FIS.AppClient.Controls
                     var cache = new GraphicsCache(memoEdit.CreateGraphics());
                     var h = ((IHeightAdaptable)vi).CalcHeight(cache, vi.MaskBoxRect.Width);
                     var args = new ObjectInfoArgs
-                                   {
-                                       Bounds = new Rectangle(0, 0, vi.ClientRect.Width, h)
-                                   };
+                    {
+                        Bounds = new Rectangle(0, 0, vi.ClientRect.Width, h)
+                    };
                     var rect = vi.BorderPainter.CalcBoundsByClientRectangle(args);
                     cache.Dispose();
                     memoEdit.Properties.ScrollBars = rect.Height > memoEdit.Height ? ScrollBars.Vertical : ScrollBars.None;

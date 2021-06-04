@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FIS.Common;
+using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using FIS.Common;
-using Oracle.DataAccess.Client;
 
 namespace FIS.Base
 {
@@ -40,7 +40,7 @@ namespace FIS.Base
                 if (field != null)
                 {
                     var rowSize = (long)field.GetValue(value);
-                    if(rowSize > 0)
+                    if (rowSize > 0)
                     {
                         value.FetchSize = rowSize * CONSTANTS.MAX_ROWS_IN_BUFFER;
                     }
@@ -54,7 +54,7 @@ namespace FIS.Base
                     {
                         CachedResult.Columns.Add((string)rowSchema["ColumnName"], (Type)rowSchema["DataType"]);
                     }
-                    if (m_AdapDataReader != null) IsBufferMode = false;                    
+                    if (m_AdapDataReader != null) IsBufferMode = false;
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace FIS.Base
                         if (!CachedResult.Columns.Contains((string)rowSchema["ColumnName"]))
                             CachedResult.Columns.Add((string)rowSchema["ColumnName"], (Type)rowSchema["DataType"]);
                     }
-                    if (m_AdapDataReader2 != null) IsBufferMode = false;                    
+                    if (m_AdapDataReader2 != null) IsBufferMode = false;
                 }
             }
         }
