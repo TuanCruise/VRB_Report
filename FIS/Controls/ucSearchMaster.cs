@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
-using DevExpress.Utils;
+﻿using DevExpress.Utils;
 using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
+using DevExpress.XtraRichEdit;
 using FIS.AppClient.Interface;
+using FIS.AppClient.Properties;
 using FIS.AppClient.Utils;
 using FIS.Base;
 using FIS.Common;
@@ -21,20 +17,17 @@ using FIS.Controllers;
 using FIS.Entities;
 using FIS.Extensions;
 using FIS.Utils;
-using FIS.AppClient.Properties;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
-using DevExpress.XtraLayout;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Linq;
+using System.ServiceModel;
+using System.Windows.Forms;
 using Shortcut = System.Windows.Forms.Shortcut;
-using DevExpress.XtraRichEdit;
-using DevExpress.XtraRichEdit.Commands;
-using DevExpress.Utils.Commands;
-using System.IO.Packaging;
-using System.Net;
-using System.Net.Mail;
 
 namespace FIS.AppClient.Controls
-{   
+{
     public partial class ucSearchMaster : ucModule,
         IConditionFieldSupportedModule,
         IColumnFieldSupportedModule,
@@ -364,8 +357,6 @@ namespace FIS.AppClient.Controls
             catch
             {
                 mainLayout.HideItem(mainLayout.GetItemByControl(btnExport));
-                mainLayout.HideItem(mainLayout.GetItemByControl(btnExportRichEdit));
-                mainLayout.HideItem(mainLayout.GetItemByControl(btnPutMsg2Web));
             }
 
             if(string.IsNullOrEmpty(SearchInfo.EditStore))
@@ -410,8 +401,6 @@ namespace FIS.AppClient.Controls
                 if (BufferResult != null && BufferResult.Rows.Count > 0)
                 {
                     btnExport.Enabled = true;
-                    btnExportRichEdit.Enabled = true;
-                    btnPutMsg2Web.Enabled = true;
                 }
             }
         }
@@ -928,9 +917,6 @@ namespace FIS.AppClient.Controls
             try
             {
                 btnExport.Enabled = false;
-                btnExportRichEdit.Enabled = false;
-                btnPutMsg2Web.Enabled = false;
-
                 cboPages.SelectedIndexChanged -= cboPages_SelectedIndexChanged;
                 cboPages.ButtonClick -= cboPages_ButtonClick;
 
@@ -1147,8 +1133,6 @@ namespace FIS.AppClient.Controls
                         var exportInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEARCH_EXPORT);
                         ctrlSA.CheckRole(exportInfo);
                         btnExport.Enabled = true;
-                        btnExportRichEdit.Enabled = true;
-                        btnPutMsg2Web.Enabled = true;
                     }
                 }
                 catch
@@ -1588,149 +1572,6 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-
-        private void btnExportRichEdit_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.DefaultExt = "txt";
-            saveFileDialog1.Filter = "MS Word 97-2003 |*.doc|MS Word 2007 (*.docx)|*.docx|RichTextFile (*.rtf)|*.rtf";//|All files (*.*)|*.*";
-            saveFileDialog1.AddExtension = true;
-            saveFileDialog1.RestoreDirectory = true;
-            //saveFileDialog1.Title = "Where do you want to save the file?";
-
-            //saveFileDialog1.InitialDirectory = @"C:/";
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                //MessageBox.Show("You selected the file: " + saveFileDialog1.FileName);
-                switch (saveFileDialog1.FilterIndex)
-                {
-                    case 1:
-                        richEdit.SaveDocument(saveFileDialog1.FileName, DocumentFormat.Doc);
-                        break;
-                    case 2:
-                        richEdit.SaveDocument(saveFileDialog1.FileName, DocumentFormat.OpenXml);
-                        break;
-                    case 3:
-                        richEdit.SaveDocument(saveFileDialog1.FileName, DocumentFormat.Rtf);
-                        break;
-                }
-            }
-            saveFileDialog1.Dispose();
-            saveFileDialog1 = null;
-        }
-        static string newPath;
-        private void btnPutMsg2Web_Click(object sender, EventArgs e)
-        {
-            
-            var selectedRows = GetSelectedRows();
-            string strMsgID = selectedRows[0]["TXNUM"].ToString();
-            using (var ctrlSA = new SAController())
-            {
-                DataContainer container = null;
-                DataContainer containerFTP = null;
-
-                List<string> listParam = new List<string>();
-                List<string> listParamFTP = new List<string>();
-                listParam.Add(strMsgID);
-                ctrlSA.ExecuteStoreProcedure("SP_INS_MSG_TO_GMS",listParam);
-                ctrlSA.ExecuteProcedureFillDataset(out container, "SP_FILES_SEL_BY_TXNUM",listParam);
-                ctrlSA.ExecuteProcedureFillDataset(out containerFTP, "SP_FTPCONFIG_SEL", listParamFTP);
-                
-                if (container != null && container.DataTable != null)
-                {
-                    var resultTable = container.DataTable;
-
-                    if (resultTable.Rows.Count > 0)
-                    {
-                        for (int i = 0; i <= resultTable.Rows.Count - 1; i++)
-                        {
-                            using (System.IO.MemoryStream ms = new System.IO.MemoryStream((Byte[])resultTable.Rows[i]["filestore"]))
-                            {
-                                StreamReader memoryReader = new StreamReader(ms);
-
-                               /* SaveFileDialog dlg = new SaveFileDialog();
-                                dlg.FileName = resultTable.Rows[i]["filename"].ToString();
-                                if (dlg.ShowDialog() == DialogResult.OK)
-                                {
-                                    ms.WriteTo(dlg.OpenFile());
-                                }*/
-                                string activeDir = @"c:\";
-                                newPath = System.IO.Path.Combine(activeDir, "AutoTemp");
-                                System.IO.Directory.CreateDirectory(newPath);
-                                FileStream fs = new FileStream(newPath+ @"\" +resultTable.Rows[i]["filename"].ToString(), FileMode.Create);
-                                ms.WriteTo(fs);
-                                fs.Close();
-                                memoryReader.Close();
-                                ms.Close();
-                            }
-                        }
-                        var resultFTP = containerFTP.DataTable;
-                        List<string> fileList = new List<string>();
-                        for (int i = 0; i <= resultTable.Rows.Count - 1; i++)
-                        {
-                            //string zipFilename = newPath + @"\" + resultTable.Rows[i]["file_name_put"].ToString();
-                            string fileToAdd = newPath + @"\" + resultTable.Rows[i]["filename"].ToString();
-                            //AddFileToZip(zipFilename, fileToAdd);
-                            fileList.Add(fileToAdd);
-                        }
-                        string zipFilename = newPath + @"\" + resultTable.Rows[0]["file_name_put"].ToString();
-                        AddMultiFileToZip(zipFilename, fileList);
-
-                        string filePut = newPath + @"\" + resultTable.Rows[0]["file_name_put"].ToString();
-                        string fTPServer = resultFTP.Rows[0]["SERVERNAME"].ToString();
-                        string username = resultFTP.Rows[0]["USERNAME"].ToString();
-                        string password = resultFTP.Rows[0]["PASSWORD"].ToString();
-                        string fileName = resultTable.Rows[0]["file_name_put"].ToString();
-                        PutMsgToWeb(filePut, fTPServer, username, password, fileName);
-                    }
-                    else
-                    {
-                        //throw ErrorUtils.CreateError(ERR_FILE.ERR_FILE_IS_NOT_ATTACKED);
-                    }
-                    
-                }
-                
-            }
-        }
-        private static void AddMultiFileToZip(string zipFilename, List<string> AttachmentFiles)
-        {
-            try
-            {
-                using (ZipOutputStream s = new ZipOutputStream(File.Create(zipFilename)))
-                {
-                    s.SetLevel(9); // 0-9, 9 being the highest compression
-
-                    byte[] buffer = new byte[4096];
-
-                    foreach (string file in AttachmentFiles)
-                    {
-
-                        ZipEntry entry = new ZipEntry(Path.GetFileName(file));
-
-                        entry.DateTime = DateTime.Now;
-                        s.PutNextEntry(entry);
-
-                        using (FileStream fs = File.OpenRead(file))
-                        {
-                            int sourceBytes;
-                            do
-                            {
-                                sourceBytes = fs.Read(buffer, 0,buffer.Length);
-                                s.Write(buffer, 0, sourceBytes);
-                            } 
-                            while (sourceBytes > 0);
-                        }
-                    }
-                    s.Finish();
-                    s.Close();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        
         
         public void checkFormatConditions()
         {
@@ -1769,63 +1610,5 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-        
-        private const int BUFFER_SIZE = 4096;
-        
-
-        private  static  void PutMsgToWeb(string filePath,string fTPServer,string username,string password,string fileName)
-        {
-            if ((filePath != string.Empty) && (fTPServer != string.Empty) &&(username != string.Empty) && (password != string.Empty))
-            {
-                FtpWebRequest request;
-                FtpWebResponse response;
-
-                Stream sourceStream = new MemoryStream();
-                Stream requestStream = sourceStream;
-
-                try
-                {
-                    request = (FtpWebRequest)WebRequest.Create(fTPServer + '/' + fileName);
-                    request.Method = WebRequestMethods.Ftp.UploadFile;
-                    request.Credentials = new NetworkCredential(username, password);
-
-                    sourceStream = new FileStream(filePath, FileMode.Open);
-
-                    requestStream = request.GetRequestStream();
-                    request.ContentLength = sourceStream.Length;
-
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    int bytesRead = sourceStream.Read(buffer, 0, BUFFER_SIZE);
-
-                    do
-                    {
-                        requestStream.Write(buffer, 0, bytesRead);
-                        bytesRead = sourceStream.Read(buffer, 0, BUFFER_SIZE);
-
-                    } while (bytesRead > 0);
-
-                    sourceStream.Close();
-                    requestStream.Close();
-
-                    response = (FtpWebResponse)request.GetResponse();
-                    //processResultToolStripStatusLabel.Text = string.Format("Upload Complete, Status Code: {0}", response.StatusDescription);
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-                finally
-                {
-                    request = null;
-
-                    sourceStream.Close();
-                    sourceStream = null;
-
-                    requestStream.Close();
-                    requestStream = null;
-                }
-            }
-        }
-        
     }
 }

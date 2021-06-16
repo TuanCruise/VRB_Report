@@ -719,12 +719,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="COMS_ICON.ico" />
-    <Content Include="Help\SMS_Help.chm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Help\SMS_TV_Help.chm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Reports\RPT001.repx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1361,9 +1355,6 @@
     <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="Utils\MainProcess.cs" />
     <None Include="frmMain.resx.bak" />
-    <Content Include="Help\IMSS.chm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\STOREEXECUTE.png" />
     <None Include="Resources\ICON_MODULE.png" />
     <None Include="Resources\Refresh.png" />
@@ -3243,7 +3234,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Help\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TargetPath).locked" del "$(TargetPath).locked"

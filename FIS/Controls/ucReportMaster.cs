@@ -185,6 +185,10 @@ namespace FIS.AppClient.Controls
                     {
                         ShowError(ex);
                     }
+                    finally
+                    {
+                        UnLockUserAction();
+                    }
               }, this);
 
             CurrentThread.ProcessComplete += ExecuteFetchResult_ProcessCompleteMail;

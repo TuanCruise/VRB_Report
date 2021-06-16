@@ -41,8 +41,6 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.btnSearch = new DevExpress.XtraEditors.SimpleButton();
             this.mainLayout = new DevExpress.XtraLayout.LayoutControl();
-            this.btnPutMsg2Web = new DevExpress.XtraEditors.SimpleButton();
-            this.btnExportRichEdit = new DevExpress.XtraEditors.SimpleButton();
             this.btnCopyStatus = new DevExpress.XtraEditors.SimpleButton();
             this.btnEdit = new DevExpress.XtraEditors.SimpleButton();
             this.btnCalcColumnSize = new DevExpress.XtraEditors.SimpleButton();
@@ -67,9 +65,7 @@
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutBtnEdit = new DevExpress.XtraLayout.LayoutControlItem();
             this.btnCopyStatusItem = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainBarManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainLayout)).BeginInit();
@@ -93,9 +89,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutBtnEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCopyStatusItem)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             this.SuspendLayout();
             // 
             // mainBarManager
@@ -129,27 +123,32 @@
             this.standaloneBarDockControl1.AutoSizeInLayoutControl = false;
             this.standaloneBarDockControl1.CausesValidation = false;
             resources.ApplyResources(this.standaloneBarDockControl1, "standaloneBarDockControl1");
+            this.standaloneBarDockControl1.Manager = this.mainBarManager;
             this.standaloneBarDockControl1.Name = "standaloneBarDockControl1";
             // 
             // barDockControlTop
             // 
             this.barDockControlTop.CausesValidation = false;
             resources.ApplyResources(this.barDockControlTop, "barDockControlTop");
+            this.barDockControlTop.Manager = this.mainBarManager;
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             resources.ApplyResources(this.barDockControlBottom, "barDockControlBottom");
+            this.barDockControlBottom.Manager = this.mainBarManager;
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.CausesValidation = false;
             resources.ApplyResources(this.barDockControlLeft, "barDockControlLeft");
+            this.barDockControlLeft.Manager = this.mainBarManager;
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             resources.ApplyResources(this.barDockControlRight, "barDockControlRight");
+            this.barDockControlRight.Manager = this.mainBarManager;
             // 
             // btnSearch
             // 
@@ -160,9 +159,7 @@
             // 
             // mainLayout
             // 
-            this.mainLayout.AllowCustomizationMenu = false;
-            this.mainLayout.Controls.Add(this.btnPutMsg2Web);
-            this.mainLayout.Controls.Add(this.btnExportRichEdit);
+            this.mainLayout.AllowCustomization = false;
             this.mainLayout.Controls.Add(this.btnCopyStatus);
             this.mainLayout.Controls.Add(this.btnEdit);
             this.mainLayout.Controls.Add(this.btnCalcColumnSize);
@@ -185,28 +182,10 @@
             this.mainLayout.OptionsView.AllowItemSkinning = false;
             this.mainLayout.Root = this.layoutControlGroup1;
             // 
-            // btnPutMsg2Web
-            // 
-            resources.ApplyResources(this.btnPutMsg2Web, "btnPutMsg2Web");
-            this.btnPutMsg2Web.Image = global::FIS.AppClient.Properties.Resources.EXPORT;
-            this.btnPutMsg2Web.Name = "btnPutMsg2Web";
-            this.btnPutMsg2Web.StyleController = this.mainLayout;
-            this.btnPutMsg2Web.TabStop = false;
-            this.btnPutMsg2Web.Click += new System.EventHandler(this.btnPutMsg2Web_Click);
-            // 
-            // btnExportRichEdit
-            // 
-            resources.ApplyResources(this.btnExportRichEdit, "btnExportRichEdit");
-            this.btnExportRichEdit.Image = global::FIS.AppClient.Properties.Resources.EXPORT;
-            this.btnExportRichEdit.Name = "btnExportRichEdit";
-            this.btnExportRichEdit.StyleController = this.mainLayout;
-            this.btnExportRichEdit.TabStop = false;
-            this.btnExportRichEdit.Click += new System.EventHandler(this.btnExportRichEdit_Click);
-            // 
             // btnCopyStatus
             // 
             this.btnCopyStatus.AllowFocus = false;
-            this.btnCopyStatus.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnCopyStatus.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             resources.ApplyResources(this.btnCopyStatus, "btnCopyStatus");
             this.btnCopyStatus.Name = "btnCopyStatus";
             this.btnCopyStatus.StyleController = this.mainLayout;
@@ -222,8 +201,8 @@
             // 
             // btnCalcColumnSize
             // 
-            this.btnCalcColumnSize.Image = global::FIS.AppClient.Properties.Resources.AutoSize;
-            this.btnCalcColumnSize.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnCalcColumnSize.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.AutoSize;
+            this.btnCalcColumnSize.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             resources.ApplyResources(this.btnCalcColumnSize, "btnCalcColumnSize");
             this.btnCalcColumnSize.Name = "btnCalcColumnSize";
             this.btnCalcColumnSize.StyleController = this.mainLayout;
@@ -273,8 +252,8 @@
             this.gvMain.OptionsView.EnableAppearanceEvenRow = true;
             this.gvMain.OptionsView.EnableAppearanceOddRow = true;
             this.gvMain.OptionsView.ShowAutoFilterRow = true;
+            this.gvMain.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowOnlyInEditor;
             this.gvMain.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
-            this.gvMain.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowOnlyInEditor;
             this.gvMain.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gvMain_CustomDrawRowIndicator);
             this.gvMain.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gvMain_CustomDrawCell);
             this.gvMain.ShowGridMenu += new DevExpress.XtraGrid.Views.Grid.GridMenuEventHandler(this.gvMain_ShowGridMenu);
@@ -293,7 +272,7 @@
             // 
             // searchConditionLayout
             // 
-            this.searchConditionLayout.AllowCustomizationMenu = false;
+            this.searchConditionLayout.AllowCustomization = false;
             resources.ApplyResources(this.searchConditionLayout, "searchConditionLayout");
             this.searchConditionLayout.Name = "searchConditionLayout";
             this.searchConditionLayout.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(52, 206, 250, 350);
@@ -304,7 +283,6 @@
             resources.ApplyResources(this.rootConditionGroup, "rootConditionGroup");
             this.rootConditionGroup.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.rootConditionGroup.GroupBordersVisible = false;
-            this.rootConditionGroup.Location = new System.Drawing.Point(0, 0);
             this.rootConditionGroup.Name = "Root";
             this.rootConditionGroup.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
             this.rootConditionGroup.Size = new System.Drawing.Size(819, 159);
@@ -315,7 +293,7 @@
             resources.ApplyResources(this.cboPages, "cboPages");
             this.cboPages.MenuManager = this.mainBarManager;
             this.cboPages.Name = "cboPages";
-            this.cboPages.Properties.Appearance.BackColor = ((System.Drawing.Color)(resources.GetObject("cboPages.Properties.Appearance.BackColor")));
+            this.cboPages.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(245)))), ((int)(((byte)(241)))));
             this.cboPages.Properties.Appearance.Options.UseBackColor = true;
             this.cboPages.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(((DevExpress.XtraEditors.Controls.ButtonPredefines)(resources.GetObject("cboPages.Properties.Buttons"))))});
@@ -338,10 +316,7 @@
             this.layoutControlItem4,
             this.layoutBtnEdit,
             this.btnCopyStatusItem,
-            this.layoutControlItem7,
-            this.emptySpaceItem1,
-            this.layoutControlItem5});
-            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
+            this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
             this.layoutControlGroup1.Size = new System.Drawing.Size(829, 494);
@@ -353,7 +328,7 @@
             this.cboPageItem.AppearanceItemCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.cboPageItem.Control = this.cboPages;
             resources.ApplyResources(this.cboPageItem, "cboPageItem");
-            this.cboPageItem.Image = global::FIS.AppClient.Properties.Resources.PAGE;
+            this.cboPageItem.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.PAGE;
             this.cboPageItem.Location = new System.Drawing.Point(199, 468);
             this.cboPageItem.MaxSize = new System.Drawing.Size(600, 24);
             this.cboPageItem.MinSize = new System.Drawing.Size(600, 24);
@@ -368,10 +343,9 @@
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.btnSearch;
-            this.layoutControlItem2.ControlAlignment = System.Drawing.ContentAlignment.MiddleRight;
             resources.ApplyResources(this.layoutControlItem2, "layoutControlItem2");
             this.layoutControlItem2.FillControlToClientArea = false;
-            this.layoutControlItem2.Location = new System.Drawing.Point(744, 221);
+            this.layoutControlItem2.Location = new System.Drawing.Point(744, 223);
             this.layoutControlItem2.MaxSize = new System.Drawing.Size(85, 26);
             this.layoutControlItem2.MinSize = new System.Drawing.Size(85, 26);
             this.layoutControlItem2.Name = "layoutControlItem2";
@@ -379,7 +353,6 @@
             this.layoutControlItem2.Size = new System.Drawing.Size(85, 26);
             this.layoutControlItem2.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem2.TextToControlDistance = 0;
             this.layoutControlItem2.TextVisible = false;
             this.layoutControlItem2.TrimClientAreaToControl = false;
             // 
@@ -390,7 +363,7 @@
             this.txtSearchStatus.AppearanceItemCaption.Font = ((System.Drawing.Font)(resources.GetObject("txtSearchStatus.AppearanceItemCaption.Font")));
             this.txtSearchStatus.AppearanceItemCaption.Options.UseFont = true;
             resources.ApplyResources(this.txtSearchStatus, "txtSearchStatus");
-            this.txtSearchStatus.Location = new System.Drawing.Point(34, 221);
+            this.txtSearchStatus.Location = new System.Drawing.Point(34, 223);
             this.txtSearchStatus.Name = "txtSearchStatus";
             this.txtSearchStatus.Size = new System.Drawing.Size(266, 26);
             this.txtSearchStatus.TextSize = new System.Drawing.Size(0, 0);
@@ -399,14 +372,13 @@
             // 
             this.layoutControlItem6.Control = this.btnExport;
             resources.ApplyResources(this.layoutControlItem6, "layoutControlItem6");
-            this.layoutControlItem6.Location = new System.Drawing.Point(580, 221);
+            this.layoutControlItem6.Location = new System.Drawing.Point(580, 223);
             this.layoutControlItem6.MaxSize = new System.Drawing.Size(82, 26);
             this.layoutControlItem6.MinSize = new System.Drawing.Size(82, 26);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Size = new System.Drawing.Size(82, 26);
             this.layoutControlItem6.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem6.TextToControlDistance = 0;
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutToolBar
@@ -421,20 +393,19 @@
             this.layoutToolBar.Size = new System.Drawing.Size(829, 32);
             this.layoutToolBar.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutToolBar.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutToolBar.TextToControlDistance = 0;
             this.layoutToolBar.TextVisible = false;
             // 
             // gpSearchCondition
             // 
             resources.ApplyResources(this.gpSearchCondition, "gpSearchCondition");
-            this.gpSearchCondition.ExpandButtonLocation = DevExpress.Utils.GroupElementLocation.AfterText;
             this.gpSearchCondition.ExpandButtonVisible = true;
+            this.gpSearchCondition.HeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText;
             this.gpSearchCondition.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1});
             this.gpSearchCondition.Location = new System.Drawing.Point(0, 32);
             this.gpSearchCondition.Name = "gpSearchCondition";
             this.gpSearchCondition.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            this.gpSearchCondition.Size = new System.Drawing.Size(829, 189);
+            this.gpSearchCondition.Size = new System.Drawing.Size(829, 191);
             // 
             // layoutControlItem1
             // 
@@ -447,32 +418,29 @@
             this.layoutControlItem1.Size = new System.Drawing.Size(823, 163);
             this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem1.TextToControlDistance = 0;
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.gcMain;
             resources.ApplyResources(this.layoutControlItem3, "layoutControlItem3");
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 247);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 249);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(829, 221);
+            this.layoutControlItem3.Size = new System.Drawing.Size(829, 219);
             this.layoutControlItem3.Spacing = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 2);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextToControlDistance = 0;
             this.layoutControlItem3.TextVisible = false;
             // 
             // txtQueryItem
             // 
             this.txtQueryItem.Control = this.txtQuery;
             resources.ApplyResources(this.txtQueryItem, "txtQueryItem");
-            this.txtQueryItem.Image = global::FIS.AppClient.Properties.Resources.FILTER;
+            this.txtQueryItem.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.FILTER;
             this.txtQueryItem.Location = new System.Drawing.Point(0, 468);
             this.txtQueryItem.Name = "txtQueryItem";
             this.txtQueryItem.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 2, 2, 2);
             this.txtQueryItem.Size = new System.Drawing.Size(199, 26);
             this.txtQueryItem.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.CustomSize;
-            this.txtQueryItem.TextLocation = DevExpress.Utils.Locations.Default;
             this.txtQueryItem.TextSize = new System.Drawing.Size(0, 0);
             this.txtQueryItem.TextToControlDistance = 20;
             // 
@@ -487,30 +455,27 @@
             this.layoutControlItem4.Size = new System.Drawing.Size(30, 26);
             this.layoutControlItem4.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem4.TextToControlDistance = 0;
             this.layoutControlItem4.TextVisible = false;
             // 
             // layoutBtnEdit
             // 
             this.layoutBtnEdit.Control = this.btnEdit;
             resources.ApplyResources(this.layoutBtnEdit, "layoutBtnEdit");
-            this.layoutBtnEdit.Location = new System.Drawing.Point(662, 221);
+            this.layoutBtnEdit.Location = new System.Drawing.Point(662, 223);
             this.layoutBtnEdit.MaxSize = new System.Drawing.Size(82, 26);
             this.layoutBtnEdit.MinSize = new System.Drawing.Size(82, 26);
             this.layoutBtnEdit.Name = "layoutBtnEdit";
             this.layoutBtnEdit.Size = new System.Drawing.Size(82, 26);
             this.layoutBtnEdit.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutBtnEdit.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutBtnEdit.TextToControlDistance = 0;
             this.layoutBtnEdit.TextVisible = false;
             // 
             // btnCopyStatusItem
             // 
             this.btnCopyStatusItem.AllowHide = false;
-            this.btnCopyStatusItem.ContentVisible = false;
-            this.btnCopyStatusItem.Control = this.btnCopyStatus;
             resources.ApplyResources(this.btnCopyStatusItem, "btnCopyStatusItem");
-            this.btnCopyStatusItem.Location = new System.Drawing.Point(0, 221);
+            this.btnCopyStatusItem.Control = this.btnCopyStatus;
+            this.btnCopyStatusItem.Location = new System.Drawing.Point(0, 223);
             this.btnCopyStatusItem.MaxSize = new System.Drawing.Size(34, 26);
             this.btnCopyStatusItem.MinSize = new System.Drawing.Size(34, 26);
             this.btnCopyStatusItem.Name = "btnCopyStatusItem";
@@ -518,39 +483,16 @@
             this.btnCopyStatusItem.Size = new System.Drawing.Size(34, 26);
             this.btnCopyStatusItem.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.btnCopyStatusItem.TextSize = new System.Drawing.Size(0, 0);
-            this.btnCopyStatusItem.TextToControlDistance = 0;
             this.btnCopyStatusItem.TextVisible = false;
-            // 
-            // layoutControlItem7
-            // 
-            this.layoutControlItem7.Control = this.btnExportRichEdit;
-            resources.ApplyResources(this.layoutControlItem7, "layoutControlItem7");
-            this.layoutControlItem7.Location = new System.Drawing.Point(490, 221);
-            this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(90, 26);
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem7.TextToControlDistance = 0;
-            this.layoutControlItem7.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
             resources.ApplyResources(this.emptySpaceItem1, "emptySpaceItem1");
-            this.emptySpaceItem1.Location = new System.Drawing.Point(300, 221);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(300, 223);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(79, 26);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(280, 26);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // layoutControlItem5
-            // 
-            this.layoutControlItem5.Control = this.btnPutMsg2Web;
-            resources.ApplyResources(this.layoutControlItem5, "layoutControlItem5");
-            this.layoutControlItem5.Location = new System.Drawing.Point(379, 221);
-            this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(111, 26);
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem5.TextToControlDistance = 0;
-            this.layoutControlItem5.TextVisible = false;
             // 
             // ucSearchMaster
             // 
@@ -588,10 +530,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutBtnEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCopyStatusItem)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -630,10 +571,6 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutBtnEdit;
         private DevExpress.XtraEditors.SimpleButton btnCopyStatus;
         private DevExpress.XtraLayout.LayoutControlItem btnCopyStatusItem;
-        private DevExpress.XtraEditors.SimpleButton btnExportRichEdit;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-        private DevExpress.XtraEditors.SimpleButton btnPutMsg2Web;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
     }
 }

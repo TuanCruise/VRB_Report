@@ -1,10 +1,9 @@
-﻿using System;
-using System.ServiceModel;
-using FIS.AppClient.Interface;
+﻿using FIS.AppClient.Interface;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
+using System;
 using System.Collections.Generic;
 
 namespace FIS.AppClient.Controls
@@ -83,6 +82,7 @@ namespace FIS.AppClient.Controls
                         }
                         finally
                         {
+                            UnLockUserAction();
                             CloseModule();
                         }
                     },
@@ -97,6 +97,17 @@ namespace FIS.AppClient.Controls
             {
                 ShowWaitingBox();
                 Enabled = false;
+            }
+        }
+
+        public override void UnLockUserAction()
+        {
+            base.UnLockUserAction();
+
+            if (!InvokeRequired)
+            {
+                HideWaitingBox();
+                Enabled = true;
             }
         }
     }

@@ -121,7 +121,7 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="mainBarManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
+    <value>140, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="standaloneBarDockControl1.Location" type="System.Drawing.Point, System.Drawing">
@@ -147,7 +147,7 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;standaloneBarDockControl1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
   <data name="mainToolbar.Text" xml:space="preserve">
     <value>Tools</value>
@@ -242,73 +242,13 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnPutMsg2Web.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnPutMsg2Web.Location" type="System.Drawing.Point, System.Drawing">
-    <value>381, 223</value>
-  </data>
-  <data name="btnPutMsg2Web.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 22</value>
-  </data>
-  <data name="btnPutMsg2Web.TabIndex" type="System.Int32, mscorlib">
-    <value>1006</value>
-  </data>
-  <data name="btnPutMsg2Web.Text" xml:space="preserve">
-    <value>Đẩy tin lên Web</value>
-  </data>
-  <data name="btnPutMsg2Web.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;btnPutMsg2Web.Name" xml:space="preserve">
-    <value>btnPutMsg2Web</value>
-  </data>
-  <data name="&gt;&gt;btnPutMsg2Web.Type" xml:space="preserve">
-    <value>DevExpress.XtraEditors.SimpleButton, DevExpress.XtraEditors.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;btnPutMsg2Web.Parent" xml:space="preserve">
-    <value>mainLayout</value>
-  </data>
-  <data name="&gt;&gt;btnPutMsg2Web.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="btnExportRichEdit.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnExportRichEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>492, 223</value>
-  </data>
-  <data name="btnExportRichEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 22</value>
-  </data>
-  <data name="btnExportRichEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>1005</value>
-  </data>
-  <data name="btnExportRichEdit.Text" xml:space="preserve">
-    <value>Kết xuất tin</value>
-  </data>
-  <data name="btnExportRichEdit.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;btnExportRichEdit.Name" xml:space="preserve">
-    <value>btnExportRichEdit</value>
-  </data>
-  <data name="&gt;&gt;btnExportRichEdit.Type" xml:space="preserve">
-    <value>DevExpress.XtraEditors.SimpleButton, DevExpress.XtraEditors.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
-  <data name="&gt;&gt;btnExportRichEdit.Parent" xml:space="preserve">
-    <value>mainLayout</value>
-  </data>
-  <data name="&gt;&gt;btnExportRichEdit.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="btnCopyStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 223</value>
+    <value>6, 225</value>
   </data>
   <data name="btnCopyStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>26, 22</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnCopyStatus.TabIndex" type="System.Int32, mscorlib">
     <value>1009</value>
   </data>
@@ -325,13 +265,13 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;btnCopyStatus.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="btnEdit.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="btnEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>664, 223</value>
+    <value>664, 225</value>
   </data>
   <data name="btnEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 22</value>
@@ -352,7 +292,7 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;btnEdit.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="btnCalcColumnSize.Location" type="System.Drawing.Point, System.Drawing">
     <value>801, 470</value>
@@ -376,13 +316,13 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;btnCalcColumnSize.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="btnExport.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="btnExport.Location" type="System.Drawing.Point, System.Drawing">
-    <value>582, 223</value>
+    <value>582, 225</value>
   </data>
   <data name="btnExport.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 22</value>
@@ -403,13 +343,13 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;btnExport.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
   <data name="gcMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <metadata name="contextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 95</value>
+    <value>285, 17</value>
   </metadata>
   <data name="contextMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 4</value>
@@ -421,13 +361,13 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="gcMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 251</value>
+    <value>4, 253</value>
   </data>
   <data name="gvMain.GroupPanelText" xml:space="preserve">
     <value>Kéo một tiêu đề cột vào đây để nhóm theo cột đó</value>
   </data>
   <data name="gcMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>821, 213</value>
+    <value>821, 211</value>
   </data>
   <data name="gcMain.TabIndex" type="System.Int32, mscorlib">
     <value>100</value>
@@ -442,13 +382,13 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;gcMain.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="btnSearch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="btnSearch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>746, 223</value>
+    <value>746, 225</value>
   </data>
   <data name="btnSearch.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 22</value>
@@ -469,7 +409,7 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;btnSearch.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="txtQuery.Location" type="System.Drawing.Point, System.Drawing">
     <value>25, 470</value>
@@ -490,10 +430,10 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;txtQuery.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="searchConditionLayout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 57</value>
+    <value>5, 59</value>
   </data>
   <data name="rootConditionGroup.CustomizationFormText" xml:space="preserve">
     <value>rootConditionGroup</value>
@@ -520,13 +460,10 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;searchConditionLayout.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>12</value>
   </data>
   <data name="cboPages.Location" type="System.Drawing.Point, System.Drawing">
     <value>224, 470</value>
-  </data>
-  <data name="cboPages.Properties.Appearance.BackColor" type="System.Drawing.Color, System.Drawing">
-    <value>247, 245, 241</value>
   </data>
   <assembly alias="DevExpress.Utils.v19.2" name="DevExpress.Utils.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
   <data name="cboPages.Properties.Buttons" type="DevExpress.XtraEditors.Controls.ButtonPredefines, DevExpress.Utils.v19.2">
@@ -548,7 +485,7 @@
     <value>mainLayout</value>
   </data>
   <data name="&gt;&gt;cboPages.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="mainLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -562,13 +499,10 @@
   <data name="cboPageItem.CustomizationFormText" xml:space="preserve">
     <value>cboPageItem</value>
   </data>
-  <data name="cboPageItem.Text" xml:space="preserve">
-    <value>cboPageItem</value>
+  <data name="layoutControlItem2.ControlAlignment" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="layoutControlItem2.CustomizationFormText" xml:space="preserve">
-    <value>layoutControlItem2</value>
-  </data>
-  <data name="layoutControlItem2.Text" xml:space="preserve">
     <value>layoutControlItem2</value>
   </data>
   <data name="txtSearchStatus.AppearanceItemCaption.Font" type="System.Drawing.Font, System.Drawing">
@@ -583,14 +517,8 @@
   <data name="layoutControlItem6.CustomizationFormText" xml:space="preserve">
     <value>layoutControlItem6</value>
   </data>
-  <data name="layoutControlItem6.Text" xml:space="preserve">
-    <value>layoutControlItem6</value>
-  </data>
   <data name="layoutToolBar.CustomizationFormText" xml:space="preserve">
     <value>layoutControlItem7</value>
-  </data>
-  <data name="layoutToolBar.Text" xml:space="preserve">
-    <value>layoutToolBar</value>
   </data>
   <data name="gpSearchCondition.CustomizationFormText" xml:space="preserve">
     <value>gpSearchCondition</value>
@@ -598,59 +526,26 @@
   <data name="layoutControlItem1.CustomizationFormText" xml:space="preserve">
     <value>layoutControlItem1</value>
   </data>
-  <data name="layoutControlItem1.Text" xml:space="preserve">
-    <value>layoutControlItem1</value>
-  </data>
-  <data name="gpSearchCondition.Text" xml:space="preserve">
-    <value>gpSearchCondition</value>
-  </data>
   <data name="layoutControlItem3.CustomizationFormText" xml:space="preserve">
-    <value>layoutControlItem3</value>
-  </data>
-  <data name="layoutControlItem3.Text" xml:space="preserve">
     <value>layoutControlItem3</value>
   </data>
   <data name="txtQueryItem.CustomizationFormText" xml:space="preserve">
     <value>txtQueryItem</value>
   </data>
-  <data name="txtQueryItem.Text" xml:space="preserve">
-    <value>txtQueryItem</value>
-  </data>
   <data name="layoutControlItem4.CustomizationFormText" xml:space="preserve">
-    <value>layoutControlItem4</value>
-  </data>
-  <data name="layoutControlItem4.Text" xml:space="preserve">
     <value>layoutControlItem4</value>
   </data>
   <data name="layoutBtnEdit.CustomizationFormText" xml:space="preserve">
     <value>layoutControlItem5</value>
   </data>
-  <data name="layoutBtnEdit.Text" xml:space="preserve">
-    <value>layoutBtnEdit</value>
+  <data name="btnCopyStatusItem.ContentVisible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="btnCopyStatusItem.CustomizationFormText" xml:space="preserve">
     <value>layoutControlItem5</value>
   </data>
-  <data name="btnCopyStatusItem.Text" xml:space="preserve">
-    <value>btnCopyStatusItem</value>
-  </data>
-  <data name="layoutControlItem7.CustomizationFormText" xml:space="preserve">
-    <value>layoutControlItem7</value>
-  </data>
-  <data name="layoutControlItem7.Text" xml:space="preserve">
-    <value>layoutControlItem7</value>
-  </data>
   <data name="emptySpaceItem1.CustomizationFormText" xml:space="preserve">
     <value>emptySpaceItem1</value>
-  </data>
-  <data name="emptySpaceItem1.Text" xml:space="preserve">
-    <value>emptySpaceItem1</value>
-  </data>
-  <data name="layoutControlItem5.CustomizationFormText" xml:space="preserve">
-    <value>layoutControlItem5</value>
-  </data>
-  <data name="layoutControlItem5.Text" xml:space="preserve">
-    <value>layoutControlItem5</value>
   </data>
   <data name="layoutControlGroup1.Text" xml:space="preserve">
     <value>Root</value>
@@ -784,28 +679,16 @@
   <data name="&gt;&gt;btnCopyStatusItem.Type" xml:space="preserve">
     <value>DevExpress.XtraLayout.LayoutControlItem, DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;layoutControlItem7.Name" xml:space="preserve">
-    <value>layoutControlItem7</value>
-  </data>
-  <data name="&gt;&gt;layoutControlItem7.Type" xml:space="preserve">
-    <value>DevExpress.XtraLayout.LayoutControlItem, DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
   <data name="&gt;&gt;emptySpaceItem1.Name" xml:space="preserve">
     <value>emptySpaceItem1</value>
   </data>
   <data name="&gt;&gt;emptySpaceItem1.Type" xml:space="preserve">
     <value>DevExpress.XtraLayout.EmptySpaceItem, DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
-  <data name="&gt;&gt;layoutControlItem5.Name" xml:space="preserve">
-    <value>layoutControlItem5</value>
-  </data>
-  <data name="&gt;&gt;layoutControlItem5.Type" xml:space="preserve">
-    <value>DevExpress.XtraLayout.LayoutControlItem, DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ucSearchMaster</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>FIS.AppClient.Controls.ucModule, SMS, Version=1.3.5177.17017, Culture=neutral, PublicKeyToken=null</value>
+    <value>FIS.AppClient.Controls.ucModule, COMS, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
