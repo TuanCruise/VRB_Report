@@ -179,6 +179,7 @@
     {
         public const string IMPORT_FILE_EXTENSIONS = "Microsoft Excel Worksheets(*.xls, *.xlsx)|*.xls;*.xlsx";
         public const string EXPORT_FILE_EXTENSIONS = "Microsoft Excel Worksheets(*.xls)|*.xls|Microsoft Excel 2007 Worksheets(*.xlsx)|*.xlsx";
+        public const string EXPORT_XML_EXTENSIONS = "File XML (*.xml)|*.xml";
         public const string ATTACKED_FILE_EXTENSIONS = "Microsoft Word (*.docx)|*.docx|Microsoft Excel Worksheets(*.xlsx)|*.xlsx|PDF files (*.pdf)|*.pdf|All Files (*.*)|*.*";
         public const string IMP_MSG_SUCCESS = "Import thành công dữ liệu vào hệ thống !";
         public const string IMP_MSG_FAIL = "Import dữ liệu thất bại !";
@@ -291,7 +292,8 @@
             public const string VARNAME_LINKNDTNN = "LINKNDTNN";
             public const string VARNAME_DOMAINSRV = "DOMAINSRV";
             public const string VARNAME_DOMAINNAME = "DOMAINNAME";
-            public const string VARNAME_DOMAINLOGIN = "DOMAINLOGIN";  
-        }
+            public const string VARNAME_DOMAINLOGIN = "DOMAINLOGIN";
+            public const string VARNAME_XMLDIRPATH = "XMLDIRPATH";
+    }
     
 }

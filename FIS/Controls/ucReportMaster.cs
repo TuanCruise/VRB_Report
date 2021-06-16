@@ -41,6 +41,7 @@ namespace FIS.AppClient.Controls
             if (ActiveControl is ComboBoxEdit)
                 LoadComboxListSource((ActiveControl as ComboBoxEdit).Properties);
             baseRptPath = Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName;
+            if (ReportInfo.ModuleID != "02248") btnExport.Visible = false;
         }
 
         protected override void BuildButtons()
@@ -92,7 +93,6 @@ namespace FIS.AppClient.Controls
             reportLayout.AllowCustomizationMenu = true;
             btnView.Visible = false;
             btnRepair.Visible = false;
-           
 #if DEBUG
             btnRepair.Visible = true;
 #endif
@@ -305,7 +305,7 @@ namespace FIS.AppClient.Controls
             {
                 var frmDesigner = new XRDesignFormEx();
                 
-                if (File.Exists(baseRptPath))
+                if (File.Exists(baseRptPath + ".repx"))
                 {
                     var report = XtraReport.FromFile(baseRptPath + ".repx", true);
                     report.XmlDataPath = baseRptPath + ".xml";

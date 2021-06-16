@@ -1896,6 +1896,7 @@ namespace FIS.AppClient.Controls
                                     {
                                         ctrl.Properties.Buttons[0].Tag = resultTable.Rows[0][column].ToString();
                                     }
+                                    if (resultTable.Rows[0][column].ToString() == IMPORTMASTER.EXPORT_XML_EXTENSIONS) ctrl.Text = SysvarUtils.GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_XMLDIRPATH);
                                 }
                                 break;
                             }
