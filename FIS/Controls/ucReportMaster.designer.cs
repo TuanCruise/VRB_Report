@@ -96,7 +96,7 @@
             // 
             this.btnView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnView.ImageOptions.Image = global::FIS.AppClient.Properties.Resources.report_magnify;
-            this.btnView.Location = new System.Drawing.Point(508, 351);
+            this.btnView.Location = new System.Drawing.Point(411, 351);
             this.btnView.Name = "btnView";
             this.btnView.Size = new System.Drawing.Size(91, 27);
             this.btnView.TabIndex = 8;
@@ -118,7 +118,7 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.ImageOptions.Image")));
-            this.btnExport.Location = new System.Drawing.Point(411, 351);
+            this.btnExport.Location = new System.Drawing.Point(508, 351);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(91, 27);
             this.btnExport.TabIndex = 11;

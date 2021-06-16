@@ -1,5 +1,4 @@
 ﻿using FIS.Entities;
-using FIS.Utils;
 
 namespace FIS.AppClient.Controls
 {
@@ -30,6 +29,7 @@ namespace FIS.AppClient.Controls
             Language.FormatButton(btnReport, "BTN_REPORT");
             Language.FormatButton(btnRepair, "BTN_REPAIR");
             Language.FormatButton(btnView, "BTN_VIEW");
+            Language.FormatButton(btnExport, "BTN_EXPORT");
             base.InitializeLanguage();
         }
 

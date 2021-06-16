@@ -225,6 +225,8 @@
         public const string ORACLE_CURSOR_OUTPUT = "STORE_OUTPUT";
         public const string ORACLE_MODULE_ID = "PV_MODID";
 
+        public const string REPORT_PARAMETER = "ReportParameter";
+
         public const string ORACLE_EXCEPTION_PARAMETER_NAME = "PROC_RETURN";
         public const string ORACLE_OUT_PARAMETER_SECID = "SECID";
         public const int ORACLE_USER_HANDLED_EXCEPTION_CODE = 20000;
