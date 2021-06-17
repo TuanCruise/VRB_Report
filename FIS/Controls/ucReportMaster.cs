@@ -12,6 +12,7 @@ using FIS.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.ServiceModel;
 
@@ -22,6 +23,7 @@ namespace FIS.AppClient.Controls
         ICommonFieldSupportedModule
     {
         string baseRptPath;
+        string ExportPath;
         #region Properties & Members
 
         public ReportModuleInfo ReportInfo
@@ -41,6 +43,7 @@ namespace FIS.AppClient.Controls
             if (ActiveControl is ComboBoxEdit)
                 LoadComboxListSource((ActiveControl as ComboBoxEdit).Properties);
             baseRptPath = Program.strAppStartUpPath + @"\Reports\" + ReportInfo.ReportName;
+            ExportPath = Program.strAppStartUpPath + @"\Reports\Export";
             if (ReportInfo.ModuleID != "02248") btnExport.Visible = false;
         }
 
@@ -212,6 +215,7 @@ namespace FIS.AppClient.Controls
                         List<string> value = new List<string>();
                         value.Add(para);
                         value.Add(Values[1].ToString());
+                        value.Add(Values[2].ToString());
                         ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, value);
 
                         var dsResult = container.DataSet;
@@ -238,8 +242,11 @@ namespace FIS.AppClient.Controls
                         dsResult.WriteXml(baseRptPath + ".xml", XmlWriteMode.WriteSchema);
                         var report = XtraReport.FromFile(baseRptPath + ".repx", true);
                         report.XmlDataPath = baseRptPath + ".xml";
+                        var fileName = para + "_" + Convert.ToDateTime(Values[2].ToString(), CultureInfo.InvariantCulture).ToShortDateString().Replace("/","") + ".pdf";
 
-                        report.ExportToPdf(baseRptPath + "_" + para + ".pdf");
+                        System.IO.Directory.CreateDirectory(ExportPath);
+                        
+                        report.ExportToPdf(ExportPath + "\\" + fileName);
                         #endregion
                     }
                 }

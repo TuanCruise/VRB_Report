@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FIS.Common;
+using FIS.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
-using FIS.Common;
-using FIS.Entities;
 
 namespace FIS.Utils
 {
@@ -363,7 +363,8 @@ namespace FIS.Utils
                         {
                             if (!string.IsNullOrEmpty(fieldInfo.FieldFormat))
                             {
-                                return DateTime.ParseExact(value, fieldInfo.FieldFormat, App.Environment.ServerInfo.Culture);
+                                return Convert.ToDateTime(value, App.Environment.ServerInfo.Culture);
+                               // return DateTime.ParseExact(value, fieldInfo.FieldFormat, App.Environment.ServerInfo.Culture);
                             }
 
                             return DateTime.Parse(value, App.Environment.ServerInfo.Culture);
