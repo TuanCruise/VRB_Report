@@ -1002,6 +1002,9 @@
     <None Include="Reports\RPT121.repx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Reports\RPT128.repx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\mail_mark_unread_new.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
