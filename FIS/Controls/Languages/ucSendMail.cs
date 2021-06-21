@@ -1,15 +1,14 @@
 ﻿using FIS.Entities;
-using FIS.Utils;
 
 namespace FIS.AppClient.Controls
 {
-    public partial class ucSendMail 
+    public partial class ucSendMail
     {
         class SendMailLanguage : ModuleLanguage
         {
-            
+
             public string SendMailLayout { get; set; }
-            
+
             public SendMailLanguage(ModuleInfo moduleInfo)
                 : base(moduleInfo)
             {

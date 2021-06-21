@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.Windows.Forms;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraTreeList.Nodes;
 using FIS.AppClient.Interface;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraTreeList.Nodes;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using DevExpress.XtraEditors.Controls;
+using System.ServiceModel;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -18,8 +18,8 @@ namespace FIS.AppClient.Controls
     {
         private List<Role> m_Roles;
         public Dictionary<int, FaultException> UserRoleExceptions { get; set; }
-        public Dictionary<int, int> UserRoleImageIndexies { get; set; } 
-        
+        public Dictionary<int, int> UserRoleImageIndexies { get; set; }
+
         public int GroupID
         {
             get
@@ -27,7 +27,7 @@ namespace FIS.AppClient.Controls
                 var field = FieldUtils.GetModuleFieldsByName(ModuleInfo.ModuleID, "GROUPID")[0];
                 if (this[field.FieldID] == null)
                     throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_MODULE_PARAMETER_REQUIRE, "GROUPID");
-                
+
                 return int.Parse(this[field.FieldID].ToString());
             }
         }
@@ -75,10 +75,10 @@ namespace FIS.AppClient.Controls
                         foreach (var user in users)
                         {
                             lstUserList.Items.Add(new ImageListBoxItem
-                                                      {
-                                    Value = user,
-                                    ImageIndex = ThemeUtils.GetImage16x16Index("USER_EDIT")
-                                });
+                            {
+                                Value = user,
+                                ImageIndex = ThemeUtils.GetImage16x16Index("USER_EDIT")
+                            });
                         }
 
                         ctrlSA.ListGroupRoles(out m_Roles, GroupID);
@@ -155,7 +155,7 @@ namespace FIS.AppClient.Controls
                 }
                 else
                 {
-                    if (role.RoleValue == "Y"  && !string.IsNullOrEmpty(role.RequireRoleID))
+                    if (role.RoleValue == "Y" && !string.IsNullOrEmpty(role.RequireRoleID))
                     {
                         var requireNode = roleTree.FindNodeByFieldValue("RoleID", role.RequireRoleID);
                         if (requireNode != null)
@@ -172,9 +172,9 @@ namespace FIS.AppClient.Controls
                     if (role.RoleValue == "N")
                     {
                         var dependRoleIDs = (from dependRole in m_Roles
-                                                 where dependRole.RequireRoleID == role.RoleID
-                                                 select dependRole.RoleID).ToArray();
-                        foreach(var dependRoleID in dependRoleIDs)
+                                             where dependRole.RequireRoleID == role.RoleID
+                                             select dependRole.RoleID).ToArray();
+                        foreach (var dependRoleID in dependRoleIDs)
                         {
                             var dependNode = roleTree.FindNodeByFieldValue("RoleID", dependRoleID);
                             if (dependNode != null)
@@ -191,7 +191,7 @@ namespace FIS.AppClient.Controls
                 }
             }
 
-            if(refreshCategory)
+            if (refreshCategory)
                 UpdateCategory(roleTree.Nodes);
 
             roleTree.Refresh();
@@ -218,7 +218,7 @@ namespace FIS.AppClient.Controls
                 {
                     if (role.RoleValue == "Y") countYes++;
                     if (role.RoleValue == "N") countNo++;
-                    if (role.RoleValue == null) {countYes++; countNo++;}
+                    if (role.RoleValue == null) { countYes++; countNo++; }
                 }
             }
 
@@ -234,7 +234,7 @@ namespace FIS.AppClient.Controls
 
         private void roleTree_CellValueChanged(object sender, DevExpress.XtraTreeList.CellValueChangedEventArgs e)
         {
-            if(e.Column == colRoleValue)
+            if (e.Column == colRoleValue)
                 UpdateRoleValue(e.Node, true);
         }
 

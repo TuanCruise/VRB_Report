@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using DevExpress.XtraGrid.Columns;
+﻿using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
@@ -9,6 +6,9 @@ using FIS.AppClient.Utils;
 using FIS.Base;
 using FIS.Controllers;
 using FIS.Entities;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace FIS.AppClient.Controls
 {
@@ -162,7 +162,7 @@ namespace FIS.AppClient.Controls
 
         public override void Execute()
         {
-            if(ValidateModule())
+            if (ValidateModule())
             {
                 base.Execute();
                 try

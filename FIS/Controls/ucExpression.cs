@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
-using FIS.Utils;
+﻿using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.BandedGrid;
+using FIS.AppClient.Interface;
+using FIS.Base;
 using FIS.Controllers;
 using FIS.Entities;
-using DevExpress.XtraEditors.Controls;
-using System.Threading;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
+using FIS.Utils;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Xml.Serialization;
-using System.IO;
-using DevExpress.XtraGrid.Views.BandedGrid;
-using DevExpress.XtraGrid;
-using FIS.Base;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
-using FIS.AppClient.Interface;
-using DevExpress.XtraTreeList.Columns;
-using DevExpress.XtraTreeList.Nodes;
-using DevExpress.XtraTreeList.StyleFormatConditions;
+using System.Windows.Forms;
 namespace FIS.AppClient.Controls
 {
     public partial class ucExpression : ucModule, IParameterFieldSupportedModule
@@ -52,7 +43,7 @@ namespace FIS.AppClient.Controls
             lstExecuteResult.ImageList = ThemeUtils.Image16;
             lbTitle.Text = Language.Title;
         }
-            
+
         private void ucExpression_Load(object sender, EventArgs e)
         {
             LookUpColumnInfoCollection coll = lookUpEdit1.Properties.Columns;
@@ -67,25 +58,26 @@ namespace FIS.AppClient.Controls
 
         private void LoadData()
         {
-            try { 
-            
-            
+            try
+            {
+
+
                 using (var ctrlSA = new SAController())
                 {
-                
+
                     List<string> moduleid = new List<string>();
                     moduleid.Add(ModuleInfo.ModuleID);
 
                     DataContainer dcType;
                     ctrlSA.ExecuteProcedureFillDataset(out dcType, "sp_MODEXPRESSION_sel", moduleid);
                     DataTable dtType = dcType.DataTable;
-                                                
+
                     // Doan nay rat lom dang nhe phai dinh nghia them ModExpression nhung luoi qua
                     List<string> values2 = new List<string>(); ;
                     GetOracleParameterValues(out values2, "sp_list_treeindicatorbyid");
                     List<string> values = new List<string>();
-           
-                
+
+
                     DataContainer con;
                     DataContainer con1;
 
@@ -105,7 +97,7 @@ namespace FIS.AppClient.Controls
                     }
 
 
-                    ctrlSA.ExecuteProcedureFillDataset(out con, "sp_list_treeindicator_all", values);                
+                    ctrlSA.ExecuteProcedureFillDataset(out con, "sp_list_treeindicator_all", values);
 
                     AssignFieldValuesFromResult(con);
                     DataTable dt = con.DataTable;
@@ -119,13 +111,13 @@ namespace FIS.AppClient.Controls
                         lookUpEdit1.EditValue = dt1.Rows[0]["VALUE"];
 
 
-                        gridControl1.DataSource = dt;                        
+                        gridControl1.DataSource = dt;
                         textEdit1.Text = "[" + lookUpEdit1.EditValue + "] == ";
                         lookUpEdit1_EditValueChanged(null, null);
                         gridView1.BestFitColumns();
-                    }                            
+                    }
                 }
-             }
+            }
             catch (FaultException ex)
             {
                 ShowError(ex);
@@ -137,8 +129,8 @@ namespace FIS.AppClient.Controls
         }
         private void lookUpEdit1_EditValueChanged(object sender, EventArgs e)
         {
-            if(textEdit1.Text!="")
-            textEdit1.Text ="[" + lookUpEdit1.EditValue + "] == ";
+            if (textEdit1.Text != "")
+                textEdit1.Text = "[" + lookUpEdit1.EditValue + "] == ";
             CurrentExpress = "";
             using (var ctrlSA = new SAController())
             {
@@ -217,8 +209,8 @@ namespace FIS.AppClient.Controls
         }
 
         private void simpleButton4_Click(object sender, EventArgs e)
-        {           
-            string lastStr =textEdit1.Text.Trim().Substring(textEdit1.Text.Trim().Length - 1, 1) ;
+        {
+            string lastStr = textEdit1.Text.Trim().Substring(textEdit1.Text.Trim().Length - 1, 1);
             RemoveExp(lastStr);
         }
 
@@ -227,9 +219,9 @@ namespace FIS.AppClient.Controls
             string s = textEdit1.SelectedText;
             if (s != "")
             {
-                if(s=="+"||s=="-"||s=="*"||s=="/")
+                if (s == "+" || s == "-" || s == "*" || s == "/")
                 {
-                    textEdit1.Text = textEdit1.Text.Substring(0, textEdit1.SelectionStart) + exp + textEdit1.Text.Substring(textEdit1.SelectionStart + textEdit1.SelectionLength, textEdit1.Text.Length - textEdit1.SelectionStart - textEdit1.SelectionLength);        
+                    textEdit1.Text = textEdit1.Text.Substring(0, textEdit1.SelectionStart) + exp + textEdit1.Text.Substring(textEdit1.SelectionStart + textEdit1.SelectionLength, textEdit1.Text.Length - textEdit1.SelectionStart - textEdit1.SelectionLength);
                 }
             }
             else
@@ -254,11 +246,11 @@ namespace FIS.AppClient.Controls
 
         private void RemoveExp(string exp)
         {
-            if (exp == "=" || exp =="")
+            if (exp == "=" || exp == "")
             {
-                
+
             }
-            else if ((exp != ")"&&exp != "+" && exp != "-" && exp != "-" && exp != "/" && exp != "*")||exp =="(")
+            else if ((exp != ")" && exp != "+" && exp != "-" && exp != "-" && exp != "/" && exp != "*") || exp == "(")
             {
                 textEdit1.Text = textEdit1.Text.Substring(0, textEdit1.Text.LastIndexOf(CurrentExpress) - 1).Trim();
                 CurrentExpress = textEdit1.Text.Trim().Substring(textEdit1.Text.Length - 1, 1);
@@ -267,7 +259,7 @@ namespace FIS.AppClient.Controls
             {
                 textEdit1.Text = textEdit1.Text.Substring(0, textEdit1.Text.LastIndexOf(exp) - 1).Trim();
                 //CurrentExpress = textEdit1.Text.Substring(;
-                CurrentExpress= textEdit1.Text.Substring(textEdit1.Text.LastIndexOf("[")+1, textEdit1.Text.Length -textEdit1.Text.LastIndexOf("[")-2);
+                CurrentExpress = textEdit1.Text.Substring(textEdit1.Text.LastIndexOf("[") + 1, textEdit1.Text.Length - textEdit1.Text.LastIndexOf("[") - 2);
             }
         }
 
@@ -299,7 +291,7 @@ namespace FIS.AppClient.Controls
                 textEdit1.Text = textEdit1.Text + " (";
                 CurrentExpress = "(";
             }
-            else if((CurrentExpress=="("||CurrentExpress==")")|| ( CurrentExpress != "+" && CurrentExpress != "-" && CurrentExpress != "-" && CurrentExpress != "/" && CurrentExpress != "*"))
+            else if ((CurrentExpress == "(" || CurrentExpress == ")") || (CurrentExpress != "+" && CurrentExpress != "-" && CurrentExpress != "-" && CurrentExpress != "/" && CurrentExpress != "*"))
             {
 
             }
@@ -315,41 +307,41 @@ namespace FIS.AppClient.Controls
             if (CurrentExpress == "=" || CurrentExpress == "")
             {
             }
-            else if (CurrentExpress != "("  && CurrentExpress != "+" && CurrentExpress != "-" && CurrentExpress != "-" && CurrentExpress != "/" && CurrentExpress != "*")
+            else if (CurrentExpress != "(" && CurrentExpress != "+" && CurrentExpress != "-" && CurrentExpress != "-" && CurrentExpress != "/" && CurrentExpress != "*")
             {
                 textEdit1.Text = textEdit1.Text.Trim() + " ) ";
                 CurrentExpress = ")";
             }
             else
             {
-               
+
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             string result = Regex.Split(textEdit1.Text, "==")[1];
-            if(CurrentExpress=="+"||CurrentExpress=="-"||CurrentExpress=="*"||CurrentExpress=="/"||CurrentExpress=="(")
+            if (CurrentExpress == "+" || CurrentExpress == "-" || CurrentExpress == "*" || CurrentExpress == "/" || CurrentExpress == "(")
             {
-               MessageBox.Show("Công thức không hợp lệ.Không thể kết thúc biểu thức bằng + - * / hay (","Cảnh báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);                
-               return;
+                MessageBox.Show("Công thức không hợp lệ.Không thể kết thúc biểu thức bằng + - * / hay (", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             char[] a = { '(' };
 
             String[] res = result.Split(a);
-            int count =res.Length;
+            int count = res.Length;
 
             char[] a1 = { ')' };
 
             String[] res1 = result.Split(a1);
             int count1 = res1.Length;
-            if(count!=count1)
+            if (count != count1)
             {
                 MessageBox.Show("Số lượng ( và ) không bằng nhau!");
                 return;
             }
             DataTable dtSource = (DataTable)gridControl1.DataSource;
-            for(int i=0;i<dtSource.Rows.Count;i++)
+            for (int i = 0; i < dtSource.Rows.Count; i++)
             {
                 result = result.Replace("[" + dtSource.Rows[i]["VALUE"].ToString() + "]", "[" + dtSource.Rows[i]["RPTFLDID"].ToString() + "]");
                 //result = result.Replace("[" + dtSource.Rows[i]["VALUE"].ToString() + "]", "[" + dtSource.Rows[i]["ROWID"].ToString() + "]");
@@ -368,14 +360,14 @@ namespace FIS.AppClient.Controls
                 ctrlSA.ExecuteProcedureFillDataset(out con, "sp_formular_selbyfldid", values);
                 AssignFieldValuesFromResult(con);
                 DataTable dt = con.DataTable;
-               
-                object row = lookUpEdit1.Properties.GetDataSourceRowByKeyValue(lookUpEdit1.EditValue);           
- 
+
+                object row = lookUpEdit1.Properties.GetDataSourceRowByKeyValue(lookUpEdit1.EditValue);
+
                 values.Add(result.Trim());
-                values.Add( (row as DataRowView)["TYPE2"].ToString());
+                values.Add((row as DataRowView)["TYPE2"].ToString());
                 if (dt.Rows.Count == 0)
-                {                    
-                    ctrlSA.ExecuteStoreProcedure("sp_fomular_ins", values);                
+                {
+                    ctrlSA.ExecuteStoreProcedure("sp_fomular_ins", values);
                 }
                 else
                 {
@@ -387,7 +379,7 @@ namespace FIS.AppClient.Controls
         }
 
         private void simpleButton8_Click(object sender, EventArgs e)
-        {            
+        {
             this.CloseModule();
         }
 
@@ -430,10 +422,10 @@ namespace FIS.AppClient.Controls
             LoadData();
         }
 
-    
+
 
         private void gridView1_DoubleClick(object sender, EventArgs e)
-        {          
+        {
             string s = textEdit1.SelectedText;
             if (s != "")
             {
@@ -485,6 +477,6 @@ namespace FIS.AppClient.Controls
             }
         }
 
-       
+
     }
 }

@@ -1,6 +1,6 @@
-using System;
 using FIS.Controllers;
 using FIS.Utils;
+using System;
 
 namespace FIS.AppClient.Controls
 {
@@ -57,7 +57,7 @@ namespace FIS.AppClient.Controls
 
         public void ClearLog()
         {
-            var w = new WorkerThread(delegate(WorkerThread worker)
+            var w = new WorkerThread(delegate (WorkerThread worker)
             {
                 LockUserAction();
                 try
@@ -84,7 +84,7 @@ namespace FIS.AppClient.Controls
         {
             base.Execute();
 
-            var w = new WorkerThread(delegate(WorkerThread worker)
+            var w = new WorkerThread(delegate (WorkerThread worker)
             {
                 LockUserAction();
                 try

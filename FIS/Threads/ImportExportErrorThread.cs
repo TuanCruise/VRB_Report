@@ -1,11 +1,9 @@
-﻿using System;
-using System.Data;
-using System.ServiceModel;
-using System.Windows.Forms;
-using Aspose.Cells;
+﻿using Aspose.Cells;
 using FIS.AppClient.Controls;
-using FIS.Common;
 using FIS.Utils;
+using System;
+using System.Data;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Threads
 {
@@ -17,7 +15,7 @@ namespace FIS.AppClient.Threads
 
         public ImportExportErrorThread(Control parent) : base(null, parent)
         {
-            Parent = (ucIMWizard) parent;
+            Parent = (ucIMWizard)parent;
             Worker = ExecuteExport;
         }
 
@@ -29,10 +27,10 @@ namespace FIS.AppClient.Threads
 
                 var workbook = new Workbook();
                 var worksheet = workbook.Worksheets[0];
-                
-                for(var i = 0; i < ExcelBufferTable.Columns.Count; i++)
+
+                for (var i = 0; i < ExcelBufferTable.Columns.Count; i++)
                 {
-                    for(var j = 0; j < ExcelBufferTable.Rows.Count; j++)
+                    for (var j = 0; j < ExcelBufferTable.Rows.Count; j++)
                     {
                         worksheet.Cells[j, i].PutValue(ExcelBufferTable.Rows[j][i]);
                     }

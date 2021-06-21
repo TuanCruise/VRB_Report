@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FIS.Common;
+﻿using FIS.Common;
 using FIS.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FIS.Utils
 {
@@ -10,7 +10,7 @@ namespace FIS.Utils
         public static List<SysvarInfo> GetValues(string grName)
         {
             return (from value in AllCaches.SysvarsInfo
-                    where value.GrName == grName 
+                    where value.GrName == grName
                     select value).ToList();
         }
 

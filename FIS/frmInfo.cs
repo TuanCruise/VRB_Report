@@ -1,14 +1,13 @@
+using DevExpress.LookAndFeel;
+using DevExpress.XtraEditors;
+using FIS.AppClient.Utils;
+using FIS.Common;
+using FIS.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.ServiceModel;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using DevExpress.LookAndFeel;
-using FIS.Common;
-using FIS.Extensions;
-using FIS.AppClient.Utils;
-using FIS.Utils;
 
 namespace FIS.AppClient
 {
@@ -51,7 +50,7 @@ namespace FIS.AppClient
                 var frmDialog = new frmInfo
                 {
                     Text = title,
-                    pictureBox1 = {Image = Properties.Resources.Info},
+                    pictureBox1 = { Image = Properties.Resources.Info },
                     lbErrorInfo = { Text = infoText }
                 };
                 frmDialog.ShowDialog(owner);
@@ -131,23 +130,23 @@ namespace FIS.AppClient
                 return;
             }
 
-            if(owner.InvokeRequired)
+            if (owner.InvokeRequired)
             {
                 owner.Invoke(new ShowErrorInfoInvoker(ShowError), title, ex, owner);
                 return;
             }
 
-            if(!owner.InvokeRequired)
+            if (!owner.InvokeRequired)
             {
                 var frmDialog = new frmInfo
-                                    {
-                                        Text = title,
-                                        lbErrorInfo =
+                {
+                    Text = title,
+                    lbErrorInfo =
                                             {
                                                 Text = string.Format("<b>{0}</b>\r\n{1}", ex.ToMessage(), ex.Reason)
                                             }
-                                    };
-                if(ex.Code.Name == "101")
+                };
+                if (ex.Code.Name == "101")
                 {
                     try
                     {

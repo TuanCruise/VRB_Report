@@ -1,28 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using DevExpress.XtraEditors.Repository;
+﻿using DevExpress.XtraEditors.Repository;
+using FIS.AppClient.Utils;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
-using FIS.Extensions;
 using FIS.Utils;
+using Microsoft.Win32;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using FIS.AppClient.Utils;
 
 namespace FIS.AppClient
 {
     public class ClientEnvironment : AbstractEnvironment
     {
         private CachedHashInfo m_ServerCachedHashInfo;
-        public CachedHashInfo ServerCachedHashInfo {
+        public CachedHashInfo ServerCachedHashInfo
+        {
             get
             {
                 return m_ServerCachedHashInfo;
             }
         }
-        
+
         public override EnvironmentType EnvironmentType
         {
             get { return EnvironmentType.CLIENT_APPLICATION; }
@@ -63,17 +62,17 @@ namespace FIS.AppClient
                     .SetValue(null, Application.ExecutablePath + " /I \"%1\"");
             }
             catch
-            {                
+            {
             }
         }
 
         public ClientEnvironment()
         {
             ClientInfo = new ClientInfo
-                             {
-                                 //LanguageID =MaximusRegistry.GetValueOrCreate(CONSTANTS.REGNAME_LANGID, CONSTANTS.DEFAULT_LANGID)
-                                 LanguageID = CONSTANTS.DEFAULT_LANGID
-                             };
+            {
+                //LanguageID =MaximusRegistry.GetValueOrCreate(CONSTANTS.REGNAME_LANGID, CONSTANTS.DEFAULT_LANGID)
+                LanguageID = CONSTANTS.DEFAULT_LANGID
+            };
 
             GetServerInfo();
             InitializeEnvironment();
@@ -104,7 +103,7 @@ namespace FIS.AppClient
         {
             var instanceHash = ClientInfo.LanguageID + "-" + ServerCachedHashInfo.LanguageHash;
             var colLanguageInfo = CachedUtils.GetCacheOf<LanguageInfo>(instanceHash);
-            if(colLanguageInfo == null)
+            if (colLanguageInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
@@ -120,7 +119,7 @@ namespace FIS.AppClient
         public override List<ErrorInfo> BuildErrorsInfoCache()
         {
             var colErrorsInfo = CachedUtils.GetCacheOf<ErrorInfo>(ServerCachedHashInfo.ErrorsInfoHash);
-            if(colErrorsInfo == null)
+            if (colErrorsInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
@@ -136,19 +135,19 @@ namespace FIS.AppClient
         public override List<ModuleFieldInfo> BuildModuleFieldCache()
         {
             var modulesFieldsInfo = CachedUtils.GetCacheOf<ModuleFieldInfo>(ServerCachedHashInfo.ModuleFieldsInfoHash);
-            if(modulesFieldsInfo == null)
+            if (modulesFieldsInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
                     List<ModuleFieldInfo> tempModuleFields;
-                    var startRow = 0;                                                                  
+                    var startRow = 0;
                     modulesFieldsInfo = new List<ModuleFieldInfo>();
                     do
                     {
                         ctrlSA.ListModuleField(out tempModuleFields, out startRow, startRow);
                         modulesFieldsInfo.AddRange(tempModuleFields.ToArray());
                     }
-                    while (tempModuleFields.Count != 0);                                        
+                    while (tempModuleFields.Count != 0);
                 }
                 CachedUtils.SetCacheOf(modulesFieldsInfo, ServerCachedHashInfo.ModuleFieldsInfoHash);
             }
@@ -160,7 +159,7 @@ namespace FIS.AppClient
         public override List<ModuleInfo> BuildModulesInfoCache()
         {
             var colModulesInfo = CachedUtils.GetCacheOf<ModuleInfo>(ServerCachedHashInfo.ModulesInfoHash);
-            if(colModulesInfo == null)
+            if (colModulesInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
@@ -176,7 +175,7 @@ namespace FIS.AppClient
         public override List<CodeInfo> BuildCodesInfoCache()
         {
             var colCodesInfo = CachedUtils.GetCacheOf<CodeInfo>(ServerCachedHashInfo.CodesInfoHash);
-            if(colCodesInfo == null)
+            if (colCodesInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
@@ -207,7 +206,7 @@ namespace FIS.AppClient
         public override List<ButtonParamInfo> BuildSearchButtonParamsCache()
         {
             var colSearchButtonParamsInfo = CachedUtils.GetCacheOf<ButtonParamInfo>(ServerCachedHashInfo.SearchButtonParamsInfoHash);
-            if(colSearchButtonParamsInfo == null)
+            if (colSearchButtonParamsInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
@@ -223,14 +222,14 @@ namespace FIS.AppClient
         {
             var oracleParamsInfo = CachedUtils.GetCacheOf<OracleParam>(ServerCachedHashInfo.OracleParamsInfoHash);
 
-            if(oracleParamsInfo == null)
+            if (oracleParamsInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {
                     ctrlSA.ListOracleParameter(out oracleParamsInfo);
                 }
-                
-                CachedUtils.SetCacheOf(oracleParamsInfo ,ServerCachedHashInfo.OracleParamsInfoHash);
+
+                CachedUtils.SetCacheOf(oracleParamsInfo, ServerCachedHashInfo.OracleParamsInfoHash);
             }
 
             return oracleParamsInfo;
@@ -239,7 +238,7 @@ namespace FIS.AppClient
         public override List<ValidateInfo> BuildValidatesInfoCache()
         {
             var colValidatesInfo = CachedUtils.GetCacheOf<ValidateInfo>(ServerCachedHashInfo.ValidatesInfoHash);
-            if(colValidatesInfo == null)
+            if (colValidatesInfo == null)
             {
                 using (var ctrlSA = new SAController())
                 {

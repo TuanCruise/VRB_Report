@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FIS.Common;
+﻿using FIS.Common;
 using FIS.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FIS.Utils
 {
@@ -10,8 +10,8 @@ namespace FIS.Utils
         public static List<CodeInfo> GetCodes(string cdType, string cdName)
         {
             return (from code in AllCaches.CodesInfo
-             where code.CodeType == cdType && code.CodeName == cdName
-             select code).ToList();
+                    where code.CodeType == cdType && code.CodeName == cdName
+                    select code).ToList();
         }
 
         public static string GetCodeName(string cdType, string cdName, string cdValue)

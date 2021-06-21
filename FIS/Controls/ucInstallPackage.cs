@@ -1,12 +1,10 @@
-﻿using System;
-using System.Data;
-using System.IO;
-using System.ServiceModel;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using FIS.AppClient.Interface;
-using FIS.Common;
 using FIS.Controllers;
 using FIS.Utils;
+using System;
+using System.Data;
+using System.IO;
 
 namespace FIS.AppClient.Controls
 {
@@ -49,7 +47,7 @@ namespace FIS.AppClient.Controls
             var modules = ds.Tables["DEFMOD"].Rows;
             lstModule.ImageList = ThemeUtils.Image16;
 
-            for(var i = 0;i < modules.Count; i++)
+            for (var i = 0; i < modules.Count; i++)
             {
                 var codeName = CodeUtils.GetCodeName("DEFMOD", "SUBMOD", (string)modules[i]["SUBMOD"]);
                 lstModule.Items.Add(modules[i]["MODNAME"], ThemeUtils.GetImage16x16Index(codeName));

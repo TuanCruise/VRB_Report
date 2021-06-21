@@ -1,33 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
-using FIS.Utils;
-using FIS.Controllers;
-using FIS.Entities;
-using DevExpress.XtraEditors.Controls;
-using System.Threading;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
-using System.Data;
-using System.Xml.Serialization;
-using System.IO;
-using DevExpress.XtraGrid.Views.BandedGrid;
-using DevExpress.XtraGrid;
-using FIS.AppClient.Interface;
-using FIS.Base;
-using FIS.Extensions;
-using FIS.Common;
+﻿using DevExpress.XtraGrid;
 using DevExpress.XtraTreeList.Columns;
 using DevExpress.XtraTreeList.Nodes;
-using DevExpress.XtraTreeList.StyleFormatConditions;
+using FIS.AppClient.Interface;
+using FIS.Base;
+using FIS.Common;
+using FIS.Controllers;
+using FIS.Entities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
     public partial class ucTreeView : ucModule, IParameterFieldSupportedModule
     {
-        public int moduleid; 
+        public int moduleid;
         public ucTreeView()
         {
             InitializeComponent();
@@ -35,7 +23,7 @@ namespace FIS.AppClient.Controls
 
         protected override void InitializeModuleData()
         {
-            base.InitializeModuleData();         
+            base.InitializeModuleData();
             List<string> values = null;
             values = new List<string>();
             //values.Add(Program.treeModuleID.ToString());
@@ -48,7 +36,7 @@ namespace FIS.AppClient.Controls
                 DataTable dt = con.DataTable;
                 SYSTEM_STORE_PROCEDURES.MODULE_TREE = dt.Rows[0][0].ToString();
             }
-            
+
             try
             {
                 LoadData(SYSTEM_STORE_PROCEDURES.MODULE_TREE);
@@ -86,7 +74,7 @@ namespace FIS.AppClient.Controls
                     //treeView.Columns[1].Visible = false;
                     //treeView.Columns[2].Visible = false;
                     //TransLanguage
-                    List<string> values1 = values = new List<string>();          
+                    List<string> values1 = values = new List<string>();
                     //values1.Add(Program.treeModuleID.ToString());
                     values1.Add(ModuleInfo.ModuleID);
                     DataContainer con1;
@@ -106,7 +94,7 @@ namespace FIS.AppClient.Controls
                         {
                             for (int k = 0; k <= treeView.Columns.Count - 1; k++)
                             {
-                                if (treeView.Columns[k].Name + ".LABEL" =="col"+ langname.Split('$')[1].ToUpper())
+                                if (treeView.Columns[k].Name + ".LABEL" == "col" + langname.Split('$')[1].ToUpper())
                                 {
                                     treeView.Columns[k].Caption = langvalue;
                                     break;
@@ -140,7 +128,7 @@ namespace FIS.AppClient.Controls
 
         private void SetFormat()
         {
-            
+
             TreeListColumnCollection cols = treeView.Columns;
             TreeListColumn colLevel = cols["CAP"];
             colLevel.OptionsColumn.AllowEdit = true;
@@ -180,5 +168,5 @@ namespace FIS.AppClient.Controls
             colLevel.Visible = false;
 
         }
-    }   
+    }
 }

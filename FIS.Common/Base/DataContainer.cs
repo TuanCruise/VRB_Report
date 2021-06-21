@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FIS.Entities;
+using FIS.Utils;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Runtime.Serialization;
-using FIS.Entities;
-using FIS.Utils;
 
 namespace FIS.Base
 {
@@ -115,7 +115,7 @@ namespace FIS.Base
                 using (var sr = new StringReader(Container))
                 {
                     resultTable.ReadXml(sr);
-                    foreach(DataRow row in resultTable.Rows)
+                    foreach (DataRow row in resultTable.Rows)
                     {
                         row.AcceptChanges();
                     }

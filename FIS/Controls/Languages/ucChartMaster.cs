@@ -28,7 +28,7 @@ namespace FIS.AppClient.Controls
 
             Language.Layout = Language.GetLayout(null);
             Language.FormatButton(btnExecute);
-            
+
             base.InitializeLanguage();
         }
     }

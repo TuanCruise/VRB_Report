@@ -15,7 +15,7 @@ namespace FIS.FRead
         public static string HOMEDirectory { get; private set; }
         static Configs()
         {
-            HOMEDirectory = ConfigurationSettings.AppSettings["HOMEDirectory"];
+            HOMEDirectory = ConfigurationManager.AppSettings["proxyPass"]; // ConfigurationSettings.AppSettings["HOMEDirectory"];
         }
     }
 }

@@ -1,10 +1,9 @@
-using System;
-using System.Data;
-using System.ServiceModel;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
+using System;
+using System.Data;
 using System.Linq;
 
 namespace FIS.AppClient.Controls
@@ -39,7 +38,7 @@ namespace FIS.AppClient.Controls
                         {
                             LockUserAction();
 
-                            ((ClientEnvironment) App.Environment).GetServerInfo();
+                            ((ClientEnvironment)App.Environment).GetServerInfo();
                             LangUtils.RefreshLanguage();
                             m_LanguageTable = new DataTable();
 
@@ -104,7 +103,7 @@ namespace FIS.AppClient.Controls
                 Enabled = true;
             }
         }
-        
+
         void CurrentThread_ProcessComplete(object sender, EventArgs e)
         {
             mainGrid.DataSource = m_LanguageTable;
@@ -142,7 +141,7 @@ namespace FIS.AppClient.Controls
                 }, this);
 
             CurrentThread.ProcessComplete += CurrentThread_ProcessComplete;
-            CurrentThread.Start(); 
+            CurrentThread.Start();
 #endif
         }
     }

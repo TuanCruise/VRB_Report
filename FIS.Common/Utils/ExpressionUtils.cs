@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FIS.Common;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using FIS.Common;
 
 namespace FIS.Utils
 {
@@ -18,7 +18,7 @@ namespace FIS.Utils
         public Operand(OperandType type, string nameOrValue)
         {
             Type = type;
-            if(type == OperandType.NAME)
+            if (type == OperandType.NAME)
                 NameOrValue = nameOrValue.Substring(1);
             else
                 NameOrValue = nameOrValue;

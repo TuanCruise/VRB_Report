@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
 using System.Globalization;
-using System;
+using System.Runtime.Serialization;
 
 namespace FIS
 {
@@ -17,10 +17,10 @@ namespace FIS
                 m_CultureName = value;
                 Culture = CultureInfo.GetCultureInfo(m_CultureName);
             }
-        }        
+        }
         public DateTime ServerNow
         {
-            get { return DateTime.Now; }            
+            get { return DateTime.Now; }
         }
         public CultureInfo Culture { get; set; }
         public string ApplicationName { get; set; }

@@ -1,5 +1,5 @@
-﻿using System;
-using FIS.Common;
+﻿using FIS.Common;
+using System;
 
 namespace FIS.Base
 {

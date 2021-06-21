@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using DevExpress.XtraEditors;
-using DevExpress.XtraLayout;
+﻿using DevExpress.XtraLayout;
+using DevExpress.XtraRichEdit;
 using FIS.AppClient.Interface;
-using FIS.Common;
+using FIS.Base;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using FIS.Base;
-using DevExpress.XtraRichEdit;
-using System.Net.Mail;
-using System.Windows;
-using System.Text;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Net.Mail;
+using System.Text;
 
 namespace FIS.AppClient.Controls
 {
@@ -101,7 +98,7 @@ namespace FIS.AppClient.Controls
         {
             get { return Language.SendMailLayout; }
         }
-        
+
         private void btnSendMail_Click(object sender, EventArgs e)
         {
             if (ValidateModule())

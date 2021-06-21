@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FIS.Entities;
+﻿using FIS.Entities;
 using FIS.Utils;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FIS.Common
 {
@@ -69,7 +69,7 @@ namespace FIS.Common
 
             OnInitializeStepChanged("Caching errors information...");
             InitializeErrorsInfo();
-            
+
             OnInitializeStepChanged("Caching modules information...");
             InitializeModulesInfo();
 
@@ -82,7 +82,7 @@ namespace FIS.Common
             OnInitializeStepChanged("Caching codes information...");
             InitializeCodesInfo();
 
-            OnInitializeStepChanged("Caching module export header information...");            
+            OnInitializeStepChanged("Caching module export header information...");
             InitializeExportHeaderInfo();
 
             OnInitializeStepChanged("Caching sysvar information...");

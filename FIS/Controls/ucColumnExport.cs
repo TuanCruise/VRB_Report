@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
-using FIS.Utils;
-using FIS.Controllers;
-using FIS.Entities;
-using DevExpress.XtraEditors.Controls;
-using System.Threading;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
-using System.Data;
-using System.Xml.Serialization;
-using System.IO;
-using DevExpress.XtraGrid.Views.BandedGrid;
+﻿using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.BandedGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -43,9 +36,9 @@ namespace FIS.AppClient.Controls
         public void InitData()
         {
             var gridView = gcMain.DefaultView as GridView;
-            foreach(GridColumn column in gridView.Columns)
+            foreach (GridColumn column in gridView.Columns)
             {
-                chkLstColumnExport.Items.Add(new CheckedListBoxItem(column.FieldName,column.ToolTip));
+                chkLstColumnExport.Items.Add(new CheckedListBoxItem(column.FieldName, column.ToolTip));
             }
             chkLstColumnExport.CheckAll();
         }
@@ -54,12 +47,12 @@ namespace FIS.AppClient.Controls
         {
             if (rdgExportTitle.Checked) { chkLstColumnExport.Enabled = false; chkCheckAll.Enabled = false; }
             else { chkLstColumnExport.Enabled = true; chkCheckAll.Enabled = true; }
-            
+
         }
         private void ucColumnExport_Load(object sender, EventArgs e)
         {
             VisibleCheckList();
-            InitData();           
+            InitData();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -120,7 +113,7 @@ namespace FIS.AppClient.Controls
 
         private void chkCheckAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(chkCheckAll.Checked) chkLstColumnExport.CheckAll();
+            if (chkCheckAll.Checked) chkLstColumnExport.CheckAll();
             else chkLstColumnExport.UnCheckAll();
         }
     }

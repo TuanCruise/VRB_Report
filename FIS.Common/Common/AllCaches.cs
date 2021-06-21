@@ -1,6 +1,5 @@
-﻿using System;
+﻿using FIS.Entities;
 using System.Collections.Generic;
-using FIS.Entities;
 
 namespace FIS.Common
 {

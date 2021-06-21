@@ -169,29 +169,29 @@ namespace FIS.AppClient.Controls
             CurrentThread = new WorkerThread(
               delegate
               {
-                LockUserAction();
+                  LockUserAction();
                   DataContainer container;
-                    try
-                    {
-                        using (SAController ctrlSA = new SAController())
-                        {
-                            List<string> Values;
-                            GetOracleParameterValues(out Values, ReportInfo.StoreName);
-                            ctrlSA.ExecuteMaintainReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
-                        }
-                    }
-                    catch (FaultException ex)
-                    {
-                        ShowError(ex);
-                    }
-                    catch (Exception ex)
-                    {
-                        ShowError(ex);
-                    }
-                    finally
-                    {
-                        UnLockUserAction();
-                    }
+                  try
+                  {
+                      using (SAController ctrlSA = new SAController())
+                      {
+                          List<string> Values;
+                          GetOracleParameterValues(out Values, ReportInfo.StoreName);
+                          ctrlSA.ExecuteMaintainReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
+                      }
+                  }
+                  catch (FaultException ex)
+                  {
+                      ShowError(ex);
+                  }
+                  catch (Exception ex)
+                  {
+                      ShowError(ex);
+                  }
+                  finally
+                  {
+                      UnLockUserAction();
+                  }
               }, this);
 
             CurrentThread.ProcessComplete += ExecuteFetchResult_ProcessCompleteMail;
@@ -205,12 +205,12 @@ namespace FIS.AppClient.Controls
             {
                 using (SAController ctrlSA = new SAController())
                 {
-                    List<string> Values; 
+                    List<string> Values;
                     GetOracleParameterValues(out Values, ReportInfo.StoreName);
                     //Tao tung bao cao mot va ket xuat ra file PDF
                     List<string> paras = new List<string>(Values[0].ToString().Split(','));
                     #region Create Data
-                    foreach(var para in paras)
+                    foreach (var para in paras)
                     {
                         List<string> value = new List<string>();
                         value.Add(para);
@@ -242,10 +242,10 @@ namespace FIS.AppClient.Controls
                         dsResult.WriteXml(baseRptPath + ".xml", XmlWriteMode.WriteSchema);
                         var report = XtraReport.FromFile(baseRptPath + ".repx", true);
                         report.XmlDataPath = baseRptPath + ".xml";
-                        var fileName = para + "_" + Convert.ToDateTime(Values[2].ToString(), CultureInfo.InvariantCulture).ToShortDateString().Replace("/","") + ".pdf";
+                        var fileName = para + "_" + Convert.ToDateTime(Values[2].ToString(), CultureInfo.InvariantCulture).ToShortDateString().Replace("/", "") + ".pdf";
 
                         System.IO.Directory.CreateDirectory(ExportPath);
-                        
+
                         report.ExportToPdf(ExportPath + "\\" + fileName);
                         #endregion
                     }
@@ -276,7 +276,7 @@ namespace FIS.AppClient.Controls
 
                         string strProcedureName = ReportInfo.StoreName;
                         string strReportName = ReportInfo.ReportName;
-                       
+
                         var dt = ds.Tables[CONSTANTS.REPORT_PARAMETER];
 
                         report.RequestParameters = false;
@@ -315,7 +315,7 @@ namespace FIS.AppClient.Controls
             try
             {
                 var frmDesigner = new XRDesignFormEx();
-                
+
                 if (File.Exists(baseRptPath + ".repx"))
                 {
                     var report = XtraReport.FromFile(baseRptPath + ".repx", true);
@@ -334,7 +334,7 @@ namespace FIS.AppClient.Controls
                 ShowError(ex);
             }
         }
-        
+
         public bool ValidateRequire
         {
             get { return true; }
@@ -358,8 +358,8 @@ namespace FIS.AppClient.Controls
                    LockUserAction();
                    try
                    {
-                        ExportReportToPdf();
-                    }
+                       ExportReportToPdf();
+                   }
                    catch (Exception ex)
                    {
                        ShowError(ex);
@@ -383,6 +383,6 @@ namespace FIS.AppClient.Controls
             frmInfo.ShowInfo("Gửi Email sao kê", "Đã gửi sao kê thành công !", this);
             CloseModule();
         }
-      
+
     }
 }

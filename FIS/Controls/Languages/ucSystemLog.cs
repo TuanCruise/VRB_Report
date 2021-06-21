@@ -19,7 +19,7 @@ namespace FIS.AppClient.Controls
                 return (SystemLogLanguage)base.Language;
             }
         }
-        
+
         public override void InitializeLanguage()
         {
             base.Language = new SystemLogLanguage(ModuleInfo);

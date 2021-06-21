@@ -21,7 +21,7 @@ namespace FIS.AppClient.Controls
                 return (ModuleFieldMakerLanguage)base.Language;
             }
         }
-        
+
         public override void InitializeLanguage()
         {
             base.Language = new ModuleFieldMakerLanguage(ModuleInfo);

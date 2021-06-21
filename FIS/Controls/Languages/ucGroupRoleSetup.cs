@@ -28,7 +28,7 @@ namespace FIS.AppClient.Controls
                 return (GroupRoleSetupLanguage)base.Language;
             }
         }
-        
+
         public override void InitializeLanguage()
         {
             base.Language = new GroupRoleSetupLanguage(ModuleInfo)

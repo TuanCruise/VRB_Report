@@ -72,7 +72,7 @@ namespace FIS.Extensions
 
             if (prop != null)
             {
-                var value = prop.GetValue(m_Object, new object[] {});
+                var value = prop.GetValue(m_Object, new object[] { });
 
                 if (astr.Length == 2)
                 {

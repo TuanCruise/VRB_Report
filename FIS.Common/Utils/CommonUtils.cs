@@ -1,13 +1,12 @@
-﻿using System;
+﻿using FIS.Common;
+using Microsoft.ServiceModel.Samples;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
-using System.ServiceModel;
-using System.Text;
-using FIS.Common;
-using Microsoft.ServiceModel.Samples;
 using System.ServiceModel.Channels;
+using System.Text;
 
 namespace FIS.Utils
 {
@@ -75,7 +74,7 @@ namespace FIS.Utils
             {
                 _configProxy = true;
             }
-           
+
             var httpTransport = new HttpTransportBindingElement
             {
                 KeepAliveEnabled = true,
@@ -84,8 +83,8 @@ namespace FIS.Utils
                 MaxReceivedMessageSize = int.MaxValue,
                 UseDefaultWebProxy = _configProxy,
             };
-            
-                        
+
+
             //tcpTransport.ReaderQuotas.MaxArrayLength = int.MaxValue;
             //tcpTransport.ReaderQuotas.MaxStringContentLength = int.MaxValue;
 
@@ -114,31 +113,31 @@ namespace FIS.Utils
             binMessageElement.ReaderQuotas.MaxDepth = int.MaxValue;
 
             var gzipElement = new GZipMessageEncodingBindingElement
-                                  {
-                                      InnerMessageEncodingBindingElement = binMessageElement
-                                  };
+            {
+                InnerMessageEncodingBindingElement = binMessageElement
+            };
 
             var tcpTransport = new TcpTransportBindingElement
-                                   {
-                                       MaxBufferPoolSize = int.MaxValue,
-                                       MaxBufferSize = int.MaxValue,
-                                       MaxReceivedMessageSize = int.MaxValue,
-                                       ChannelInitializationTimeout = TimeSpan.FromHours(12),
-                                       PortSharingEnabled = false,
-                                       ListenBacklog = int.MaxValue,
-                                       MaxPendingConnections = 100,
-                                       MaxPendingAccepts = 32,
-                                   };
+            {
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                MaxReceivedMessageSize = int.MaxValue,
+                ChannelInitializationTimeout = TimeSpan.FromHours(12),
+                PortSharingEnabled = false,
+                ListenBacklog = int.MaxValue,
+                MaxPendingConnections = 100,
+                MaxPendingAccepts = 32,
+            };
             //tcpTransport.ReaderQuotas.MaxArrayLength = int.MaxValue;
             //tcpTransport.ReaderQuotas.MaxStringContentLength = int.MaxValue;
 
             var binding = new CustomBinding(gzipElement, tcpTransport)
-                              {
-                                  ReceiveTimeout = TimeSpan.FromHours(12),
-                                  SendTimeout = TimeSpan.FromHours(12),
-                                  OpenTimeout = TimeSpan.FromHours(12),
-                                  CloseTimeout = TimeSpan.FromHours(12),
-                              };
+            {
+                ReceiveTimeout = TimeSpan.FromHours(12),
+                SendTimeout = TimeSpan.FromHours(12),
+                OpenTimeout = TimeSpan.FromHours(12),
+                CloseTimeout = TimeSpan.FromHours(12),
+            };
             //binding.ReliableSession.Enabled = false;
 
 

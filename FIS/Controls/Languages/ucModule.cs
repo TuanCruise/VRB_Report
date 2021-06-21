@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using FIS.Entities;
 using FIS.Utils;
+using System;
+using System.Drawing;
 
 namespace FIS.AppClient.Controls
 {
@@ -23,7 +23,7 @@ namespace FIS.AppClient.Controls
             public void FormatButton(SimpleButton button)
             {
                 button.Text = GetButtonCaption(button.Name);
-                button.Image = GetButtonIcon16(button.Name);                
+                button.Image = GetButtonIcon16(button.Name);
             }
 
             public void FormatButton(SimpleButton button, string buttonName)
@@ -35,7 +35,7 @@ namespace FIS.AppClient.Controls
             public Size GetSize()
             {
                 var strSize = LangUtils.TranslateModuleItem(LangType.SIZE, ModuleInfo);
-                var arrSize = strSize.Split(new[] {",", ";", "x"}, StringSplitOptions.RemoveEmptyEntries);
+                var arrSize = strSize.Split(new[] { ",", ";", "x" }, StringSplitOptions.RemoveEmptyEntries);
                 return new Size(int.Parse(arrSize[0]), int.Parse(arrSize[1]));
             }
 
@@ -115,12 +115,12 @@ namespace FIS.AppClient.Controls
             public string GetDateValidateText(string defaultLabel)
             {
                 return string.Format(LangUtils.TranslateBasic("{0} can not greater than now", "VALUE_NOT_EQUAL_NOW"), defaultLabel);
-            }   
+            }
 
             public string GetRoleName(string roleName)
             {
                 return LangUtils.Translate(LangType.ROLE_NAME, roleName, roleName);
-            }            
+            }
         }
     }
 }

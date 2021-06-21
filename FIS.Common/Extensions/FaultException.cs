@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using FIS.Common;
+using FIS.Utils;
+using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
-using FIS.Common;
-using FIS.Utils;
 
 namespace FIS.Extensions
 {
@@ -15,7 +15,7 @@ namespace FIS.Extensions
         /// <returns></returns>
         public static string ToMessage(this FaultException ex)
         {
-            return ex.ToMessage(new object[]{});
+            return ex.ToMessage(new object[] { });
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace FIS.Extensions
             try
             {
                 var wex = new FaultExceptionWrapper(ex);
-                var formatObjects = new[] {wex}.Union(@objects).ToArray();
+                var formatObjects = new[] { wex }.Union(@objects).ToArray();
 
                 var errorCode = int.Parse(ex.Code.Name);
                 if (AllCaches.ErrorsInfo != null && AllCaches.ErrorsInfo.ContainsKey(errorCode))

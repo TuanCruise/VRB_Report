@@ -1,7 +1,7 @@
-using System;
-using System.Windows.Forms;
 using FIS.AppClient.Controls;
 using FIS.AppClient.Utils;
+using System;
+using System.Windows.Forms;
 
 namespace FIS.AppClient
 {
@@ -26,7 +26,7 @@ namespace FIS.AppClient
 
         private void MinimizeToJobQueue()
         {
-            if(ucModule.ucPreview == null)
+            if (ucModule.ucPreview == null)
             {
                 ucModule.ucPreview = new ucModulePreview { Module = ucModule, ModuleForm = this };
 
@@ -44,7 +44,7 @@ namespace FIS.AppClient
 
         private void frmModuleBox_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(!IsDisposed)
+            if (!IsDisposed)
             {
                 if (e.CloseReason == CloseReason.UserClosing)
                 {

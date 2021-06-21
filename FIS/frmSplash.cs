@@ -1,9 +1,8 @@
+using DevExpress.XtraEditors;
 using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using FIS.Common;
 
 namespace FIS.AppClient
 {
@@ -27,7 +26,7 @@ namespace FIS.AppClient
                 backgroundImage = Image.FromFile("Theme\\Splash.jpg");
                 Width = backgroundImage.Width + 4;
                 Height = backgroundImage.Height + 4;
-                BackgroundImage = backgroundImage;                
+                BackgroundImage = backgroundImage;
             }
             catch
             {
@@ -49,7 +48,7 @@ namespace FIS.AppClient
         private delegate void CloseFormDelegate();
         private void _CloseForm()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new CloseFormDelegate(_CloseForm));
                 return;
@@ -71,13 +70,13 @@ namespace FIS.AppClient
 
         public static void CloseForm()
         {
-            if(Instance != null)
+            if (Instance != null)
                 Instance._CloseForm();
         }
 
         private void _ChangeSplashStatus(string statusText)
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new DelegateChangeStatus(_ChangeSplashStatus), statusText);
                 return;

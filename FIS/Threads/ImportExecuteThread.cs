@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.Data;
-using FIS.AppClient.Controls;
+﻿using FIS.AppClient.Controls;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Extensions;
 using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.ServiceModel;
 using System.Windows.Forms;
 
 namespace FIS.AppClient.Threads
@@ -58,13 +58,13 @@ namespace FIS.AppClient.Threads
                                     //}
                                     //end trungtt
 
-                                    StatusText = values[1].ToString();                                    
+                                    StatusText = values[1].ToString();
                                     ExecuteUpdateGUI();
-                                }   
+                                }
                             }
                             catch (FaultException ex)
                             {
-                                ErrorInfos[importRow] = string.Format("{0}\r\n{1}", ex.ToMessage(), ex.Reason);                                
+                                ErrorInfos[importRow] = string.Format("{0}\r\n{1}", ex.ToMessage(), ex.Reason);
                                 Program.blEnableImport = false;
                             }
                             catch (Exception cex)

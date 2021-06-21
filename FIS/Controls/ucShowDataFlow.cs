@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.ServiceModel;
-using System.Text.RegularExpressions;
-using System.Windows;
-using FIS.AppClient.Interface;
+﻿using FIS.AppClient.Interface;
 using FIS.AppClient.Properties;
+using FIS.AppClient.Utils;
 using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using FIS.AppClient.Utils;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace FIS.AppClient.Controls
 {
@@ -73,7 +72,7 @@ namespace FIS.AppClient.Controls
                     case CODES.DEFMOD.MODTYPE.MAINTAIN:
                         if (module.SubModule == "MED")
                         {
-                            var maintainModule = (MaintainModuleInfo) module;
+                            var maintainModule = (MaintainModuleInfo)module;
                             endStores.Add(maintainModule.EditSelectStore);
                             endStores.Add(maintainModule.EditUpdateStore);
                         }
@@ -99,7 +98,7 @@ namespace FIS.AppClient.Controls
                 var count = 0;
                 foreach (string store in endStores)
                 {
-                    if(!string.IsNullOrEmpty(store))
+                    if (!string.IsNullOrEmpty(store))
                     {
                         cboStoresName.Properties.Items.Add(store);
                         reMain.EndPaintObjects.Add(CreatePaintObject(store, count == 0 ? Color.Green : Color.Red));
@@ -109,7 +108,7 @@ namespace FIS.AppClient.Controls
 
                 lbTitle.Text = string.Format("\"{0}\" Data Flow", LangUtils.TranslateModuleItem(LangType.MODULE_TITLE, module));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ErrorUtils.CreateError(ex);
             }
@@ -135,7 +134,7 @@ namespace FIS.AppClient.Controls
 
         static void modulePaintObject_CustomLabel(object sender, PaintObject<ModuleInfo, ModuleFieldInfo>.CustomLabelEventArgs e)
         {
-            if(e.Parent.SubModule == CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT)
+            if (e.Parent.SubModule == CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT)
             {
                 e.Text = string.Format("({0}){1}", e.Child.ReadOnlyOnEdit, e.Child.FieldName);
             }
@@ -152,26 +151,26 @@ namespace FIS.AppClient.Controls
                 e.Text = string.Format("(RO){0}", e.Child.FieldName);
             }
 
-            if (e.Text.StartsWith("(RO)"))e.ForeColor = Color.Red;
+            if (e.Text.StartsWith("(RO)")) e.ForeColor = Color.Red;
         }
 
         public PaintObject<string, OracleParameter> CreatePaintObject(string storeName, Color connectorColor)
         {
-            using(var ctrlSA = new SAController())
+            using (var ctrlSA = new SAController())
             {
                 DataContainer container;
-                
+
                 ctrlSA.ExecuteSQL(out container, "SELECT * FROM USER_ARGUMENTS WHERE OBJECT_NAME = '" + storeName + "' ORDER BY POSITION");
 
                 var table = container.DataTable;
-                
+
                 var oracleParams = (from DataRow row in table.Rows
                                     select new OracleParameter
-                                               {
-                                                   ParameterName = (string) row["ARGUMENT_NAME"],
-                                                   ParameterType = (OracleParameterType) Enum.Parse(typeof (OracleParameterType), (string) row["IN_OUT"]),
-                                                   ParamterDataType = (string)row["DATA_TYPE"]
-                                               }).ToList();
+                                    {
+                                        ParameterName = (string)row["ARGUMENT_NAME"],
+                                        ParameterType = (OracleParameterType)Enum.Parse(typeof(OracleParameterType), (string)row["IN_OUT"]),
+                                        ParamterDataType = (string)row["DATA_TYPE"]
+                                    }).ToList();
 
                 oracleParams.Add(new OracleParameter
                 {
@@ -227,7 +226,7 @@ namespace FIS.AppClient.Controls
         private void reMain_ItemClicked(object sender, ItemClickedEventArgs e)
         {
             var fieldInfo = e.Position.Child as ModuleFieldInfo;
-            if(fieldInfo != null)
+            if (fieldInfo != null)
             {
                 var ucModule = MainProcess.CreateModuleInstance("02904", "MED");
                 ucModule["P01"] = fieldInfo.ModuleID;
@@ -237,9 +236,9 @@ namespace FIS.AppClient.Controls
             else
             {
                 var paramInfo = e.Position.Child as OracleParameter;
-                if(paramInfo != null)
+                if (paramInfo != null)
                 {
-                    switch(paramInfo.ParameterName)
+                    switch (paramInfo.ParameterName)
                     {
                         case "New Cursor":
                             break;
@@ -253,7 +252,7 @@ namespace FIS.AppClient.Controls
             var param = e.BeginPoint.Child as OracleParameter;
             var field = e.EndPoint.Child as ModuleFieldInfo;
 
-            if(field != null && param != null && !string.IsNullOrEmpty(field.ParameterName))
+            if (field != null && param != null && !string.IsNullOrEmpty(field.ParameterName))
             {
                 string paramType;
                 switch (field.FieldType)
@@ -269,21 +268,21 @@ namespace FIS.AppClient.Controls
                         paramType = "NUMBER";
                         break;
                 }
-                
+
                 if (param.ParameterType == OracleParameterType.NEW)
                 {
-                    foreach(PaintObject<string, OracleParameter> endPoints in reMain.EndPaintObjects)
+                    foreach (PaintObject<string, OracleParameter> endPoints in reMain.EndPaintObjects)
                     {
-                        if(endPoints.Childs.Contains(param))
+                        if (endPoints.Childs.Contains(param))
                         {
                             var insertPosition = endPoints.Childs.Count - 1;
                             endPoints.Childs.Insert(insertPosition,
                                 new OracleParameter
-                                    {
-                                        ParameterName = field.ParameterName,
-                                        ParameterType = OracleParameterType.IN,
-                                        ParamterDataType = paramType
-                                    });
+                                {
+                                    ParameterName = field.ParameterName,
+                                    ParameterType = OracleParameterType.IN,
+                                    ParamterDataType = paramType
+                                });
                         }
                     }
                 }
@@ -296,7 +295,7 @@ namespace FIS.AppClient.Controls
             {
                 using (var ctrlSA = new SAController())
                 {
-                    foreach(PaintObject<string, OracleParameter> paintObject in reMain.EndPaintObjects)
+                    foreach (PaintObject<string, OracleParameter> paintObject in reMain.EndPaintObjects)
                     {
                         DataContainer container;
                         ctrlSA.ExecuteSQL(out container, "SELECT DEV_FN_STORE_BODY('" + paintObject.Title.ToUpper() + "') FROM DUAL");
@@ -305,7 +304,7 @@ namespace FIS.AppClient.Controls
 
                         foreach (var param in paintObject.Childs)
                         {
-                            if(param.ParameterType == OracleParameterType.IN)
+                            if (param.ParameterType == OracleParameterType.IN)
                             {
                                 if (param.ParameterType != OracleParameterType.NEW)
                                 {
@@ -385,12 +384,12 @@ namespace FIS.AppClient.Controls
 
     public class OracleParameter
     {
-        public string ParameterName {get; set;}
-        public OracleParameterType ParameterType{get;set;}
+        public string ParameterName { get; set; }
+        public OracleParameterType ParameterType { get; set; }
         public string ParamterDataType { get; set; }
         public string GetLabel()
         {
-            if(ParameterName == "SESSIONINFO_USERNAME")
+            if (ParameterName == "SESSIONINFO_USERNAME")
             {
                 return "(SYS)" + ParameterName;
             }

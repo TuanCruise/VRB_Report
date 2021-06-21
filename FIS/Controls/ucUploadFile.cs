@@ -1,38 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls;
-using FIS.AppClient.Interface;
+﻿using DevExpress.XtraEditors.Controls;
+using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using FIS.Base;
-using System.ServiceModel;
-using ClientWS.Stuffs;
-using System.Security.Cryptography.X509Certificates;
-using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 
 namespace FIS.AppClient.Controls
 {
     public partial class ucUploadFile : ucModule
-    {        
+    {
         private List<string> AttachmentFiles = new List<string>();
-        private List<string> checkedListFiles = new List<string>();        
+        private List<string> checkedListFiles = new List<string>();
 
         public ucUploadFile()
         {
             InitializeComponent();
-            Program.FileName = String.Empty;            
+            Program.FileName = String.Empty;
         }
         public int MessageID { get; set; }
 
@@ -46,9 +38,9 @@ namespace FIS.AppClient.Controls
         }
 
         private void btnFilename_Click(object sender, ButtonPressedEventArgs e)
-        {            
+        {
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Filter = IMPORTMASTER.ATTACKED_FILE_EXTENSIONS;            
+            openFile.Filter = IMPORTMASTER.ATTACKED_FILE_EXTENSIONS;
             if (Program.strExecMod == "S")
                 openFile.Multiselect = false;
             else
@@ -61,13 +53,13 @@ namespace FIS.AppClient.Controls
                 int i = itemChecked;
                 foreach (var strFile in AttachmentFiles)
                 {
-                    checkedListBoxControl1.Items.Add(strFile, true);                                       
+                    checkedListBoxControl1.Items.Add(strFile, true);
                     i++;
-                }                                        
+                }
             }
         }
 
-        private  void btnUpload_Click(object sender, EventArgs e)
+        private void btnUpload_Click(object sender, EventArgs e)
 
         {
             Execute();
@@ -80,7 +72,7 @@ namespace FIS.AppClient.Controls
             var ctrlSA = new SAController();
             try
             {
-                File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n", DateTime.Now.ToLongTimeString()));                
+                File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n", DateTime.Now.ToLongTimeString()));
                 checkedListFiles.Clear();
                 for (int i = 0; i < checkedListBoxControl1.Items.Count; i++)
                 {
@@ -99,8 +91,8 @@ namespace FIS.AppClient.Controls
                     zipStream.SetLevel(9); //0-9, 9 being the highest level of compression                    
                     foreach (var filename in checkedListFiles)
                     {
-                        
-                        if ( !string.IsNullOrEmpty(filename))
+
+                        if (!string.IsNullOrEmpty(filename))
                         {
                             FileInfo fi = new FileInfo(filename);
                             string entryName = System.IO.Path.GetFileName(filename);
@@ -117,8 +109,8 @@ namespace FIS.AppClient.Controls
                             {
                                 StreamUtils.Copy(streamReader, zipStream, buffer);
                             }
-                            zipStream.CloseEntry();                            
-                        }                             
+                            zipStream.CloseEntry();
+                        }
                     }
                     zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
                     zipStream.Close();
@@ -133,10 +125,10 @@ namespace FIS.AppClient.Controls
                     upload.SecID = 0;
                     ctrlSA.SaveFile(upload);
 
-                    Program.FileName = Program.FileName + System.IO.Path.GetFileName(outPathname) ;
+                    Program.FileName = Program.FileName + System.IO.Path.GetFileName(outPathname);
                     _streamAttr.Dispose();
                 }
-               
+
                 //List<string> listparam = new List<string>();
                 //for (int i = 0; i < checkedListBoxControl1.Items.Count; i++)
                 //{
@@ -156,12 +148,12 @@ namespace FIS.AppClient.Controls
                     Program.blCheckFile = true;
 
                 File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n", DateTime.Now.ToLongTimeString()));
-                CloseModule();                
+                CloseModule();
             }
             catch (Exception ex)
             {
                 //CREATE ERROCODE: 702 - ERR_FILE_IS_NOT_ATTACKED
-                File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n",ex.Message));
+                File.AppendAllText("LastErrors.log", string.Format("{0}\r\n-------------\r\n", ex.Message));
                 Program.FileName = null;
                 var cex = ErrorUtils.CreateError(702);
                 ShowError(cex);
@@ -423,13 +415,13 @@ namespace FIS.AppClient.Controls
         private void fileUpload_OnUploadStatusChanged(object obj, UploadFileStream.UploadStatusArgs e)
         {
             prgUploadFile.Value = (int)(e.Uploaded * 100 / e.Length);
-           // if (prgUploadFile.Value == 100) { lblStatus.Visible = false; }
+            // if (prgUploadFile.Value == 100) { lblStatus.Visible = false; }
         }
-        public  byte[] ReadFile(string filePath)
-        {                      
+        public byte[] ReadFile(string filePath)
+        {
             byte[] buffer = new byte[0];
             FileStream fileStream = null;
-           
+
             try
             {
                 using (SAController ctrlSA = new SAController())
@@ -459,9 +451,9 @@ namespace FIS.AppClient.Controls
                             var cex = ErrorUtils.CreateError(169);
                             ShowError(cex);
                         }
-                        
+
                     }
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -542,7 +534,7 @@ namespace FIS.AppClient.Controls
         private int itemChecked;
         private void ucUploadFile_Load(object sender, EventArgs e)
         {
-            
+
             //DataContainer container = null;
             //var ctrlSA = new SAController();
             //try
@@ -552,7 +544,7 @@ namespace FIS.AppClient.Controls
             //    //listparam[0] = Program.StrMessageID;
             //    //listparam.Add(null);
             //    ctrlSA.ExecuteProcedureFillDataset(out container, "SP_LISTFILE_BY_SESSIONSKEY", listparam);
-                
+
             //    var resultTable = container.DataTable;
             //    int i = 0;
             //    foreach (DataRow rows in resultTable.Rows)
@@ -568,11 +560,11 @@ namespace FIS.AppClient.Controls
             //{
             //    ShowError(ex);
             //}
-                
+
         }
-        private void ShowMessVNPTCA(int ErrCode,string ErrCodeString)
+        private void ShowMessVNPTCA(int ErrCode, string ErrCodeString)
         {
-            int iErr =996;
+            int iErr = 996;
             switch (ErrCode)
             {
                 case 100:
@@ -602,11 +594,11 @@ namespace FIS.AppClient.Controls
                 case 500:
                     iErr = 996;
                     File.AppendAllText("LastErrors.log", string.Format("{0} : {1}-{2}\r\n-------------\r\n", DateTime.Now.ToLongDateString(), "Lỗi 500 : ", ErrCodeString));
-                    break;                
+                    break;
             }
             var cex = ErrorUtils.CreateError(iErr);
             ShowError(cex);
-        }     
+        }
     }
 }
 

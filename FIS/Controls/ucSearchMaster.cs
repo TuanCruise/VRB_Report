@@ -58,15 +58,15 @@ namespace FIS.AppClient.Controls
         }
 
         #endregion
-        
+
         #region Properties & Members
-        private readonly int m_MaxPageSize = 
+        private readonly int m_MaxPageSize =
             App.Environment.ClientInfo.UserProfile.MaxPageSize;
         private BufferedResultManager BufferResult { get; set; }
         private string m_ErrorStatistics;
         protected int SelectedPage { get; set; }
         protected ButtonInfo m_DefaultSearchButton { get; set; }
-        
+
         public GridCheckMarksUtils CheckMarksUtils { get; set; }
         public RowFormattable SearchStatistic { get; set; }
         //add by trungtt - 20.5.2011
@@ -97,7 +97,7 @@ namespace FIS.AppClient.Controls
 
             if (SearchInfo.ShowGroupColumn == CODES.MODSEARCH.SHOWGRPCOL.YES)
             {
-                gvMain.OptionsView.ShowGroupedColumns = true;                
+                gvMain.OptionsView.ShowGroupedColumns = true;
                 //gvMain.CollapseAllGroups();
             }
 
@@ -144,9 +144,9 @@ namespace FIS.AppClient.Controls
                 gpSearchCondition.Visibility = LayoutVisibility.Never;
             }
 
-            BestFitColumns();            
+            BestFitColumns();
         }
-        
+
         public override void InitializeLayout()
         {
             base.InitializeLayout();
@@ -182,8 +182,8 @@ namespace FIS.AppClient.Controls
         protected override void BuildButtons()
         {
             List<ButtonInfo> buttons;
-            
-            if(!SearchInfo.ShowAsLookUpWindow)
+
+            if (!SearchInfo.ShowAsLookUpWindow)
             {
                 buttons = new List<ButtonInfo>();
                 //trungtt - 5.12.2013 - Add Bar Item for Role
@@ -230,7 +230,7 @@ namespace FIS.AppClient.Controls
 
             foreach (var button in buttons)
             {
-                if( SearchInfo.DefaultButton != null &&
+                if (SearchInfo.DefaultButton != null &&
                     button.ButtonName == SearchInfo.DefaultButton)
                 {
                     m_DefaultSearchButton = button;
@@ -318,8 +318,8 @@ namespace FIS.AppClient.Controls
                         mainToolbar.LinksPersistInfo.Add(new LinkPersistInfo(barButton, button.BeginGroup == CODES.DEFMODBTN.BEGINGROUP.YES));
                     }
                 }
-            } 
-            
+            }
+
             if (mainToolbar.LinksPersistInfo.Count == 0)
             {
                 layoutToolBar.Visibility = LayoutVisibility.Never;
@@ -359,7 +359,7 @@ namespace FIS.AppClient.Controls
                 mainLayout.HideItem(mainLayout.GetItemByControl(btnExport));
             }
 
-            if(string.IsNullOrEmpty(SearchInfo.EditStore))
+            if (string.IsNullOrEmpty(SearchInfo.EditStore))
             {
                 gvMain.OptionsBehavior.Editable = false;
                 mainLayout.HideItem(mainLayout.GetItemByControl(btnEdit));
@@ -374,7 +374,7 @@ namespace FIS.AppClient.Controls
         {
             base.LockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 ShowWaitingBox();
                 if (ModuleInfo.Expanded == "Y")
@@ -390,11 +390,11 @@ namespace FIS.AppClient.Controls
             }
         }
 
-        public override void  UnLockUserAction()
+        public override void UnLockUserAction()
         {
             base.UnLockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 HideWaitingBox();
                 Enabled = true;
@@ -416,7 +416,7 @@ namespace FIS.AppClient.Controls
             return edit;
         }
 
-        public void ChangeStatusText(Image statusImage,string status, params object[] objs)
+        public void ChangeStatusText(Image statusImage, string status, params object[] objs)
         {
             var strStatusText = Language.GetSpecialStatus(status);
             txtSearchStatus.Text = string.Format(strStatusText, objs);
@@ -435,14 +435,14 @@ namespace FIS.AppClient.Controls
         {
             gcMain.SuspendLayout();
             gvMain.BestFitColumns();
-          
+
             if (SearchInfo.FullWidth == CODES.MODSEARCH.FULLWIDTH.NO)
             {
                 foreach (GridColumn column in gvMain.Columns)
                 {
-                    if(!column.OptionsColumn.FixedWidth)
+                    if (!column.OptionsColumn.FixedWidth)
                         column.Width += CONSTANTS.INCREASE_COLUMN_WIDTH;
-                    column.AppearanceHeader.TextOptions.HAlignment= HorzAlignment.Center;
+                    column.AppearanceHeader.TextOptions.HAlignment = HorzAlignment.Center;
                 }
             }
             gcMain.ResumeLayout();
@@ -478,7 +478,7 @@ namespace FIS.AppClient.Controls
             }
             else
             {
-                if(gvMain.FocusedRowHandle >= 0)
+                if (gvMain.FocusedRowHandle >= 0)
                     selectedRows.Add((DataRowView)gvMain.GetRow(gvMain.FocusedRowHandle));
             }
 
@@ -498,23 +498,23 @@ namespace FIS.AppClient.Controls
                 try
                 {
                     string[] list;
-                    if(string.IsNullOrEmpty(SearchInfo.ColumnText))
+                    if (string.IsNullOrEmpty(SearchInfo.ColumnText))
                     {
                         list = (from row in selectedRows
-                                    select
-                                        row[SearchInfo.ColumnValue] == null ?
-                                            string.Empty : row[SearchInfo.ColumnValue].ToString()).ToArray();                        
+                                select
+                                    row[SearchInfo.ColumnValue] == null ?
+                                        string.Empty : row[SearchInfo.ColumnValue].ToString()).ToArray();
                     }
                     else
                     {
                         list = (from row in selectedRows
-                                    select
-                                        (row[SearchInfo.ColumnText] == null ?
-                                            string.Empty : row[SearchInfo.ColumnText].ToString()) +
-                                        "<" +
-                                        (row[SearchInfo.ColumnValue] == null ?
-                                            string.Empty : row[SearchInfo.ColumnValue].ToString()) +
-                                        ">").ToArray();                        
+                                select
+                                    (row[SearchInfo.ColumnText] == null ?
+                                        string.Empty : row[SearchInfo.ColumnText].ToString()) +
+                                    "<" +
+                                    (row[SearchInfo.ColumnValue] == null ?
+                                        string.Empty : row[SearchInfo.ColumnValue].ToString()) +
+                                    ">").ToArray();
                     }
 
                     LookUpValues = string.Join(",", list);
@@ -552,11 +552,11 @@ namespace FIS.AppClient.Controls
                     {
                         if (ConfirmExecuteClick(button))
                         {
-                            ExecuteClickWithSingleRow(button, buttonParams, selectedRows[0], true);                            
-                                              
+                            ExecuteClickWithSingleRow(button, buttonParams, selectedRows[0], true);
+
                         }
                     }
-                    
+
                     if (selectedRows.Count > 1)
                     {
                         if (button.MultiExecute == CODES.DEFMODBTN.MULTIEXEC.NO)
@@ -566,7 +566,7 @@ namespace FIS.AppClient.Controls
 
                         if (ConfirmExecuteClick(button))
                         {
-                            if(button.MultiExecute == CODES.DEFMODBTN.MULTIEXEC.MULTI_ROWS)
+                            if (button.MultiExecute == CODES.DEFMODBTN.MULTIEXEC.MULTI_ROWS)
                             {
                                 ExecuteClickWithMultiRow(button, buttonParams, selectedRows, true);
                             }
@@ -583,7 +583,7 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-       
+
         private bool ConfirmExecuteClick(ButtonInfo button)
         {
             var confirmResult = true;
@@ -603,7 +603,7 @@ namespace FIS.AppClient.Controls
         }
 
         private void ExecuteClickWithSingleRow(ButtonInfo button, List<ButtonParamInfo> buttonParams, DataRowView selectedRow, bool autoRefresh)
-        {         
+        {
             var targetModule = MainProcess.CreateModuleInstance(button.CallModuleID, button.CallSubModule);
             if (targetModule != null)
             {
@@ -614,9 +614,9 @@ namespace FIS.AppClient.Controls
                     AssignColumnParam(targetModule, param, selectedRow);
                 }
 
-                if(autoRefresh) targetModule.ModuleClosed += SubModule_Closed;
+                if (autoRefresh) targetModule.ModuleClosed += SubModule_Closed;
                 targetModule.ShowModule(this);
-                 
+
             }
         }
 
@@ -629,8 +629,8 @@ namespace FIS.AppClient.Controls
                 {
                     AssignValueParam(targetModule, param);
                     AssignConditionParam(targetModule, param);
-                    
-                    if(!string.IsNullOrEmpty(param.ColumnName))
+
+                    if (!string.IsNullOrEmpty(param.ColumnName))
                     {
                         var fieldInfos = FieldUtils.GetModuleFieldsByName(targetModule.ModuleInfo.ModuleID, param.FieldName);
                         foreach (var fieldInfo in fieldInfos)
@@ -645,14 +645,14 @@ namespace FIS.AppClient.Controls
                                 targetModule[fieldInfo.FieldID] = string.Join(",", values);
                             }
                             else
-                            {                                                               
-                                targetModule[fieldInfo.FieldID] = values[0] ;
-                            }                            
+                            {
+                                targetModule[fieldInfo.FieldID] = values[0];
+                            }
                         }
                     }
                 }
 
-                if(autoRefresh) targetModule.ModuleClosed += SubModule_Closed;
+                if (autoRefresh) targetModule.ModuleClosed += SubModule_Closed;
                 targetModule.ShowModule(this);
             }
         }
@@ -675,10 +675,10 @@ namespace FIS.AppClient.Controls
 
         private static void AssignValueParam(ucModule targetModule, ButtonParamInfo param)
         {
-            if(!string.IsNullOrEmpty(param.Value))
+            if (!string.IsNullOrEmpty(param.Value))
             {
                 var targetFields = FieldUtils.GetModuleFieldsByName(targetModule.ModuleInfo.ModuleID, param.FieldName);
-                foreach(var field in targetFields)
+                foreach (var field in targetFields)
                 {
                     targetModule[field.FieldID] = param.Value.Decode(field);
                 }
@@ -702,7 +702,7 @@ namespace FIS.AppClient.Controls
             if (!string.IsNullOrEmpty(param.ColumnName))
             {
                 targetModule.SetFieldValue(param.FieldName, row[param.ColumnName]);
-            }            
+            }
         }
 
         private void mainBarManager_ItemClick(object sender, ItemClickEventArgs e)
@@ -711,9 +711,9 @@ namespace FIS.AppClient.Controls
             {
                 var button = e.Item.Tag as ButtonInfo;
 #if DEBUG
-                if(button != null)
+                if (button != null)
                 {
-                    if(!MainProcess.Instance.IsAdvanceDeveloperMode)
+                    if (!MainProcess.Instance.IsAdvanceDeveloperMode)
                     {
                         DoClick(button);
                     }
@@ -769,7 +769,7 @@ namespace FIS.AppClient.Controls
                                     ShowError(ex);
                                 }
                             };
-                        actionContext.Show(MousePosition.X, MousePosition.Y);                        
+                        actionContext.Show(MousePosition.X, MousePosition.Y);
                     }
                 }
 #else
@@ -849,9 +849,9 @@ namespace FIS.AppClient.Controls
         private void btnExport_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 var exportInfo = ModuleUtils.GetModuleInfo(ModuleInfo.ModuleID, CODES.DEFMOD.SUBMOD.SEARCH_EXPORT);
-                var ucExport = (ucSearchExport)MainProcess.CreateModuleInstance(exportInfo.ModuleID, exportInfo.SubModule,"CALL_MODULE");
+                var ucExport = (ucSearchExport)MainProcess.CreateModuleInstance(exportInfo.ModuleID, exportInfo.SubModule, "CALL_MODULE");
 
                 var expInfo = SysvarUtils.GetVarValue(SYSVAR.GRNAME_SYS, SYSVAR.VARNAME_EXPORT);
                 if (expInfo == CONSTANTS.Yes)
@@ -866,16 +866,16 @@ namespace FIS.AppClient.Controls
                     var saveDialog = new SaveFileDialog
                     {
                         Filter = IMPORTMASTER.IMPORT_FILE_EXTENSIONS
-                    };                    
+                    };
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
                         ucExport.FileName = saveDialog.FileName;
                         ucExport.LastSearchResultKey = BufferResult.LastSearchResultKey;
                         ucExport.LastSearchTime = BufferResult.LastSearchTime;
                         ucExport.PrintGrid = gcMain;
-                        ucExport.Execute();    
-                    }                    
-                }                                             
+                        ucExport.Execute();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -895,7 +895,7 @@ namespace FIS.AppClient.Controls
                 }
             }
             catch
-            {                
+            {
             }
         }
 
@@ -951,12 +951,12 @@ namespace FIS.AppClient.Controls
                 var showBackButton = (SelectedPage != 0);
                 var showNextButton = (SelectedPage != BufferResult.MaxPage);
 
-                if(SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.APPEND_FROM_READER)
+                if (SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.APPEND_FROM_READER)
                 {
                     cboPages.Properties.Buttons[0].Visible = false;
                     cboPages.Properties.Items.Clear();
                     cboPages.Properties.NullText = string.Format(Language.MorePageInfo, BufferResult.Rows.Count);
-                    
+
                     var moreButton = new EditorButton
                     {
                         Kind = ButtonPredefines.Plus,
@@ -994,7 +994,7 @@ namespace FIS.AppClient.Controls
 
                     cboPages.Properties.NullText = string.Format(Language.PageInfo, SelectedPage + 1, BufferResult.StartRow + 1, BufferResult.StartRow + BufferResult.Rows.Count);
                 }
-                else if(SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.ALL_FROM_DATASET)
+                else if (SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.ALL_FROM_DATASET)
                 {
                     cboPages.Properties.Buttons[0].Visible = false;
                     cboPages.Properties.ShowDropDown = ShowDropDown.Never;
@@ -1066,7 +1066,7 @@ namespace FIS.AppClient.Controls
                 gcMain.DataSource = BufferResult;
 
                 //add by TrungTT - 21.2.2014 - Expand or Collapse all groups of Grid
-                if(SearchInfo.ExpandGroup == "Y")
+                if (SearchInfo.ExpandGroup == "Y")
                     gvMain.ExpandAllGroups();
                 else
                     gvMain.CollapseAllGroups();
@@ -1090,7 +1090,7 @@ namespace FIS.AppClient.Controls
                             if (BufferResult.Rows[i][CHECKMARK.FIELDID].ToString() == CHECKMARK.FIELDVALUE)
                             {
                                 CheckMarksUtils.SelectRow(i, true);
-                            } 
+                            }
                     }
                 }
 
@@ -1145,7 +1145,7 @@ namespace FIS.AppClient.Controls
         {
             if (SearchStatistic != null)
                 ChangeStatusText(Resources.SearchResult, "StatisticResult", SearchStatistic, 0);
-            else if(!string.IsNullOrEmpty(m_ErrorStatistics))
+            else if (!string.IsNullOrEmpty(m_ErrorStatistics))
                 ChangeStatusText(Resources.ErrorResult, "ErrorResult");
             else
                 ChangeStatusText(Resources.SearchResult, "EmptyResult");
@@ -1202,7 +1202,7 @@ namespace FIS.AppClient.Controls
 
         public override void Execute()
         {
-            if(ValidateModule())
+            if (ValidateModule())
             {
                 DisposeLastSearchResult();
                 InitSearch();
@@ -1210,10 +1210,10 @@ namespace FIS.AppClient.Controls
                 var conditionInstance = RootGroup.GetConditionInstance();
                 var staticConditionInstances = CommonFields.Select(
                     condition => new SearchConditionInstance
-                                    {
-                                        ConditionID = condition.FieldID,
-                                        Value = this[condition.FieldID].Encode(condition)
-                                    }).ToList();
+                    {
+                        ConditionID = condition.FieldID,
+                        Value = this[condition.FieldID].Encode(condition)
+                    }).ToList();
 
                 ExecuteSearch(conditionInstance, staticConditionInstances);
 
@@ -1222,7 +1222,7 @@ namespace FIS.AppClient.Controls
                 if (!string.IsNullOrEmpty(SearchInfo.StatisticQuery))
                 {
                     ExecuteStatistics(conditionInstance, staticConditionInstances);
-                }   
+                }
             }
         }
 
@@ -1238,7 +1238,7 @@ namespace FIS.AppClient.Controls
                             {
                                 string lastSearchResultKey;
                                 DateTime lastSearchTime;
-                                
+
                                 ctrlSA.ExecuteSearch(out lastSearchResultKey, out lastSearchTime, ModuleInfo.ModuleID, ModuleInfo.SubModule, conditionInstance, staticConditionInstances);
                                 BufferResult = new BufferedResultManager(ModuleInfo, lastSearchResultKey, lastSearchTime);
                                 SelectedPage = 0;
@@ -1302,7 +1302,7 @@ namespace FIS.AppClient.Controls
                         {
                             BufferResult.GetFullBuffer();
                         }
-                        else if(SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.APPEND_FROM_READER)
+                        else if (SearchInfo.PageMode == CODES.MODSEARCH.PAGEMODE.APPEND_FROM_READER)
                         {
                             BufferResult.GetMoreRows(SelectedPage);
                         }
@@ -1351,7 +1351,7 @@ namespace FIS.AppClient.Controls
 
         private void gvMain_ShowGridMenu(object sender, GridMenuEventArgs e)
         {
-            if(e.HitInfo.InRow &&  e.MenuType == GridMenuType.Row)
+            if (e.HitInfo.InRow && e.MenuType == GridMenuType.Row)
             {
                 var selectedRows = GetSelectedRows();
                 //trungtt - 5.12.2013 - View context menu for Role
@@ -1427,7 +1427,7 @@ namespace FIS.AppClient.Controls
         private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
             if (CheckMarksUtils != null && e.Column == CheckMarksUtils.CheckMarkColumn) return;
-            if(!string.IsNullOrEmpty(SearchInfo.EditStore))
+            if (!string.IsNullOrEmpty(SearchInfo.EditStore))
             {
                 btnEdit.Enabled = true;
             }
@@ -1437,7 +1437,7 @@ namespace FIS.AppClient.Controls
         {
             var rowView = gvMain.GetRow(e.RowHandle) as DataRowView;
 
-            if(rowView != null)
+            if (rowView != null)
             {
                 rowView.EndEdit();
                 if ((rowView.Row.RowState & DataRowState.Modified) > 0)
@@ -1457,11 +1457,11 @@ namespace FIS.AppClient.Controls
             {
                 string strMess = "Bạn có chắc chắn muốn cập nhật thông tin này ?";
                 string strTitle = "Cập nhật thông tin";
-                switch(ModuleInfo.ModuleID)
+                switch (ModuleInfo.ModuleID)
                 {
                     case "03276":
                         strMess = "Bạn có chắc chắn muốn cập nhật thông tin này ?";
-                        strTitle= "Đánh giá thông tin";
+                        strTitle = "Đánh giá thông tin";
                         break;
                     case "03262":
                         strMess = "Bạn có chắc chắn muốn phê duyệt báo cáo này ?";
@@ -1486,11 +1486,11 @@ namespace FIS.AppClient.Controls
                         btnEdit.Enabled = false;
                     }
                     Execute();
-                }                                               
+                }
             }
             catch
             {
-                
+
             }
         }
 
@@ -1510,11 +1510,11 @@ namespace FIS.AppClient.Controls
 
         private void gvMain_RowClick(object sender, RowClickEventArgs e)
         {
-            if(e.Clicks >= 2)
+            if (e.Clicks >= 2)
             {
                 try
                 {
-                    DoClick(m_DefaultSearchButton);                    
+                    DoClick(m_DefaultSearchButton);
                 }
                 catch (Exception ex)
                 {
@@ -1526,7 +1526,7 @@ namespace FIS.AppClient.Controls
         private void gvMain_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
         {
             if (e.FocusedRowHandle >= 0)
-            {   
+            {
                 var selectedRows = GetSelectedRows();
                 string columnName = SearchInfo.DetailColumn;
                 if (SearchInfo.DetailColumn != null && selectedRows.Count >= 0)
@@ -1562,17 +1562,17 @@ namespace FIS.AppClient.Controls
                     {
                         if (button != null)
                         {
-                            if (button.DBClick == CONSTANTS.Yes) { DoClick(button); }                    
-                        }                        
+                            if (button.DBClick == CONSTANTS.Yes) { DoClick(button); }
+                        }
                     }
                     catch (Exception ex)
                     {
                         ShowError(ex);
-                    }                    
+                    }
                 }
             }
         }
-        
+
         public void checkFormatConditions()
         {
             using (var ctrlSA = new SAController())
@@ -1587,7 +1587,7 @@ namespace FIS.AppClient.Controls
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        DevExpress.XtraGrid.StyleFormatCondition condition1 = new DevExpress.XtraGrid.StyleFormatCondition();                        
+                        DevExpress.XtraGrid.StyleFormatCondition condition1 = new DevExpress.XtraGrid.StyleFormatCondition();
                         if (Convert.ToString(dt.Rows[i]["BACKCOLOR"]) != "")
                             condition1.Appearance.BackColor = Color.FromName(dt.Rows[i]["BACKCOLOR"].ToString());
                         else condition1.Appearance.BackColor = Color.Transparent;

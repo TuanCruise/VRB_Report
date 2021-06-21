@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using System.ServiceModel;
-using System.Text;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
-using FIS.Common;
 using FIS.Controllers;
 using FIS.Utils;
+using System;
+using System.IO;
+using System.Text;
 
 namespace FIS.AppClient.Controls
 {
@@ -30,7 +28,7 @@ namespace FIS.AppClient.Controls
             base.BuildButtons();
             if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.POPUP)
             {
-                var frmOwner = (XtraForm) Parent;
+                var frmOwner = (XtraForm)Parent;
                 frmOwner.CancelButton = btnClose;
                 frmOwner.AcceptButton = btnSave;
 
@@ -62,7 +60,7 @@ namespace FIS.AppClient.Controls
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(ValidateModule())
+            if (ValidateModule())
             {
                 new WorkerThread(
                     delegate
@@ -87,7 +85,7 @@ namespace FIS.AppClient.Controls
                                 UnLockUserAction();
                             }
                         }
-                    ,this).Start();
+                    , this).Start();
             }
         }
 

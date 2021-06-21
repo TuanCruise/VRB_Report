@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FIS.Common;
-using FIS.Entities;
-
-namespace FIS.Utils
+﻿namespace FIS.Utils
 {
     public static class VNPTCAUtils
     {
@@ -31,10 +26,10 @@ namespace FIS.Utils
                     iErr = 995;
                     break;
                 case 500:
-                    iErr = 996;                   
+                    iErr = 996;
                     break;
             }
             return iErr;
-        }     
+        }
     }
 }

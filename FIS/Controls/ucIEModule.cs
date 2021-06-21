@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 using DevExpress.XtraEditors.Controls;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace FIS.AppClient.Controls
@@ -105,7 +105,7 @@ namespace FIS.AppClient.Controls
             {
                 var serilizer = new XmlSerializer(typeof(List<string>));
                 var stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-                var generatedModules = (List<string>) serilizer.Deserialize(stream);
+                var generatedModules = (List<string>)serilizer.Deserialize(stream);
                 stream.Close();
 
                 foreach (var generatedModule in generatedModules)
@@ -126,9 +126,9 @@ namespace FIS.AppClient.Controls
         private void btnExport_Click(object sender, EventArgs e)
         {
             var folderDialog = new SaveFileDialog
-                                   {
-                                       InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\App Modules"
-                                   };
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\App Modules"
+            };
 
             Directory.CreateDirectory(folderDialog.InitialDirectory);
             if (folderDialog.ShowDialog() == DialogResult.OK)
@@ -171,10 +171,10 @@ namespace FIS.AppClient.Controls
         private void btnImport_Click(object sender, EventArgs e)
         {
             var openDialog = new OpenFileDialog
-                                 {
-                                     InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\App Modules",
-                                     Filter = "Module Package (*.mpkg)|*.mpkg"
-                                 };
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\App Modules",
+                Filter = "Module Package (*.mpkg)|*.mpkg"
+            };
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {

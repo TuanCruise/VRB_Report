@@ -32,7 +32,7 @@ namespace FIS.Utils
             try
             {
                 var fileName = string.Format("Cache\\{0}.{1}.cache", cachedName, newHash);
-                using(var stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     var serializer = new DataContractSerializer(typeof(T));
                     return (T)serializer.ReadObject(stream);
@@ -40,7 +40,7 @@ namespace FIS.Utils
             }
             catch
             {
-                return default(T);                
+                return default(T);
             }
         }
 

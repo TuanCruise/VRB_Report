@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using DevExpress.Utils;
+﻿using DevExpress.Utils;
 using DevExpress.XtraCharts;
 using DevExpress.XtraLayout;
 using FIS.AppClient.Interface;
@@ -10,6 +7,9 @@ using FIS.Controllers;
 using FIS.Entities;
 using FIS.Extensions;
 using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace FIS.AppClient.Controls
 {
@@ -48,12 +48,12 @@ namespace FIS.AppClient.Controls
             SetupSaveLayout(commonLayout);
 #endif
         }
-        
+
         public override void Execute()
         {
-            if(ValidateModule())
+            if (ValidateModule())
             {
-                switch(ChartModuleInfo.ChartType)
+                switch (ChartModuleInfo.ChartType)
                 {
                     case CODES.MODCHART.CHARTTYPE.YIELD_CURVE_WITH_FIT_OPTIONS:
                     case CODES.MODCHART.CHARTTYPE.YIELD_CURVE_NO_FIT_OPTIONS:
@@ -72,9 +72,9 @@ namespace FIS.AppClient.Controls
                 case CODES.MODCHART.CHARTTYPE.YIELD_CURVE_NO_FIT_OPTIONS:
                     var fldCurveType = GetModuleFieldByName(CODES.DEFMODFLD.FLDGROUP.COMMON, "YC_CURVETYPE");
                     var curveType = this[fldCurveType.FieldID] as string;
-                    if(!string.IsNullOrEmpty(curveType) && mainChart.Series.Count == 3)
+                    if (!string.IsNullOrEmpty(curveType) && mainChart.Series.Count == 3)
                     {
-                        switch(curveType)
+                        switch (curveType)
                         {
                             case CODES.MODCHART.YC_CURVETYPE.FORWARD_RATES_CURVE:
                                 mainChart.Series["ForwardRates"].Visible = true;
@@ -97,7 +97,7 @@ namespace FIS.AppClient.Controls
         public void DrawSvenssonChart()
         {
             LockUserAction();
-            CurrentThread = new WorkerThread(delegate(WorkerThread thread)
+            CurrentThread = new WorkerThread(delegate (WorkerThread thread)
             {
                 try
                 {
@@ -239,10 +239,10 @@ namespace FIS.AppClient.Controls
                     }
 
                     ctrlToolTip.ShowHint(new ToolTipControllerShowEventArgs
-                                             {
-                                                 SuperTip = superTip,
-                                                 ToolTipType = ToolTipType.SuperTip
-                                             });
+                    {
+                        SuperTip = superTip,
+                        ToolTipType = ToolTipType.SuperTip
+                    });
                 }
             }
             else

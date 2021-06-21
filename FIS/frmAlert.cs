@@ -1,58 +1,54 @@
-using System;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using FIS.AppClient.Utils;
-using FIS.Common;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FIS.AppClient
 {
-	/// <summary>
+    /// <summary>
     /// Summary description for frmAlert.
-	/// </summary>
+    /// </summary>
     public partial class frmAlert : XtraForm
     {
-		private System.ComponentModel.IContainer components;
-		int X=0;
-        int Y = 0;
-		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.LinkLabel lnkMessage;
+        private System.ComponentModel.IContainer components;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.LinkLabel lnkMessage;
 
         public frmAlert()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-		}
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAlert));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lnkMessage = new System.Windows.Forms.LinkLabel();
@@ -103,20 +99,20 @@ namespace FIS.AppClient
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
-		}
-		#endregion		
-		
-		private void Form1_Load(object sender, System.EventArgs e)
-		{
-			
+        }
+        #endregion
+
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+
             //X=Screen.GetWorkingArea(this).Width; 
             //Y=Screen.GetWorkingArea(this).Height; 
             //this.Location=new Point(X-this.Width,Y- this.Height);            			
-		}
-						
+        }
+
 
         private void lnkMessage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {            
+        {
             MainProcess.ExecuteModule("03271", "MMN");
         }
 
@@ -126,5 +122,5 @@ namespace FIS.AppClient
             this.Location = new Point(screen.WorkingArea.Right - this.Width, screen.WorkingArea.Bottom - this.Height);
             base.OnLoad(e);
         }
-	}
+    }
 }

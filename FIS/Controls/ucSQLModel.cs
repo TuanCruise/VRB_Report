@@ -1,16 +1,14 @@
-﻿using System;
+﻿using FIS.AppClient.Interface;
+using FIS.AppClient.Properties;
+using FIS.Base;
+using FIS.Controllers;
+using FIS.Utils;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.ServiceModel;
 using System.Text.RegularExpressions;
-using FIS.AppClient.Interface;
-using FIS.AppClient.Properties;
-using FIS.Base;
-using FIS.Common;
-using FIS.Controllers;
-using FIS.Utils;
 
 namespace FIS.AppClient.Controls
 {
@@ -81,7 +79,7 @@ namespace FIS.AppClient.Controls
                 e.ForeColor = Color.Blue;
             }
         }
-        
+
         protected override void InitializeModuleData()
         {
             base.InitializeModuleData();
@@ -116,20 +114,20 @@ namespace FIS.AppClient.Controls
 
         private void cboTablesName_SelectedValueChanged(object sender, EventArgs e)
         {
-            using(var ctrlSA = new SAController())
+            using (var ctrlSA = new SAController())
             {
-                var tableName = (string) cboTablesName.EditValue;
+                var tableName = (string)cboTablesName.EditValue;
                 reMain.EndPaintObjects.Clear();
                 DataContainer container;
                 ctrlSA.ExecuteSQL(out container, "SELECT * FROM USER_TAB_COLS WHERE TABLE_NAME = '" + tableName + "' ORDER BY COLUMN_ID");
-                
+
                 var table = container.DataTable;
                 var tablePaintObject = new PaintObject<string, ColumnInfo>
                 {
                     BeginEnd = BeginEndMode.End,
                     Childs = (from DataRow row in table.Rows
                               select new ColumnInfo
-                                         {
+                              {
                                   ColumnType = ColumnType.COLUMN,
                                   ColumnName = (string)row["COLUMN_NAME"]
                               }).ToList(),
@@ -149,7 +147,7 @@ namespace FIS.AppClient.Controls
             e.Text = "(" + e.Child.ColumnType + ")" + e.Child.ColumnName;
             if (e.Child.ColumnType == ColumnType.FILTER || e.Child.ColumnType == ColumnType.FILTERVAL)
                 e.ForeColor = Color.Red;
-            else if(e.Child.ColumnType == ColumnType.VALUE)
+            else if (e.Child.ColumnType == ColumnType.VALUE)
                 e.ForeColor = Color.Blue;
         }
 
@@ -195,9 +193,9 @@ namespace FIS.AppClient.Controls
             {
                 foreach (PaintObject<string, ColumnInfo> endObject in reMain.EndPaintObjects)
                 {
-                    foreach(var beginChild in beginObject.Childs)
+                    foreach (var beginChild in beginObject.Childs)
                     {
-                        foreach(var endChild in endObject.Childs)
+                        foreach (var endChild in endObject.Childs)
                         {
                             if (beginChild.ParameterName.EndsWith(endChild.ColumnName))
                             {
@@ -213,7 +211,7 @@ namespace FIS.AppClient.Controls
 
         private void btnCompile_Click(object sender, EventArgs e)
         {
-            using(var ctrlSA = new SAController())
+            using (var ctrlSA = new SAController())
             {
                 DataContainer container;
                 ctrlSA.ExecuteSQL(out container, "CREATE OR REPLACE \r\n" + txtStoreSource.Text.Replace("\r\n", "\n"));
@@ -223,7 +221,7 @@ namespace FIS.AppClient.Controls
         private void btnAppend_Click(object sender, EventArgs e)
         {
             string txtAppend = null;
-            switch(cboScriptType.Text)
+            switch (cboScriptType.Text)
             {
                 case "SELECT * Query":
                     txtAppend = CreateSelectAllColumnQuery();
@@ -295,19 +293,19 @@ namespace FIS.AppClient.Controls
 
             return null;
         }
-        
+
         private string CreateSelectQuery()
         {
             var colStrSelect = new List<string>();
             var colStrFilter = new List<string>();
 
-            foreach(PaintObject<string, ColumnInfo> endPoint in reMain.EndPaintObjects)
+            foreach (PaintObject<string, ColumnInfo> endPoint in reMain.EndPaintObjects)
             {
-                foreach(var col in endPoint.Childs)
+                foreach (var col in endPoint.Childs)
                 {
-                    if(!string.IsNullOrEmpty(col.ParameterName))
+                    if (!string.IsNullOrEmpty(col.ParameterName))
                     {
-                        switch(col.ColumnType)
+                        switch (col.ColumnType)
                         {
                             case ColumnType.FILTER:
                                 colStrFilter.Add(string.Format(txtFormatName.Text + " = {1}", col.ColumnName, col.ParameterName));
@@ -325,7 +323,7 @@ namespace FIS.AppClient.Controls
                     }
                 }
 
-                if(colStrFilter.Count == 0)
+                if (colStrFilter.Count == 0)
                 {
                     return string.Format(@"    OPEN cur FOR
         SELECT
@@ -505,7 +503,7 @@ namespace FIS.AppClient.Controls
                 var table = container.DataTable;
                 if (table.Rows.Count > 0 && table.Rows[0][0] != DBNull.Value)
                 {
-                    txtStoreSource.Text = ((string) table.Rows[0][0]).Replace("\n", "\r\n");
+                    txtStoreSource.Text = ((string)table.Rows[0][0]).Replace("\n", "\r\n");
                 }
             }
         }

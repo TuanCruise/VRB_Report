@@ -1,15 +1,15 @@
-﻿using System;
-using System.Data;
-using System.ServiceModel;
-using DevExpress.XtraBars;
+﻿using DevExpress.XtraBars;
+using FIS.AppClient.Utils;
 using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Extensions;
 using FIS.Utils;
+using System;
+using System.Data;
+using System.ServiceModel;
 using System.Threading;
-using FIS.AppClient.Utils;
 
 namespace FIS.AppClient.Controls
 {
@@ -29,17 +29,17 @@ namespace FIS.AppClient.Controls
             }
         }
         #endregion
-        
+
         #region Initialize Methods
         protected override void InitializeGUI(DevExpress.Skins.Skin skin)
         {
             base.InitializeGUI(skin);
             StatusLed = new BarButtonItem
-                            {
-                                Alignment = BarItemLinkAlignment.Left,
-                                Glyph = ThemeUtils.Image16.Images[Language.Icon],
-                                PaintStyle = BarItemPaintStyle.CaptionGlyph
-                            };
+            {
+                Alignment = BarItemLinkAlignment.Left,
+                Glyph = ThemeUtils.Image16.Images[Language.Icon],
+                PaintStyle = BarItemPaintStyle.CaptionGlyph
+            };
 
             StatusLed.ItemClick += StatusLed_ItemClick;
 

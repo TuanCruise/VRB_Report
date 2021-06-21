@@ -1,6 +1,4 @@
 ﻿using FIS.Entities;
-using FIS.AppClient.Utils;
-using FIS.Utils;
 
 namespace FIS.AppClient.Controls
 {
@@ -28,9 +26,9 @@ namespace FIS.AppClient.Controls
         {
             base.Language = new TreeViewLanguage(ModuleInfo)
             {
-               
+
             };
-            base.InitializeLanguage();  
+            base.InitializeLanguage();
         }
     }
 }

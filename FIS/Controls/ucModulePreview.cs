@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using System.Threading;
-using FIS.Utils;
+﻿using DevExpress.XtraEditors;
 using FIS.AppClient.Utils;
+using FIS.Utils;
+using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -29,7 +29,7 @@ namespace FIS.AppClient.Controls
                     ModuleForm.WindowState = FormWindowState.Normal;
                 }
                 catch
-                {                    
+                {
                 }
                 finally
                 {
@@ -44,7 +44,7 @@ namespace FIS.AppClient.Controls
 
         public void RefreshPreview()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new RefreshPreviewInvoker(RefreshPreview));
                 return;
@@ -90,7 +90,7 @@ namespace FIS.AppClient.Controls
         {
             base.OnLoad(e);
             RefreshPreview();
-            
+
             var imageName = LangUtils.TranslateModuleItem(LangType.MODULE_ICON, Module.ModuleInfo);
             moduleIcon.Image = ThemeUtils.Image48.Images[imageName];
             moduleSpy.RunWorkerAsync();

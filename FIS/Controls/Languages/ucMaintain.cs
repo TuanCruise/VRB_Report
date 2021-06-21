@@ -45,7 +45,8 @@ namespace FIS.AppClient.Controls
             Language.EditLayout = Language.GetLayout("Edit");
             Language.ViewLayout = Language.GetLayout("View");
             //TUDQ them
-            try {
+            try
+            {
                 MaintainModuleInfo moduleinfo = (MaintainModuleInfo)ModuleInfo;
                 if (moduleinfo.TRANSACTION_MODE == "Y")
                 {
@@ -55,9 +56,9 @@ namespace FIS.AppClient.Controls
                     btnClose.Text = "Từ chối";
                 }
             }
-            catch 
-            { 
-            
+            catch
+            {
+
             }
             //END
 

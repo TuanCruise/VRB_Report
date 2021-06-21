@@ -35,7 +35,7 @@ namespace FIS.AppClient.Controls
         ChildPosition BeginPoint { get; set; }
         ChildPosition EndPoint { get; set; }
         PointF EndMousePoint { get; set; }
-        
+
         public List<AbstractPaintObject> BeginPaintObjects { get; set; }
         public List<AbstractPaintObject> EndPaintObjects { get; set; }
         public event UpdateConnectEventHandler UpdateConnect;
@@ -78,7 +78,7 @@ namespace FIS.AppClient.Controls
                 foreach (var endObject in EndPaintObjects)
                 {
                     var endSize = endObject.Paint(e.Graphics, BeginPoints, EndPoints, maxBeginWidth + 240, endHeight);
-                    if(controlWidth < maxBeginWidth + 240 + endSize.Width + 10)
+                    if (controlWidth < maxBeginWidth + 240 + endSize.Width + 10)
                     {
                         controlWidth = maxBeginWidth + 240 + endSize.Width + 10;
                     }
@@ -140,7 +140,7 @@ namespace FIS.AppClient.Controls
                     }
                 }
 
-                if(EndPaintObjects != null)
+                if (EndPaintObjects != null)
                 {
                     foreach (var endPoint in EndPoints)
                     {
@@ -188,24 +188,24 @@ namespace FIS.AppClient.Controls
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            foreach(var paintObject in EndPaintObjects.Union(BeginPaintObjects))
+            foreach (var paintObject in EndPaintObjects.Union(BeginPaintObjects))
             {
-                if(paintObject.TitleBar.Contains(e.Location))
+                if (paintObject.TitleBar.Contains(e.Location))
                 {
                     if (ObjectTitleClicked != null)
                         ObjectTitleClicked(this, new ItemClickedEventArgs(new ChildPosition
-                                                                              {
-                                                                                  Parent = paintObject.Parent
-                                                                              }));
+                        {
+                            Parent = paintObject.Parent
+                        }));
                 }
             }
 
-            if(BeginPoint != null && EndPoint != null && BeginPoint.Child != EndPoint.Child)
+            if (BeginPoint != null && EndPoint != null && BeginPoint.Child != EndPoint.Child)
             {
                 if (ConnectChange != null && BeginPoint != EndPoint)
                     ConnectChange(this, new UpdateConnectEventArgs(EndPoint, BeginPoint));
                 BeginPoint = null;
-                Refresh();                
+                Refresh();
             }
             else
             {
@@ -213,16 +213,16 @@ namespace FIS.AppClient.Controls
 
                 foreach (var point in BeginPoints.Union(EndPoints))
                 {
-                    if(point.IsNearPoint(e.X, e.Y))
+                    if (point.IsNearPoint(e.X, e.Y))
                     {
-                        if(ItemClicked != null)
+                        if (ItemClicked != null)
                         {
                             beginPoint = point;
                         }
                     }
                 }
 
-                if(beginPoint != null)
+                if (beginPoint != null)
                     ItemClicked(this, new ItemClickedEventArgs(beginPoint));
             }
         }
@@ -246,7 +246,7 @@ namespace FIS.AppClient.Controls
         {
             return Math.Abs(Position.X - x) <= 10 && Math.Abs(Position.Y - y) <= 10;
         }
-        
+
         public bool IsNearPoint(PointF point)
         {
             return IsNearPoint(point.X, point.Y);
@@ -264,10 +264,11 @@ namespace FIS.AppClient.Controls
         public abstract SizeF Paint(Graphics g, List<ChildPosition> BeginPoints, List<ChildPosition> EndPoints, float left, float top);
     }
 
-    public class PaintObject<ParentType,ChildType> : AbstractPaintObject
+    public class PaintObject<ParentType, ChildType> : AbstractPaintObject
     {
         public string Title { get; set; }
-        public new ParentType Parent {
+        public new ParentType Parent
+        {
             get { return (ParentType)base.Parent; }
             set { base.Parent = value; }
         }
@@ -292,7 +293,7 @@ namespace FIS.AppClient.Controls
             var childsLabel = new List<string>();
             var childsColor = new List<Color>();
 
-            foreach(var child in Childs)
+            foreach (var child in Childs)
             {
                 var e = new CustomLabelEventArgs();
                 e.Parent = Parent;
@@ -322,7 +323,7 @@ namespace FIS.AppClient.Controls
             g.DrawString(Title, titleFont, Brushes.White, recTitleText, new StringFormat { LineAlignment = StringAlignment.Center });
 
             var textTop = top + 14;
-            for (var i = 0; i < childsLabel.Count;i ++ )
+            for (var i = 0; i < childsLabel.Count; i++)
             {
                 var recText = new RectangleF(left + 2, textTop + 4, titleWidth, textTop + 24);
                 g.DrawString(childsLabel[i], textFont, new SolidBrush(childsColor[i]), recText);

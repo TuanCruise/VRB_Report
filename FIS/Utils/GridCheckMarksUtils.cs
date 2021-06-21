@@ -1,14 +1,14 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.Windows.Forms;
-using DevExpress.XtraEditors.Drawing;
+﻿using DevExpress.XtraEditors.Drawing;
+using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraGrid.Columns;
-using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using System;
+using System.Collections;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Utils
 {
@@ -150,7 +150,7 @@ namespace FIS.AppClient.Utils
         private void View_CustomDrawGroupRow(object sender, RowObjectCustomDrawEventArgs e)
         {
             var info = e.Info as GridGroupRowInfo;
-            if(info != null)
+            if (info != null)
             {
                 info.GroupText = "         " + info.GroupText.TrimStart();
                 e.Info.Paint.FillRectangle(e.Graphics, e.Appearance.GetBackBrush(e.Cache), e.Bounds);
@@ -299,10 +299,10 @@ namespace FIS.AppClient.Utils
             {
                 if (e.IsGetData)
                     e.Value = IsRowSelected(m_GridView.GetRowHandle(e.ListSourceRowIndex));
-                   // e.Value = IsRowSelected(e.RowHandle);
+                // e.Value = IsRowSelected(e.RowHandle);
                 else
                     SelectRow(m_GridView.GetRowHandle(e.ListSourceRowIndex), (bool)e.Value);
-                    //SelectRow(e.RowHandle, (bool)e.Value);
+                //SelectRow(e.RowHandle, (bool)e.Value);
             }
         }
 

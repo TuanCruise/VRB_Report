@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.Windows.Forms;
+using DevExpress.XtraTreeList;
+using DevExpress.XtraTreeList.Nodes;
 using FIS.AppClient.Interface;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraTreeList.Nodes;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using DevExpress.XtraTreeList;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -17,7 +16,7 @@ namespace FIS.AppClient.Controls
         IParameterFieldSupportedModule
     {
         private List<Role> m_Roles;
-        
+
         public int UserID
         {
             get
@@ -144,7 +143,7 @@ namespace FIS.AppClient.Controls
                 }
                 else
                 {
-                    if (role.RoleValue == "Y"  && !string.IsNullOrEmpty(role.RequireRoleID))
+                    if (role.RoleValue == "Y" && !string.IsNullOrEmpty(role.RequireRoleID))
                     {
                         var requireNode = roleTree.FindNodeByFieldValue("RoleID", role.RequireRoleID);
                         if (requireNode != null)
@@ -161,9 +160,9 @@ namespace FIS.AppClient.Controls
                     if (role.RoleValue == "N")
                     {
                         var dependRoleIDs = (from dependRole in m_Roles
-                                                 where dependRole.RequireRoleID == role.RoleID
-                                                 select dependRole.RoleID).ToArray();
-                        foreach(var dependRoleID in dependRoleIDs)
+                                             where dependRole.RequireRoleID == role.RoleID
+                                             select dependRole.RoleID).ToArray();
+                        foreach (var dependRoleID in dependRoleIDs)
                         {
                             var dependNode = roleTree.FindNodeByFieldValue("RoleID", dependRoleID);
                             if (dependNode != null)
@@ -180,7 +179,7 @@ namespace FIS.AppClient.Controls
                 }
             }
 
-            if(refreshCategory)
+            if (refreshCategory)
                 UpdateCategory(roleTree.Nodes);
 
             roleTree.Refresh();
@@ -207,7 +206,7 @@ namespace FIS.AppClient.Controls
                 {
                     if (role.RoleValue == "Y") countYes++;
                     if (role.RoleValue == "N") countNo++;
-                    if (role.RoleValue == null) {countYes++; countNo++;}
+                    if (role.RoleValue == null) { countYes++; countNo++; }
                 }
             }
 
@@ -223,7 +222,7 @@ namespace FIS.AppClient.Controls
 
         private void roleTree_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
-            if(e.Column == colRoleValue)
+            if (e.Column == colRoleValue)
                 UpdateRoleValue(e.Node, true);
         }
 

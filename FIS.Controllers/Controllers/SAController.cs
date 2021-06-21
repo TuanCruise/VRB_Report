@@ -537,7 +537,7 @@ namespace FIS.Controllers
                 lcon.Bind(nc);
                 blValidation = true;
             }
-            catch (LdapException err)
+            catch
             {
                 blValidation = false;
             }
@@ -547,20 +547,15 @@ namespace FIS.Controllers
         private string GetVarValue(string grname, string varname)
         {
             string result = null;
-            try
+           
+            List<string> values = new List<string>();
+            values.Add(grname);
+            values.Add(varname);
+            DataTable dt = new DataTable();
+            OracleHelper.FillDataTable(ConnectionString, "sp_sysvar_sel_bygrame", out dt, values.ToArray());
+            if (dt.Rows.Count > 0)
             {
-                List<string> values = new List<string>();
-                values.Add(grname);
-                values.Add(varname);
-                DataTable dt = new DataTable();
-                OracleHelper.FillDataTable(ConnectionString, "sp_sysvar_sel_bygrame", out dt, values.ToArray());
-                if (dt.Rows.Count > 0)
-                {
-                    result = dt.Rows[0]["VARVALUE"].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
+                result = dt.Rows[0]["VARVALUE"].ToString();
             }
             return result;
         }
@@ -3370,7 +3365,7 @@ namespace FIS.Controllers
                             {
                                 SmtpServer.Send(mail);
                             }
-                            catch (Exception ex)
+                            catch 
                             {
                                 //ShowError(ex);
                                 throw ErrorUtils.CreateErrorWithSubMessage(148, "Gửi thư điện tử với file đính kèm thất bại !");
@@ -3385,9 +3380,8 @@ namespace FIS.Controllers
                     {
                         SmtpServer.Send(mail);
                     }
-                    catch (Exception ex)
+                    catch 
                     {
-                        //ShowError(ex);
                         throw ErrorUtils.CreateErrorWithSubMessage(148, "Gửi thư điện tử thất bại !");
                     }
                 }

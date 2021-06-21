@@ -1,9 +1,9 @@
-﻿using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using DevExpress.LookAndFeel;
+﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using FIS.Common;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace FIS.Utils
 {
@@ -39,7 +39,7 @@ namespace FIS.Utils
             BackTitleColor = skin[BarSkins.SkinMainMenu].Color.BackColor;
             TitleColor = skin[BarSkins.SkinMainMenu].Color.ForeColor;
         }
-        
+
         public static void CreateImageCache(ImageList cache, ColorDepth depth, Size size, string folder)
         {
             cache.ColorDepth = depth;

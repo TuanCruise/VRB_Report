@@ -23,7 +23,7 @@ namespace FIS.AppClient.Controls
                 return (IEModuleLanguage)base.Language;
             }
         }
-        
+
         public override void InitializeLanguage()
         {
             base.Language = new IEModuleLanguage(ModuleInfo)

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FIS.Common;
+using System;
 using System.ServiceModel;
-using FIS.Common;
 
 namespace FIS.Utils
 {

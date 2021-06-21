@@ -21,7 +21,7 @@ namespace FIS.AppClient.Controls
                 return (InstallPackageLanguage)base.Language;
             }
         }
-        
+
         public override void InitializeLanguage()
         {
             base.Language = new InstallPackageLanguage(ModuleInfo);

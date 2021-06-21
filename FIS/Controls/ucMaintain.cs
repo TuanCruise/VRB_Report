@@ -26,7 +26,7 @@ namespace FIS.AppClient.Controls
         ICommonFieldSupportedModule
     {
         #region ICommonFieldSupportedModule Members
-        
+
         public bool ValidateRequire
         {
             get { return true; }
@@ -36,7 +36,7 @@ namespace FIS.AppClient.Controls
         {
             get { return mainLayout; }
         }
-        
+
         public string CommonLayoutStoredData
         {
             get
@@ -80,34 +80,34 @@ namespace FIS.AppClient.Controls
         {
             if (!string.IsNullOrEmpty(MaintainInfo.ButtonText))
             {
-                btnCommit.Text = MaintainInfo.ButtonText; 
+                btnCommit.Text = MaintainInfo.ButtonText;
             }
-            
+
             base.BuildFields();
 
             if (Parent is ContainerControl)
                 ((ContainerControl)Parent).ActiveControl = mainLayout;
 
-            
+
         }
 
         protected override void BuildButtons()
         {
-//#if DEBUG
-                SetupContextMenu(mainLayout);
-                SetupModuleEdit();
-                SetupGenenerateScript();
-                SetupSeparator();
-                SetupParameterFields();
-                SetupCommonFields();
-                SetupSeparator();
-                SetupFieldMaker();
-                SetupFieldsSuggestion();
-                SetupSeparator();
-                SetupLanguageTool();
-                SetupSaveLayout(mainLayout);
-                SetupSaveAllLayout(mainLayout);
-//#endif
+            //#if DEBUG
+            SetupContextMenu(mainLayout);
+            SetupModuleEdit();
+            SetupGenenerateScript();
+            SetupSeparator();
+            SetupParameterFields();
+            SetupCommonFields();
+            SetupSeparator();
+            SetupFieldMaker();
+            SetupFieldsSuggestion();
+            SetupSeparator();
+            SetupLanguageTool();
+            SetupSaveLayout(mainLayout);
+            SetupSaveAllLayout(mainLayout);
+            //#endif
         }
 
         public override void InitializeLayout()
@@ -115,14 +115,14 @@ namespace FIS.AppClient.Controls
             base.InitializeLayout();
             lbTitle.BackColor = ThemeUtils.BackTitleColor;
             lbTitle.ForeColor = ThemeUtils.TitleColor;
-            SaveAsFile();            
+            SaveAsFile();
         }
-         private void SaveAsFile()
+        private void SaveAsFile()
         {
-            lnkFileContextMenu = new ContextMenuStrip();            
+            lnkFileContextMenu = new ContextMenuStrip();
             lnkFile.ContextMenuStrip = lnkFileContextMenu;
             lnkFileContextMenu.Items.Clear();
-            lnkFileContextMenu.Items.Add("Lưu file", ThemeUtils.Image16.Images["SAVE"]).Click+=            
+            lnkFileContextMenu.Items.Add("Lưu file", ThemeUtils.Image16.Images["SAVE"]).Click +=
                delegate
                {
                    try
@@ -140,7 +140,7 @@ namespace FIS.AppClient.Controls
                            var fields = FieldUtils.GetModuleFields(ModuleInfo.ModuleID, CODES.DEFMODFLD.FLDGROUP.PARAMETER);
                            List<string> values = new List<string>();
 
-                           string StoreName;                           
+                           string StoreName;
                            if (MaintainInfo.Approve == CODES.MODMAINTAIN.APROVE.YES && !string.IsNullOrEmpty(Program.txnum))
                            {
                                values.Add(Program.txnum);
@@ -153,15 +153,15 @@ namespace FIS.AppClient.Controls
                                    values.Add(this[field.FieldID].ToString());
                                }
                                StoreName = MaintainInfo.ReportStore;
-                           }  
-                          
+                           }
+
                            // End TuanLM
                            if (values.Count > 0)
                            {
                                using (var ctrlSA = new SAController())
                                {
                                    DataContainer container = null;
-                                   ctrlSA.ExecuteProcedureFillDataset(out container,StoreName, values);
+                                   ctrlSA.ExecuteProcedureFillDataset(out container, StoreName, values);
                                    if (container != null && container.DataTable != null)
                                    {
                                        var resultTable = container.DataTable;
@@ -179,8 +179,8 @@ namespace FIS.AppClient.Controls
                                                    dlg.Filter = resultTable.Rows[i]["filetype"].ToString();
                                                    if (dlg.ShowDialog() == DialogResult.OK)
                                                    {
-                                                       ms.WriteTo(dlg.OpenFile());                                                       
-                                                   }                                                  
+                                                       ms.WriteTo(dlg.OpenFile());
+                                                   }
                                                }
                                            };
                                        }
@@ -203,8 +203,8 @@ namespace FIS.AppClient.Controls
                    {
                        ShowError(ex);
                    }
-               };  
-        }         
+               };
+        }
         private void LoadData(string storeName)
         {
             using (var ctrlSA = new SAController())
@@ -239,7 +239,7 @@ namespace FIS.AppClient.Controls
                         if (MaintainInfo.Report == "F")
                         {
                             lnkFile.Visible = true;
-                            lnkFile.Properties.Appearance.BackColor = Color.Transparent;                            
+                            lnkFile.Properties.Appearance.BackColor = Color.Transparent;
                             SaveAsFileToDisk(false);
                             LoadData(MaintainInfo.ViewSelectStore);
                         }
@@ -255,7 +255,7 @@ namespace FIS.AppClient.Controls
                                 LoadDataTransaction(SYSTEM_STORE_PROCEDURES.TRANS_STOREPROC);
                             else
                                 LoadData(MaintainInfo.ViewSelectStore);
-                        }                                                                     
+                        }
                         break;
                     case CODES.DEFMOD.SUBMOD.MAINTAIN_ADD:
                         lbTitle.Text = Language.AddTitle;
@@ -266,9 +266,9 @@ namespace FIS.AppClient.Controls
                         lbTitle.Text = Language.AddTitle;
                         LoadDataTransaction(MaintainInfo.TRANSATIONSTORE);
                         break;
-                    //END
+                        //END
                 }
-                
+
                 // Configuration lbTitle
                 switch (ModuleInfo.SubModule)
                 {
@@ -288,7 +288,7 @@ namespace FIS.AppClient.Controls
                         else
                         {
                             btnCommit.Visible = false;
-                        }                       
+                        }
                         break;
                 }
 
@@ -309,7 +309,7 @@ namespace FIS.AppClient.Controls
         protected delegate void ResetModuleDataInvoker();
         protected void ResetModuleData()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new ResetModuleDataInvoker(ResetModuleData));
                 return;
@@ -334,17 +334,17 @@ namespace FIS.AppClient.Controls
                             break;
                     }
                 }
-                else if (field.DefaultValue != null && field.ControlType == CODES.DEFMODFLD.CTRLTYPE.CHECKEDCOMBOBOX)              
+                else if (field.DefaultValue != null && field.ControlType == CODES.DEFMODFLD.CTRLTYPE.CHECKEDCOMBOBOX)
                 {
                     using (var ctrlSA = new SAController())
                     {
 
-                        List<string> values;                        
+                        List<string> values;
                         DataContainer con;
                         GetOracleParameterValues(out values, field.DefaultValue);
                         ctrlSA.ExecuteProcedureFillDataset(out con, field.DefaultValue, values);
-                        var dsResult = con.DataSet;                         
-                        this[field.FieldID] = FieldUtils.Convert(field, dsResult.Tables[0].Rows[0][0].ToString());                                                    
+                        var dsResult = con.DataSet;
+                        this[field.FieldID] = FieldUtils.Convert(field, dsResult.Tables[0].Rows[0][0].ToString());
                     }
                 }
             }
@@ -358,7 +358,7 @@ namespace FIS.AppClient.Controls
             {
                 if (MessageBox.Show("Bạn có chắc chắn muốn phê duyệt thông tin này ?", "Phê duyệt thông tin", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    Execute(); 
+                    Execute();
                 }
                 //else
                 //{
@@ -368,7 +368,7 @@ namespace FIS.AppClient.Controls
             else
             {
                 Execute();
-            }           
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -383,7 +383,7 @@ namespace FIS.AppClient.Controls
                 if (!string.IsNullOrEmpty(filetempname))
                 {
                     DeleteFile(filetempname);
-                }               
+                }
                 using (var ctrlSA = new SAController())
                 {
                     List<string> values = new List<string>();
@@ -393,14 +393,14 @@ namespace FIS.AppClient.Controls
                 }
             }
             else
-                CloseModule();           
+                CloseModule();
         }
 
         #endregion
 
         public ucMaintain()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         public delegate void PInvoke();
@@ -413,7 +413,7 @@ namespace FIS.AppClient.Controls
             }
 
         }
-        
+
         public void Execute()
         {
             if (ValidateModule())
@@ -438,7 +438,7 @@ namespace FIS.AppClient.Controls
                                              try
                                              {
                                                  P();
-                                             }                                             
+                                             }
                                              catch (Exception ex)
                                              {
                                                  ShowError(ex);
@@ -466,37 +466,37 @@ namespace FIS.AppClient.Controls
                                              ctrlSA.ExecuteMaintain(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);
                                          }
                                          if (MaintainInfo.AddRepeatInput == CODES.MODMAINTAIN.REPEATINPUT.YES)
-                                            repeatInput = true;
+                                             repeatInput = true;
                                          break;
-                                         
+
                                      case CODES.DEFMOD.SUBMOD.MAINTAIN_EDIT:
                                          GetOracleParameterValues(out values, MaintainInfo.EditUpdateStore);
                                          ctrlSA.ExecuteMaintain(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);
-                                                                                  
+
                                          if (MaintainInfo.EditRepeatInput == CODES.MODMAINTAIN.REPEATINPUT.YES)
-                                            repeatInput = true;
+                                             repeatInput = true;
                                          break;
                                      case CODES.DEFMOD.SUBMOD.MAINTAIN_VIEW:
                                          try
                                          {
                                              // Lay thong tin module trong tllog
                                              List<string> value = new List<string>();
-                                             string v_Submod = null ;
+                                             string v_Submod = null;
                                              value.Add(Program.txnum);
                                              ctrlSA.ExecuteProcedureFillDataset(out container, "sp_tllog_sel_basic", value);
                                              if (container != null && container.DataTable != null)
-                                                {
-                                                    var resultTable = container.DataTable;
-                                                    if (resultTable.Rows.Count > 0)
-                                                    {
-                                                        v_Submod = resultTable.Rows[0]["SUBMOD"].ToString();
-                                                    }
-                                                }
+                                             {
+                                                 var resultTable = container.DataTable;
+                                                 if (resultTable.Rows.Count > 0)
+                                                 {
+                                                     v_Submod = resultTable.Rows[0]["SUBMOD"].ToString();
+                                                 }
+                                             }
 
                                              if (v_Submod == CODES.DEFMOD.SUBMOD.MAINTAIN_ADD)
                                              {
                                                  GetOracleParameterValues(out values, MaintainInfo.AddInsertStore);
-                                                 ctrlSA.ExecApprove(out container, ModuleInfo.ModuleID, v_Submod,SecID, values);
+                                                 ctrlSA.ExecApprove(out container, ModuleInfo.ModuleID, v_Submod, SecID, values);
 
                                                  // Cap nhat tllogs
                                                  List<string> valueAcceptTrans = new List<string>();
@@ -523,7 +523,7 @@ namespace FIS.AppClient.Controls
                                                  values1.Add(v_ROWID);
                                                  values1.Add(Program.txnum);
                                                  // Duyet thong tin
-                                                 ctrlSA.ExecApprove(out container, ModuleInfo.ModuleID, v_Submod,SecID, values);
+                                                 ctrlSA.ExecApprove(out container, ModuleInfo.ModuleID, v_Submod, SecID, values);
 
                                                  // Cap nhat tllogs
                                                  List<string> valueAcceptTrans = new List<string>();
@@ -537,7 +537,7 @@ namespace FIS.AppClient.Controls
                                                      ctrlSA.ExecuteStoreProcedure(MaintainInfo.EXECTRANSCTIONSTORE, values1);
                                                  }
                                                  Program.txnum = null;
-                                             }                                             
+                                             }
                                          }
                                          catch (Exception ex)
                                          {
@@ -553,7 +553,7 @@ namespace FIS.AppClient.Controls
                                              values1.Add(Program.txnum);
                                              values1.Add(ModuleInfo.ModuleID);
                                              values1.Add(App.Environment.ClientInfo.UserName);
-                                             ctrlSA.ExecuteStoreProcedure(MaintainInfo.EXECTRANSCTIONSTORE,values1);
+                                             ctrlSA.ExecuteStoreProcedure(MaintainInfo.EXECTRANSCTIONSTORE, values1);
                                              repeatInput = false;
                                          }
                                          catch (Exception ex)
@@ -566,18 +566,18 @@ namespace FIS.AppClient.Controls
 
                                  RequireRefresh = true;
 
-                                 if(MaintainInfo.ShowSuccess == CODES.MODMAINTAIN.SHOWSUCCESS.YES)
+                                 if (MaintainInfo.ShowSuccess == CODES.MODMAINTAIN.SHOWSUCCESS.YES)
                                  {
                                      RowFormattable fmtRow = null;
 
-                                     if(container != null)
+                                     if (container != null)
                                      {
                                          var rows = container.DataTable.Rows;
-                                         if(rows.Count == 1)
+                                         if (rows.Count == 1)
                                              fmtRow = new RowFormattable(rows[0]);
                                      }
 
-                                     if(fmtRow != null)
+                                     if (fmtRow != null)
                                      {
                                          frmInfo.ShowInfo(Language.Title, string.Format(Language.SuccessStatus, fmtRow), this);
                                      }
@@ -609,7 +609,7 @@ namespace FIS.AppClient.Controls
         {
             base.LockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 Enabled = false;
                 ShowWaitingBox();
@@ -620,7 +620,7 @@ namespace FIS.AppClient.Controls
         {
             base.UnLockUserAction();
 
-            if(!InvokeRequired)
+            if (!InvokeRequired)
             {
                 Enabled = true;
                 HideWaitingBox();
@@ -635,7 +635,7 @@ namespace FIS.AppClient.Controls
         {
             try
             {
-                bool allow = false;                
+                bool allow = false;
                 foreach (var i in (FieldUtils.GetModuleFields(
                     ModuleInfo.ModuleID,
                     //CODES.DEFMODFLD.FLDGROUP.COMMON)))
@@ -646,7 +646,7 @@ namespace FIS.AppClient.Controls
                     allow = true;
                 }
                 if (allow)
-                {                    
+                {
                     var fields = FieldUtils.GetModuleFields(ModuleInfo.ModuleID, CODES.DEFMODFLD.FLDGROUP.PARAMETER);
                     string StoreName;
                     List<string> values = new List<string>();
@@ -665,7 +665,7 @@ namespace FIS.AppClient.Controls
                             }
                         }
                         StoreName = MaintainInfo.ReportStore;
-                    }                                    
+                    }
                     // End TuanLM
                     if (values.Count > 0)
                     {
@@ -703,7 +703,7 @@ namespace FIS.AppClient.Controls
                                         else
                                         {
                                             lnkFile.Visible = false;
-                                        }                                                                       
+                                        }
                                     }
                                 }
                             }
@@ -713,21 +713,21 @@ namespace FIS.AppClient.Controls
                 }
                 else
                 {
-                    throw ErrorUtils.CreateError(ERR_FILE.ERR_FILE_IS_NOT_ATTACKED);                    
+                    throw ErrorUtils.CreateError(ERR_FILE.ERR_FILE_IS_NOT_ATTACKED);
                 }
 
             }
             catch (Exception ex)
-            {                
+            {
                 ShowError(ex);
             }
-        
+
         }
         private void DeleteFile(string _filename)
         {
             System.IO.File.Delete(_filename);
         }
-        
+
         private string RandomString(int size, bool lowerCase)
         {
             StringBuilder sb = new StringBuilder();
@@ -756,9 +756,9 @@ namespace FIS.AppClient.Controls
 
         private void btnLoadReport_Click(object sender, EventArgs e)
         {
-           
+
         }
-    
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (ValidateModule())
@@ -779,10 +779,10 @@ namespace FIS.AppClient.Controls
                                 {
                                     case CODES.DEFMOD.SUBMOD.MAINTAIN_ADD:
                                         if (MaintainInfo.Report == "R")
-                                        {                                            
+                                        {
                                             GetOracleParameterValues(out values, MaintainInfo.AddInsertStore);
                                             values[81] = richEdit.HtmlText;
-                                            ctrlSA.ExecuteMaintain(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);                                            
+                                            ctrlSA.ExecuteMaintain(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);
                                         }
                                         if (MaintainInfo.AddRepeatInput == CODES.MODMAINTAIN.REPEATINPUT.YES)
                                             repeatInput = true;
@@ -829,10 +829,10 @@ namespace FIS.AppClient.Controls
                     }, this).Start();
             }
         }
-       
+
         private void btnGetData_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void GetMessageID()
@@ -871,7 +871,7 @@ namespace FIS.AppClient.Controls
 
         private void ucMaintain_ModuleClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Program.StrMessageID = "";            
+            Program.StrMessageID = "";
         }
 
         //TUDQ them
@@ -887,7 +887,7 @@ namespace FIS.AppClient.Controls
                     DataContainer con;
                     ctrlSA.ExecuteTransQuery(out con, MaintainInfo.ModuleID, MaintainInfo.SubModule, values);
                     AssignFieldValuesFromResult(con);
-                    DataTable dt = con.DataTable;                   
+                    DataTable dt = con.DataTable;
                 }
             }
         }

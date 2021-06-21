@@ -1,21 +1,20 @@
-﻿using System;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
-using FIS.AppClient.Interface;
-using FIS.Common;
-using FIS.Entities;
-using FIS.Utils;
-using System.Collections.Generic;
-using System.Linq;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
-using System.Drawing;
-using System.ComponentModel;
+using FIS.AppClient.Interface;
 using FIS.AppClient.Utils;
 using FIS.Base;
 using FIS.Controllers;
+using FIS.Entities;
+using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -29,7 +28,7 @@ namespace FIS.AppClient.Controls
         {
             get
             {
-                return (IConditionFieldSupportedModule) ParentModule;
+                return (IConditionFieldSupportedModule)ParentModule;
             }
         }
         public LayoutControlGroup ParentLayoutGroup { get; private set; }
@@ -60,7 +59,7 @@ namespace FIS.AppClient.Controls
             set
             {
                 m_EditUse.Checked = value;
-                
+
                 foreach (var group in Groups)
                 {
                     group.InUse = value;
@@ -79,10 +78,10 @@ namespace FIS.AppClient.Controls
             ModuleInfo = parentModule.ModuleInfo;
             ParentLayoutGroup = parentLayoutGroup;
             SearchLayout = (LayoutControl)parentLayoutGroup.Owner;
-            
+
             Groups = new List<UISearchGroup>();
             Conditions = new List<UISearchCondition>();
-            
+
             LayoutGroup = new LayoutControlGroup();
 
             SearchLayout.BeginUpdate();
@@ -99,7 +98,7 @@ namespace FIS.AppClient.Controls
             m_SQLLogic = (ImageComboBoxEdit)parentModule.CreateControl(fieldSqlLogic);
             parentModule.SetControlListSource(m_SQLLogic);
             parentModule.SetControlDefaultValue(m_SQLLogic);
-            
+
             m_AddGroup = new SimpleButton();
             m_AddCondition = new SimpleButton();
             m_DeleteGroup = new SimpleButton();
@@ -110,7 +109,7 @@ namespace FIS.AppClient.Controls
             (m_MainSeparator = (SimpleSeparator)LayoutGroup.AddItem(new SimpleSeparator(), m_EditUseLayoutItem, InsertType.Bottom)).BeginInit();
             (m_SQLLogicLayoutItem = LayoutGroup.AddItem("Group Type", m_SQLLogic, m_EditUseLayoutItem, InsertType.Right)).BeginInit();
             (m_SQLLogicEmptySpace = (EmptySpaceItem)LayoutGroup.AddItem(new EmptySpaceItem(LayoutGroup), m_SQLLogicLayoutItem, InsertType.Right)).BeginInit();
-            (m_DeleteGroupLayoutItem = LayoutGroup.AddItem("Delete Group", m_DeleteGroup,m_SQLLogicEmptySpace, InsertType.Right)).BeginInit();
+            (m_DeleteGroupLayoutItem = LayoutGroup.AddItem("Delete Group", m_DeleteGroup, m_SQLLogicEmptySpace, InsertType.Right)).BeginInit();
             (m_AddGroupLayoutItem = LayoutGroup.AddItem("Add Group", m_AddGroup, m_DeleteGroupLayoutItem, InsertType.Right)).BeginInit();
             (m_AddConditionLayoutItem = LayoutGroup.AddItem("Add Condition", m_AddCondition, m_AddGroupLayoutItem, InsertType.Right)).BeginInit();
 
@@ -167,7 +166,7 @@ namespace FIS.AppClient.Controls
             m_EditUseLayoutItem.FillControlToClientArea = false;
             m_AddGroupLayoutItem.MinSize =
                 m_AddGroupLayoutItem.MaxSize = new Size(140, 24);
-            
+
             // m_layout_cboSQLLogic
             m_AddConditionLayoutItem.TextVisible = false;
             m_AddConditionLayoutItem.SizeConstraintsType = SizeConstraintsType.Custom;
@@ -188,7 +187,7 @@ namespace FIS.AppClient.Controls
             m_MainSeparator.EndInit();
 
             parentLayoutGroup.Add(LayoutGroup);
-            
+
             if (ConditionModule.ConditionLayoutGroup == parentLayoutGroup)
             {
                 parentLayoutGroup.AddItem(new EmptySpaceItem(), LayoutGroup, InsertType.Bottom);
@@ -257,18 +256,18 @@ namespace FIS.AppClient.Controls
 
         public SearchConditionInstance GetConditionInstance()
         {
-            var instance = new SearchConditionInstance {SQLLogic = m_SQLLogic.EditValue.ToString()};
+            var instance = new SearchConditionInstance { SQLLogic = m_SQLLogic.EditValue.ToString() };
 
             var subInstance = new List<SearchConditionInstance>();
             foreach (var group in Groups)
             {
-                if(group.InUse)
+                if (group.InUse)
                     subInstance.Add(group.GetConditionInstance());
             }
 
             foreach (var condition in Conditions)
             {
-                if(condition.InUse)
+                if (condition.InUse)
                     subInstance.Add(condition.GetConditionInstance());
             }
 
@@ -371,13 +370,13 @@ namespace FIS.AppClient.Controls
             m_ModuleInfo = moduleInfo;
             Group.Conditions.Add(this);
             ParentModule = group.ParentModule;
-            
+
             // NewGroup
             m_ConditionGroupLayout = group.LayoutGroup.AddGroup();
             m_ConditionGroupLayout.GroupBordersVisible = false;
 
             // CheckEdit Use
-            m_EditUse = new CheckEdit {TabStop = false, Text = ""};
+            m_EditUse = new CheckEdit { TabStop = false, Text = "" };
             // -> Layout
             m_EditUseLayoutItem = m_ConditionGroupLayout.AddItem("", m_EditUse);
             m_EditUseLayoutItem.TextVisible = false;
@@ -387,12 +386,12 @@ namespace FIS.AppClient.Controls
             m_EditUse.CheckedChanged += CheckEditUse_CheckedChanged;
 
             // Condition ComboBox
-            m_Condition = new ImageComboBoxEdit {TabStop = false};
+            m_Condition = new ImageComboBoxEdit { TabStop = false };
 #if DEBUG
             var button = new EditorButton(ButtonPredefines.Up);
             button.Tag = "DEBUG_EDIT";
             m_Condition.Properties.Buttons.Add(button);
-            m_Condition.ButtonClick += delegate(object sender, ButtonPressedEventArgs e)
+            m_Condition.ButtonClick += delegate (object sender, ButtonPressedEventArgs e)
             {
                 var fieldInfo = m_Condition.EditValue as ModuleFieldInfo;
                 if (e.Button == button)
@@ -422,9 +421,9 @@ namespace FIS.AppClient.Controls
 
             // Button Remove
             m_RemoveButton = new SimpleButton
-                                {
-                                    TabStop = false
-                                };
+            {
+                TabStop = false
+            };
             ParentModule.Language.FormatButton(m_RemoveButton, "btnRemoveCondition");
 
             m_RemoveButton.Click += m_btnRemove_Click;
@@ -562,7 +561,7 @@ namespace FIS.AppClient.Controls
                     }
                 }
 
-                if(haveToCreateItem)
+                if (haveToCreateItem)
                     m_Condition.Properties.Items.Add(
                         new ImageComboBoxItem
                         {
@@ -611,7 +610,7 @@ namespace FIS.AppClient.Controls
                     }
 
                 }
-            }                       
+            }
             return instance;
         }
 

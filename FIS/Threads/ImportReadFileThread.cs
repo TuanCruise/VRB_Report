@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.ServiceModel;
-using System.Data;
+﻿using Aspose.Cells;
 using DevExpress.XtraEditors.Controls;
-using System.IO;
-using Aspose.Cells;
-using System.Windows.Forms;
 using FIS.AppClient.Controls;
 using FIS.Common;
 using FIS.Utils;
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Threads
 {
@@ -22,7 +21,7 @@ namespace FIS.AppClient.Threads
         public ImportReadFileThread(Control parent)
             : base(null, parent)
         {
-            Parent = (ucIMWizard) parent;
+            Parent = (ucIMWizard)parent;
             Worker = ExecuteReadFile;
         }
 
@@ -79,12 +78,12 @@ namespace FIS.AppClient.Threads
                             row[j] = worksheet.Cells[i, j].Value;
                         }
 
-                        
+
                         PercentComplete = i * 100.0f / rowLength;
                         if (worksheet.Cells[i, 1].Value != null)
                         {
                             StatusText = worksheet.Cells[i, 1].Value.ToString();
-                        }                        
+                        }
                         ExecuteUpdateGUI();
                     }
 

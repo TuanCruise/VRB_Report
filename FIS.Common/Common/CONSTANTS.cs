@@ -13,7 +13,7 @@
         public const string LIST_DEFVALIDATE = "SYSTEM_PROCS.SP_DEFVALIDATE_SEL_ALL";
         public const string LIST_DEFLANG = "SYSTEM_PROCS.SP_DEFLANG_SEL_ALL";
         public const string LIST_DEFMENU = "SYSTEM_PROCS.SP_DEFMENU_SEL_ALL";
-        public const string LIST_DEFRIBBON = "SYSTEM_PROCS.SP_DEFRIBBON_SEL_ALL";        
+        public const string LIST_DEFRIBBON = "SYSTEM_PROCS.SP_DEFRIBBON_SEL_ALL";
         #endregion
 
         #region LIST MODULE
@@ -112,7 +112,7 @@
         public const string GET_TREE_MODULE = "DEVELOPER_PROCS.SP_MODTREE_SEL_BY_MODID";
         public const string GET_EXPRESSION_MODULE = "DEVELOPER_PROCS.SP_MODEXP_SEL_BY_MODID";
         //
-        
+
 
         #endregion
 
@@ -172,7 +172,7 @@
         public const string MSG_REG_SUCCESS = "Bạn đã đăng ký thành công chứng thư số với UBCK NN !";
         public const string MSG_REG_ERROR_GETINFO = "Không lấy được thông tin chứng thư số !";
         public const string TITLE_ALERT = "Thông báo";
-        public const string TITLE_ERROR = "Lỗi";        
+        public const string TITLE_ERROR = "Lỗi";
     }
 
     public static class IMPORTMASTER
@@ -272,28 +272,28 @@
 
     }
 
-        public static class CHECKMARK
-        {
-            public const string FIELDID = "CHECKS";
-            public const string FIELDVALUE = "1";
+    public static class CHECKMARK
+    {
+        public const string FIELDID = "CHECKS";
+        public const string FIELDVALUE = "1";
 
-        }
-        public static class SYSVAR
-        {
-            public const string GRNAME_SYSTEM = "SYSTEM";
-            public const string GRNAME_SYS = "SYS";
-            public const string VARNAME_EXPORT = "EXPORTDLG";
-            public const string VARNAME_IMPCHECK = "IMPCHK";
-            public const string VARNAME_EXPORT_BY_COLUMN = "EXPCOL";
-            public const string VARNAME_EXPORT_LOGO = "EXPLOGO";
-            public const string VARNAME_APPNAME = "APPNAME";
-            public const string VARNAME_WEBFILEPATH = "WEBFILEPATH";
-            public const string VARNAME_RPTEXCELFILEPATH = "RPTEXCELFILEPATH";
-            public const string VARNAME_LINKNDTNN = "LINKNDTNN";
-            public const string VARNAME_DOMAINSRV = "DOMAINSRV";
-            public const string VARNAME_DOMAINNAME = "DOMAINNAME";
-            public const string VARNAME_DOMAINLOGIN = "DOMAINLOGIN";
-            public const string VARNAME_XMLDIRPATH = "XMLDIRPATH";
     }
-    
+    public static class SYSVAR
+    {
+        public const string GRNAME_SYSTEM = "SYSTEM";
+        public const string GRNAME_SYS = "SYS";
+        public const string VARNAME_EXPORT = "EXPORTDLG";
+        public const string VARNAME_IMPCHECK = "IMPCHK";
+        public const string VARNAME_EXPORT_BY_COLUMN = "EXPCOL";
+        public const string VARNAME_EXPORT_LOGO = "EXPLOGO";
+        public const string VARNAME_APPNAME = "APPNAME";
+        public const string VARNAME_WEBFILEPATH = "WEBFILEPATH";
+        public const string VARNAME_RPTEXCELFILEPATH = "RPTEXCELFILEPATH";
+        public const string VARNAME_LINKNDTNN = "LINKNDTNN";
+        public const string VARNAME_DOMAINSRV = "DOMAINSRV";
+        public const string VARNAME_DOMAINNAME = "DOMAINNAME";
+        public const string VARNAME_DOMAINLOGIN = "DOMAINLOGIN";
+        public const string VARNAME_XMLDIRPATH = "XMLDIRPATH";
+    }
+
 }

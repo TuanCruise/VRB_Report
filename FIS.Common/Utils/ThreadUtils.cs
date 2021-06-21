@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FIS.Common;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using System.Globalization;
-using FIS.Common;
 
 namespace FIS.Utils
 {
@@ -50,7 +50,7 @@ namespace FIS.Utils
 
         public void Start()
         {
-            m_MainThread = new Thread(delegate()
+            m_MainThread = new Thread(delegate ()
                 {
                     Worker(this);
                     if (ProcessComplete != null && Parent != null && !Parent.Disposing)
@@ -91,7 +91,7 @@ namespace FIS.Utils
 
                     return;
                 }
-                
+
                 if ((DateTime.Now - m_LastUpdateGui).TotalMilliseconds > RefreshTime)
                 {
                     m_LastUpdateGui = DateTime.Now;

@@ -1,5 +1,4 @@
 ﻿using FIS.Entities;
-using FIS.AppClient.Utils;
 
 namespace FIS.AppClient.Controls
 {

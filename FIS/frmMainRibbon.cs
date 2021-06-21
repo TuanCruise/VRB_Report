@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using DevExpress.XtraBars;
+﻿using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraTab;
 using DevExpress.XtraTab.ViewInfo;
 using FIS.AppClient.Controls;
 using FIS.AppClient.Interface;
 using FIS.AppClient.Utils;
+using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using FIS.Base;
-using System.Drawing;
 using System.Threading;
-using System.Diagnostics;
-using DevExpress.XtraEditors;
-using System.ServiceModel;
+using System.Windows.Forms;
 
 namespace FIS.AppClient
 {
@@ -27,7 +23,7 @@ namespace FIS.AppClient
         internal MainProcess Process { get; set; }
         private readonly Form m_mainForm;
         public delegate void workerFunctionDelegate(string strText);
-        public delegate void RunNewsDelegate(string strText);        
+        public delegate void RunNewsDelegate(string strText);
         public frmMainRibbon()
         {
             InitializeComponent();
@@ -70,10 +66,10 @@ namespace FIS.AppClient
 
         void IMain.InitializeMenu()
         {
-            var dicButtonItems = new Dictionary<string,object>();
+            var dicButtonItems = new Dictionary<string, object>();
             List<RibbonItemInfo> colRibbonItemsInfo;
 
-            using(var ctrlSA = new SAController())
+            using (var ctrlSA = new SAController())
             {
                 ctrlSA.ListRibbonItems(out colRibbonItemsInfo);
             }
@@ -82,16 +78,16 @@ namespace FIS.AppClient
 
             foreach (var item in colRibbonItemsInfo)
             {
-                if(item.RibbonType == CODES.DEFRIBBON.RIBTYPE.RIBBON_PAGE)
+                if (item.RibbonType == CODES.DEFRIBBON.RIBTYPE.RIBBON_PAGE)
                 {
                     var ribbonPage = new RibbonPage
-                                           {
-                                               Name = item.RibbonName,
-                                               Text = LangUtils.Translate(LangType.MENU_CAPTION, item.RibbonName),
+                    {
+                        Name = item.RibbonName,
+                        Text = LangUtils.Translate(LangType.MENU_CAPTION, item.RibbonName),
 
-                                               Tag = item,
-                                               Visible = false
-                                           };
+                        Tag = item,
+                        Visible = false
+                    };
                     ribbon.Pages.Add(ribbonPage);
                     dicButtonItems.Add(item.RibbonID, ribbonPage);
                 }
@@ -200,13 +196,13 @@ namespace FIS.AppClient
                     }
                 }
             }
-            
+
         }
 
         void IMain.ApplyMenu()
         {
             InitializeMenu();
-            foreach(RibbonPage page in ribbon.Pages)
+            foreach (RibbonPage page in ribbon.Pages)
             {
                 page.Visible = true;
             }
@@ -221,30 +217,30 @@ namespace FIS.AppClient
             {
                 ctrlSA.GetSessionUserInfo(out userInfo);
                 ctrlSA.GetSysDate(out container);
-               var dsResult = container.DataSet;
-               strSysDate = "Thời gian: " + dsResult.Tables[0].Rows[0][0].ToString() + ",";
-               strPerson = dsResult.Tables[1].Rows[0][0].ToString();
-               List<string> values = new List<string>();
-               values.Add(dsResult.Tables[0].Rows[0][0].ToString());
-               //ctrlSA.ExecuteProcedureFillDataset(out container2, "SP_PERSON_SEL_MAIN", values);
-               //var dsResult2 = container2.DataSet;
-               //strPerson = "Liên hệ: "+ dsResult2.Tables[0].Rows[0][0].ToString();
-            }           
+                var dsResult = container.DataSet;
+                strSysDate = "Thời gian: " + dsResult.Tables[0].Rows[0][0].ToString() + ",";
+                strPerson = dsResult.Tables[1].Rows[0][0].ToString();
+                List<string> values = new List<string>();
+                values.Add(dsResult.Tables[0].Rows[0][0].ToString());
+                //ctrlSA.ExecuteProcedureFillDataset(out container2, "SP_PERSON_SEL_MAIN", values);
+                //var dsResult2 = container2.DataSet;
+                //strPerson = "Liên hệ: "+ dsResult2.Tables[0].Rows[0][0].ToString();
+            }
 
             barButtonItem1.ImageIndex = 2;
-            barButtonItem1.Caption = "Đăng xuất ( "+ userInfo.Username +" )";
+            barButtonItem1.Caption = "Đăng xuất ( " + userInfo.Username + " )";
             barStaticItem1.ImageIndex = 3;
             barStaticItem1.Caption = strSysDate;
             barStaticItem2.Caption = strPerson;
-            timer1.Enabled = true;            
-            timer2.Enabled = true;          
-            
+            timer1.Enabled = true;
+            timer2.Enabled = true;
+
             //RunNews();
             //if (Program.AppName == CONSTANTS.AppNameSMS)
             //{
             //    RunAlert(userInfo.Username);
             //}
-           
+
         }
 
         void IMain.StartupModules()
@@ -265,7 +261,7 @@ namespace FIS.AppClient
             //tabMain.SelectedTabPage = tabPage;
         }
 
-        void IMain.RemoveTabModule(XtraTabPage tabPage)  
+        void IMain.RemoveTabModule(XtraTabPage tabPage)
         {
             //tabMain.TabPages.Remove(tabPage);
         }
@@ -287,11 +283,11 @@ namespace FIS.AppClient
         }
         #endregion
 
-            #region Overloads
+        #region Overloads
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Text = Language.ApplicationTitle;            
+            Text = Language.ApplicationTitle;
         }
 
         protected override void OnShown(EventArgs e)
@@ -336,14 +332,14 @@ namespace FIS.AppClient
 
         private void txtModuleID_EditValueChanged(object sender, EventArgs e)
         {
-//#if DEBUG                        
+            //#if DEBUG                        
             if (txtModuleID.EditValue != null)
             {
                 var moduleID = txtModuleID.EditValue.ToString().ToUpper();
                 txtModuleID.EditValue = null;
                 MainProcess.ExecuteModule(moduleID);
             }
-//#endif
+            //#endif
         }
 
         private void ribbon_ItemClick(object sender, ItemClickEventArgs e)
@@ -359,9 +355,9 @@ namespace FIS.AppClient
                     barButtonItem1.Caption = "";
                     MainProcess.LogoutFromSystem(true);
                 }
-            }          
+            }
             else
-            {                
+            {
                 MainProcess.ExecuteMenu(e.Item.Name, e.Item.Tag as RibbonItemInfo);
             }
         }
@@ -443,14 +439,14 @@ namespace FIS.AppClient
                 barSubItem2.ClearLinks();
                 foreach (DataRow row in dsResult.Tables[0].Rows)
                 {
-                    BarButtonItem item = new BarButtonItem(barManagerSkins, row[1].ToString(), Int32.Parse(row[0].ToString())-1);
+                    BarButtonItem item = new BarButtonItem(barManagerSkins, row[1].ToString(), Int32.Parse(row[0].ToString()) - 1);
                     barSubItem2.AddItem(item);
                     if (row[1].ToString() == dsResultSkins.Tables[0].Rows[0][0].ToString())
                     {
                         item.Enabled = false;
                     }
-                }                
-                
+                }
+
                 barManagerSkins.ItemClick += new ItemClickEventHandler(barManagerSkins_ItemClick);
                 barManagerSkins.EndUpdate();
             }
@@ -493,7 +489,7 @@ namespace FIS.AppClient
                             this))
             {
                 barButtonItem1.Caption = "";
-                MainProcess.LogoutFromSystem(true);                
+                MainProcess.LogoutFromSystem(true);
             }
         }
 
@@ -532,7 +528,7 @@ namespace FIS.AppClient
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         private void ribbon_ApplicationButtonClick(object sender, EventArgs e)
@@ -550,15 +546,14 @@ namespace FIS.AppClient
             //applicationMenu1.ShowRightPane = true;
         }
         private void label1_LabelClick(object sender, EventArgs e)
-        { 
-        
+        {
+
         }
-        int timer = 0;
 
         private void timer2_Tick(object sender, EventArgs e)
-        {            
+        {
             RunNews();
-            RunAlert();                                            
+            RunAlert();
         }
         private void RunAlert()
         {
@@ -571,10 +566,10 @@ namespace FIS.AppClient
                 var dsResult2 = container.DataSet;
                 if (dsResult2.Tables[0].Rows.Count > 0)
                 {
-                    Displaynotify();                  
-                }                    
-               
-            }           
+                    Displaynotify();
+                }
+
+            }
         }
         protected void Displaynotify()
         {
@@ -584,13 +579,13 @@ namespace FIS.AppClient
                 notifyIcon1.Text = "COMS";
                 notifyIcon1.Visible = true;
                 notifyIcon1.BalloonTipTitle = "VRB - COMS";
-                notifyIcon1.BalloonTipText = "Bạn có 1 thông báo mới";                
+                notifyIcon1.BalloonTipText = "Bạn có 1 thông báo mới";
                 notifyIcon1.ShowBalloonTip(100);
             }
             catch (Exception ex)
             {
             }
-        }  
+        }
         private void RunNews()
         {
             workerFunctionDelegate w = workerFunction;
@@ -603,23 +598,23 @@ namespace FIS.AppClient
                 // Kiem tra Session neu null thi nghi
                 FIS.Entities.Session session;
                 ctrlSA.GetCurrentSessionInfo(out session);
-                int type=0;
+                int type = 0;
                 if (session != null)
                 {
                     ctrlSA.ExecuteProcedureFillDataset(out container, "sp_alertlog_sel_all", values);
                     var dsResult2 = container.DataSet;
                     if (dsResult2.Tables[0].Rows.Count > 0)
-                    {                        
+                    {
                         for (int i = 0; i < dsResult2.Tables[0].Rows.Count; i++)
-                        {                            
+                        {
                             strNews = " Tin mới : " + dsResult2.Tables[0].Rows[i][0].ToString();
                             barStaticItem4.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
                             barStaticItem4.Appearance.ForeColor = System.Drawing.Color.Red;
                             barStaticItem4.Appearance.Options.UseFont = true;
                             barStaticItem4.Appearance.Options.UseForeColor = true;
                             barStaticItem4.ImageIndex = 8;
-                            type = Convert.ToInt32(dsResult2.Tables[0].Rows[i][1].ToString());                            
-                            w.BeginInvoke(strNews, null, null);                                                            
+                            type = Convert.ToInt32(dsResult2.Tables[0].Rows[i][1].ToString());
+                            w.BeginInvoke(strNews, null, null);
                         }
                     }
                     else
@@ -631,9 +626,9 @@ namespace FIS.AppClient
                     {
                         frmAlert frm = new frmAlert();
                         frm.Show();
-                    }                     
-                }               
-            }           
+                    }
+                }
+            }
         }
         void workerFunction(string strText)
         {
@@ -647,11 +642,11 @@ namespace FIS.AppClient
 
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
-            MainProcess.ExecuteModule("02340","MED");
+            MainProcess.ExecuteModule("02340", "MED");
         }
         private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
         {
-            
+
         }
 
         private void barButtonItem4_ItemClick(object sender, ItemClickEventArgs e)
@@ -661,23 +656,23 @@ namespace FIS.AppClient
 
         private void barButtonItem6_ItemClick(object sender, ItemClickEventArgs e)
         {
-            MainProcess.ExecuteModule("LOGIN","MMN");
+            MainProcess.ExecuteModule("LOGIN", "MMN");
         }
 
         private void barStaticItem4_ItemClick(object sender, ItemClickEventArgs e)
-        {            
+        {
             MainProcess.ExecuteModule("03271", "MMN");
         }
 
         private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
         {
-            
+
         }
 
         private void ribbon_Click(object sender, EventArgs e)
         {
 
         }
-       
+
     }
 }

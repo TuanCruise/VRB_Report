@@ -42,14 +42,14 @@ using Padding = System.Windows.Forms.Padding;
 
 namespace FIS.AppClient.Controls
 {
-    public partial class ucModule :  XtraUserControl, IModule, IFormattable
+    public partial class ucModule : XtraUserControl, IModule, IFormattable
     {
         #region Parameter Fields
         /// <summary>
         /// Danh sách Parameter Field
         /// </summary>
         protected List<ModuleFieldInfo> ParameterFields { get; set; }
-        public GridView view,view1,view2;
+        public GridView view, view1, view2;
         int i = 0;
         protected string SecID;
         double TotalRowCount; double TotalValue;
@@ -72,9 +72,9 @@ namespace FIS.AppClient.Controls
         protected Dictionary<string, Control> _CommonControlByID { get; set; }
 
         [Browsable(false)]
-        public Dictionary<string, BaseLayoutItem> CommonLayoutItemByID {get;set;}
+        public Dictionary<string, BaseLayoutItem> CommonLayoutItemByID { get; set; }
         #endregion
-     
+
         #region Grid Column Fields
         [Browsable(false)]
         public List<ModuleFieldInfo> ColumnFields { get; set; }
@@ -102,9 +102,9 @@ namespace FIS.AppClient.Controls
 
         #region Property & Members
         public static List<ucModule> AliveModuleIntances { get; set; }
-//#if DEBUG
+        //#if DEBUG
         protected ContextMenuStrip Context { get; private set; }
-//#endif
+        //#endif
         [Category("Buttons")]
         public SimpleButton CancelButton { get; set; }
         [Category("Buttons")]
@@ -131,7 +131,7 @@ namespace FIS.AppClient.Controls
             get { return m_PauseCallback; }
             set { m_PauseCallback = value; }
         }
-       
+
         [Browsable(false)]
         public bool StopCallback { get; set; }
         public bool IsFile { get; set; }
@@ -173,7 +173,7 @@ namespace FIS.AppClient.Controls
 
                     return;
                 }
-                
+
                 if (ParameterByFieldID.ContainsKey(fieldID))
                 {
                     ParameterByFieldID[fieldID] = value;
@@ -218,19 +218,19 @@ namespace FIS.AppClient.Controls
         /// <param name="moduleInfo">Thông tin Module</param>
         public virtual void InitializeModuleInfo(ModuleInfo moduleInfo)
         {
-//#if DEBUG
+            //#if DEBUG
             //if (frmMain.m_BarFieldMaker != null)
             //{
             //    frmMain.RemoveResourceBarItem(frmMain.m_BarFieldMaker);
             //    frmMain.m_BarFieldMaker = null;
             //}
-            
+
             //Context = new ContextMenuStrip();
             //frmMain.ForceLoad(moduleInfo.ModuleID);
             Context = new ContextMenuStrip();
             MainProcess.ForceLoad(moduleInfo.ModuleID);
-//#endif
-            switch(moduleInfo.ExecuteMode)
+            //#endif
+            switch (moduleInfo.ExecuteMode)
             {
                 case CODES.DEFMOD.EXECMODE.SINGLE_INSTANCE:
                     foreach (var instance in AliveModuleIntances)
@@ -245,7 +245,7 @@ namespace FIS.AppClient.Controls
                             }
                             //throw ErrorUtils.CreateError(ERR_SYSTEM.ERR_SYSTEM_MODULE_SINGLE_INSTANCE);
                         }
-                    }                
+                    }
                     break;
                 case CODES.DEFMOD.EXECMODE.BLOCKED:
                     throw ErrorUtils.CreateError(ERR_SYSTEM.ERR_SYSTEM_BLOCKED_MODULE);
@@ -306,14 +306,14 @@ namespace FIS.AppClient.Controls
         {
             // 1. If module implement ICommonFieldSupportedModule
             var commonFieldSupportedModule = this as ICommonFieldSupportedModule;
-            if(commonFieldSupportedModule != null)
+            if (commonFieldSupportedModule != null)
             {
                 InitializeCommonFieldLayout(commonFieldSupportedModule);
             }
 
             // 2. If module implement IGroupColumnFieldSupportedModule
             var groupColumnFieldSupportedModule = this as IGroupColumnFieldSupportedModule;
-            if(groupColumnFieldSupportedModule != null)
+            if (groupColumnFieldSupportedModule != null)
             {
                 InitializeGroupColumnFieldLayout(groupColumnFieldSupportedModule);
             }
@@ -408,7 +408,7 @@ namespace FIS.AppClient.Controls
 #if DEBUG
             groupColumnFieldSupportedModule.GridView.OptionsView.ShowColumnHeaders = true;
 #endif
-            if(!string.IsNullOrEmpty(groupColumnFieldSupportedModule.GroupLayoutStoredData))
+            if (!string.IsNullOrEmpty(groupColumnFieldSupportedModule.GroupLayoutStoredData))
             {
                 var sr = new StringReader(groupColumnFieldSupportedModule.GroupLayoutStoredData);
                 var serializer = new XmlSerializer(typeof(List<string[]>));
@@ -425,7 +425,7 @@ namespace FIS.AppClient.Controls
                             }
                         }
                     }
-                }                
+                }
             }
         }
 
@@ -468,9 +468,9 @@ namespace FIS.AppClient.Controls
             RestoreCommonFieldLayout(commonFieldSupportedModule);
 
             var layout = commonFieldSupportedModule.CommonLayout;
-            foreach(var field in CommonFields)
+            foreach (var field in CommonFields)
             {
-                switch(field.ControlType)
+                switch (field.ControlType)
                 {
                     case CODES.DEFMODFLD.CTRLTYPE.DEFINEDGROUP:
                         var item = layout.Items.FindByName(field.FieldName) as LayoutControlGroup ?? layout.AddGroup();
@@ -479,18 +479,18 @@ namespace FIS.AppClient.Controls
                         CommonLayoutItemByID.Add(field.FieldID, item);
                         break;
                     default:
-                        var control = (BaseEdit)GetControlByFieldID(field.FieldID);                                                
+                        var control = (BaseEdit)GetControlByFieldID(field.FieldID);
                         if (field.Nullable == CONSTANTS.No)
                         {
                             try
                             {
                                 layout.Items.FindByName("item" + field.FieldName).AppearanceItemCaption.ForeColor = GetColor(SysvarUtils.GetVarValue("SYS", "ISNULLCOLOR"));
-                                layout.Items.FindByName("item" + field.FieldName).Text = 
-                                    layout.Items.FindByName("item" + field.FieldName).Text.IndexOf(SysvarUtils.GetVarValue("SYS", "ISNULLTEXT")) > 0 ?  layout.Items.FindByName("item" + field.FieldName).Text :
+                                layout.Items.FindByName("item" + field.FieldName).Text =
+                                    layout.Items.FindByName("item" + field.FieldName).Text.IndexOf(SysvarUtils.GetVarValue("SYS", "ISNULLTEXT")) > 0 ? layout.Items.FindByName("item" + field.FieldName).Text :
                                     layout.Items.FindByName("item" + field.FieldName).Text + " " + SysvarUtils.GetVarValue("SYS", "ISNULLTEXT");
                             }
                             catch
-                            { }                            
+                            { }
                             CommonLayoutItemByID.Add(field.FieldID, layout.GetItemByControl(control));
                         }
                         else
@@ -498,12 +498,12 @@ namespace FIS.AppClient.Controls
                             try
                             {
                                 layout.Items.FindByName("item" + field.FieldName).AppearanceItemCaption.ForeColor = Color.Black;
-                                layout.Items.FindByName("item" + field.FieldName).Text = layout.Items.FindByName("item" + field.FieldName).Text.Replace(SysvarUtils.GetVarValue("SYS", "ISNULLTEXT"),"");
+                                layout.Items.FindByName("item" + field.FieldName).Text = layout.Items.FindByName("item" + field.FieldName).Text.Replace(SysvarUtils.GetVarValue("SYS", "ISNULLTEXT"), "");
                             }
                             catch
-                            { }     
+                            { }
                             CommonLayoutItemByID.Add(field.FieldID, layout.GetItemByControl(control));
-                        }                                                
+                        }
                         break;
                 }
             }
@@ -512,7 +512,7 @@ namespace FIS.AppClient.Controls
             foreach (var control in CommonControlByID.Values)
             {
                 var item = layout.GetItemByControl(control);
-                if(item.Parent == null)
+                if (item.Parent == null)
                 {
                     item.Name = item.CustomizationFormText = string.Format("item{0}", control.Name);
                     item.Text = control.Name;
@@ -525,17 +525,17 @@ namespace FIS.AppClient.Controls
         private Color GetColor(string color)
         {
             Color vColor = new Color();
-            switch(color.ToUpper())
+            switch (color.ToUpper())
             {
-                case "RED" : 
-                    vColor =  Color.Red;
+                case "RED":
+                    vColor = Color.Red;
                     break;
                 case "BLUE":
                     vColor = Color.Blue;
                     break;
                 default:
                     vColor = Color.Black;
-                    break;                  
+                    break;
             }
             return vColor;
         }
@@ -650,7 +650,7 @@ namespace FIS.AppClient.Controls
         /// </summary>
         /// <param name="skin">Theme đang sử dụng</param>
         /// 
-       
+
         protected virtual void InitializeGUI(Skin skin)
         {
         }
@@ -659,14 +659,14 @@ namespace FIS.AppClient.Controls
         {
             // 1. If module implement IParameterFieldSupportedModule
             var parameterFieldSupportedModule = this as IParameterFieldSupportedModule;
-            if(parameterFieldSupportedModule != null)
+            if (parameterFieldSupportedModule != null)
             {
                 BuildParameterFields();
             }
 
             // 2. If module implement ICommonFieldSupportedModule
             var commonFieldSupportedModule = this as ICommonFieldSupportedModule;
-            if(commonFieldSupportedModule != null)
+            if (commonFieldSupportedModule != null)
             {
                 BuildCommonFields(commonFieldSupportedModule.CommonLayout);
             }
@@ -736,14 +736,14 @@ namespace FIS.AppClient.Controls
             foreach (var groupField in GroupFields)
             {
                 var band = new GridBand
-                               {
-                                   Name = string.Format("band{0}", groupField.FieldName),
-                                   Tag = groupField.FieldID,
-                                   Caption = LangUtils.TranslateModuleItem(
+                {
+                    Name = string.Format("band{0}", groupField.FieldName),
+                    Tag = groupField.FieldID,
+                    Caption = LangUtils.TranslateModuleItem(
                                        LangType.LABEL_FIELD,
                                        ModuleInfo,
                                        groupField.FieldName)
-                               };
+                };
                 band.MinWidth = gr.MeasureString(band.Caption, band.AppearanceHeader.Font).ToSize().Width + 4;
 
                 band.AppearanceHeader.Options.UseTextOptions = true;
@@ -797,9 +797,9 @@ namespace FIS.AppClient.Controls
                     column.UnboundExpression = summary.FieldName;
                     column.UnboundType = UnboundColumnType.Decimal;
                     column.OptionsColumn.ShowInCustomizationForm = false;
-                    column.Visible = false;                     
+                    column.Visible = false;
                     modColumn.GridView.Columns.Add(column);
-                    
+
                 }
 
                 if (!string.IsNullOrEmpty(summary.FooterColumn))
@@ -883,11 +883,11 @@ namespace FIS.AppClient.Controls
                         FieldName = summaryFieldName,
                         SummaryType = summaryType
                     });
-                    
+
                 }
             }
         }
-        
+
         protected virtual void BuildColumnFields(GridView gridView)
         {
             ColumnFields =
@@ -897,7 +897,7 @@ namespace FIS.AppClient.Controls
                 );
 
             GridColumnByID = new Dictionary<string, GridColumn>();
-            StoreRepositories = new Dictionary<string, RepositoryItemImageComboBox>();            
+            StoreRepositories = new Dictionary<string, RepositoryItemImageComboBox>();
             foreach (var columnField in ColumnFields)
             {
                 var gridColumn = CreateColumn(gridView, columnField);
@@ -911,19 +911,19 @@ namespace FIS.AppClient.Controls
                 {
                     gridView.GroupFooterShowMode = GroupFooterShowMode.VisibleAlways;
                     gridView.OptionsView.ShowFooter = true;
-                    GridGroupSummaryItem item = new GridGroupSummaryItem();                    
+                    GridGroupSummaryItem item = new GridGroupSummaryItem();
                     item.FieldName = columnField.FieldName;
                     item.ShowInGroupColumnFooter = gridView.Columns.ColumnByFieldName(columnField.FieldName);
                     if (columnField.FieldName == "ROA" || columnField.FieldName == "ROE")
                     {
-                       
+
                         gridView.Columns.ColumnByFieldName(columnField.FieldName).SummaryItem.SummaryType = SummaryItemType.Custom;
-                    }                                            
+                    }
                     else
                     {
                         gridView.Columns.ColumnByFieldName(columnField.FieldName).SummaryItem.SummaryType = SummaryItemType.Sum;
                     }
-                    
+
                     gridView.Columns.ColumnByFieldName(columnField.FieldName).SummaryItem.FieldName = columnField.FieldName;
                     if (columnField.FieldFormat != "")
                         gridView.Columns.ColumnByFieldName(columnField.FieldName).SummaryItem.DisplayFormat = "{0:" + columnField.FieldFormat + "}";
@@ -931,31 +931,31 @@ namespace FIS.AppClient.Controls
                 }
             }
 
-           
-            gridView.CustomSummaryCalculate += delegate(object sender, CustomSummaryEventArgs e)
+
+            gridView.CustomSummaryCalculate += delegate (object sender, CustomSummaryEventArgs e)
             {
 
                 if (((GridSummaryItem)e.Item).FieldName == "ROA" || ((GridSummaryItem)e.Item).FieldName == "ROE")
                 {
                     GridView gv = (GridView)sender;
                     if (!e.IsGroupSummary)
-                    {                        
+                    {
                         if (e.SummaryProcess == CustomSummaryProcess.Start)
                         {
                             TotalRowCount = 0; TotalValue = 0;
                         }
                         if (e.SummaryProcess == CustomSummaryProcess.Calculate)
                         {
-                            TotalRowCount++; TotalValue = TotalValue + Convert.ToDouble(e.FieldValue);                                                            
-                            e.TotalValue = Math.Round(TotalValue / TotalRowCount, 4);                            
+                            TotalRowCount++; TotalValue = TotalValue + Convert.ToDouble(e.FieldValue);
+                            e.TotalValue = Math.Round(TotalValue / TotalRowCount, 4);
                         }
-                    }                
+                    }
                 }
             };
 
             //End
-//#if DEBUG
-            gridView.ShowGridMenu += delegate(object sender, GridMenuEventArgs e)
+            //#if DEBUG
+            gridView.ShowGridMenu += delegate (object sender, GridMenuEventArgs e)
             {
                 if (e.HitInfo.InColumn && !e.HitInfo.InRow && e.MenuType == GridMenuType.Column)
                 {
@@ -969,7 +969,7 @@ namespace FIS.AppClient.Controls
                     DataContainer container;
                     item.Click += delegate
                         {
-                            using(var ctrlSA = new SAController())
+                            using (var ctrlSA = new SAController())
                             {
                                 var index = 0;
                                 var columns = (from GridColumn column in gridView.Columns
@@ -989,21 +989,21 @@ namespace FIS.AppClient.Controls
                                 }
                             }
                         };
-                    
+
                     e.Menu.Items.Add(item);
-                    
+
                     var gridColumn = e.HitInfo.Column;
-                    if(gridColumn != null)
+                    if (gridColumn != null)
                     {
                         var fieldInfo = gridColumn.Tag as ModuleFieldInfo;
-                        if(fieldInfo != null)
+                        if (fieldInfo != null)
                         {
                             item = new DXMenuItem
-                                           {
-                                               Caption = "Edit Column",
-                                               Image = ThemeUtils.Image16.Images["EDIT"]
-                                           };
-                            
+                            {
+                                Caption = "Edit Column",
+                                Image = ThemeUtils.Image16.Images["EDIT"]
+                            };
+
                             item.Click += delegate
                                               {
                                                   try
@@ -1017,12 +1017,12 @@ namespace FIS.AppClient.Controls
                                                   {
                                                       ShowError(ex);
                                                   }
-                                              };                        
-                            
+                                              };
+
                             e.Menu.Items.Add(item);
 
                             if (fieldInfo.UnboundExpression == "Y") { gridColumn.ShowUnboundExpressionMenu = true; }
-                        }                                                
+                        }
                     }
                 }
                 else
@@ -1030,7 +1030,7 @@ namespace FIS.AppClient.Controls
                     e.Allow = false;
                 }
             };
-//#endif
+            //#endif
         }
 
         protected virtual UISearchGroup BuildConditionFields(LayoutControlGroup conditionLayoutGroup)
@@ -1094,7 +1094,7 @@ namespace FIS.AppClient.Controls
 
         void MaintainControl_Callback(object sender, EventArgs e)
         {
-            if(!PauseCallback && !StopCallback)
+            if (!PauseCallback && !StopCallback)
             {
                 var callbackControl = sender as BaseEdit;
                 Callback(callbackControl);
@@ -1130,16 +1130,16 @@ namespace FIS.AppClient.Controls
                         case CODES.DEFMODFLD.FLDGROUP.SEND_MAIL:
                             this[field.FieldID] = field.DefaultValue.Decode(field);
                             break;
-                        //End TrungTT
+                            //End TrungTT
                     }
                 }
-                if( field.Nullable == CODES.DEFMODFLD.NULLABLE.NO &&
+                if (field.Nullable == CODES.DEFMODFLD.NULLABLE.NO &&
                     field.ControlType == CODES.DEFMODFLD.CTRLTYPE.COMBOBOX &&
                     field.FieldGroup == CODES.DEFMODFLD.FLDGROUP.COMMON &&
                     this[field.FieldID] == null)
                 {
                     var cbo = GetControlByFieldID(field.FieldID) as ComboBoxEdit;
-                    if(cbo != null && cbo.Properties.Items.Count > 0)
+                    if (cbo != null && cbo.Properties.Items.Count > 0)
                     {
                         switch (field.FieldGroup)
                         {
@@ -1147,7 +1147,7 @@ namespace FIS.AppClient.Controls
                             case CODES.DEFMODFLD.FLDGROUP.COMMON:
                                 cbo.SelectedIndex = 0;
                                 break;
-                        }                                            
+                        }
                     }
                 }
             }
@@ -1164,7 +1164,7 @@ namespace FIS.AppClient.Controls
         private delegate void LockUserActionInvoker();
         public virtual void LockUserAction()
         {
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new LockUserActionInvoker(LockUserAction));
                 return;
@@ -1172,7 +1172,7 @@ namespace FIS.AppClient.Controls
 
             if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.POPUP && Parent != null)
             {
-                ((frmModuleBox) Parent).CanUserClose = false;
+                ((frmModuleBox)Parent).CanUserClose = false;
             }
         }
 
@@ -1188,13 +1188,13 @@ namespace FIS.AppClient.Controls
             if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.POPUP)
             {
                 var parentForm = Parent as frmModuleBox;
-                if(parentForm != null)
+                if (parentForm != null)
                 {
-                    parentForm.CanUserClose = true;                    
+                    parentForm.CanUserClose = true;
                 }
             }
         }
-//#if DEBUG
+        //#if DEBUG
         public void SetupFieldMaker()
         {
             var mnuFieldMaker = Context.Items.Add("Quick Add Fields", ThemeUtils.Image16.Images["QUICK_ADD"]);
@@ -1212,7 +1212,7 @@ namespace FIS.AppClient.Controls
                         ShowError(ex);
                     }
                 };
-            Context.Items.Add(mnuFieldMaker);            
+            Context.Items.Add(mnuFieldMaker);
         }
 
         public void SetupParameterFields()
@@ -1331,7 +1331,7 @@ namespace FIS.AppClient.Controls
             if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.POPUP)
             {
                 var sqlCommands = new string[0];
-                
+
                 var mnuSaveSize = Context.Items.Add("Save window's Size", ThemeUtils.Image16.Images["COMMON"]);
                 mnuSaveSize.Enabled = false;
                 mnuSaveSize.Click +=
@@ -1424,7 +1424,7 @@ namespace FIS.AppClient.Controls
                             var listLayout = (from band in bands
                                               orderby band.VisibleIndex
                                               where band.ParentBand != null
-                                              select new[] {band.Name, band.ParentBand.Name}).ToList();
+                                              select new[] { band.Name, band.ParentBand.Name }).ToList();
 
                             var serializer = new XmlSerializer(listLayout.GetType());
                             var sw = new StringWriter();
@@ -1456,7 +1456,7 @@ namespace FIS.AppClient.Controls
                         {
                             using (var ms = new MemoryStream())
                             {
-                                
+
                                 mainLayout.SaveLayoutToStream(ms);
                                 var savedLayout = Encoding.UTF8.GetString(ms.ToArray());
                                 ctrlSA.SaveLayout(
@@ -1563,7 +1563,7 @@ namespace FIS.AppClient.Controls
         public void SetupRefreshModule()
         {
         }
-//#endif
+        //#endif
 
         #endregion
 
@@ -1619,7 +1619,7 @@ namespace FIS.AppClient.Controls
         {
             var oracleParams = ModuleUtils.GetOracleParams(storeName);
             GetOracleParameterValues(oracleParams, modifiedRow);
-            oracleValues = oracleParams.ToListString();            
+            oracleValues = oracleParams.ToListString();
         }
         #endregion
 
@@ -1690,7 +1690,7 @@ namespace FIS.AppClient.Controls
             ParameterByFieldID = new Dictionary<string, object>();
             foreach (var field in ParameterFields)
             {
-                ParameterByFieldID.Add(field.FieldID, null);                
+                ParameterByFieldID.Add(field.FieldID, null);
             }
         }
 
@@ -1762,7 +1762,7 @@ namespace FIS.AppClient.Controls
 
                         commonLayout.SuspendLayout();
                         commonLayout.BeginUpdate();
-                        
+
                         foreach (DataColumn column in resultTable.Columns)
                         {
                             foreach (var field in fields)
@@ -1905,7 +1905,7 @@ namespace FIS.AppClient.Controls
                             {
                                 var edit = GetControlByFieldID(field.FieldID) as ButtonEdit;
 
-                                if(edit is ComboBoxEdit)
+                                if (edit is ComboBoxEdit)
                                     LoadComboxListSource(edit.Properties as RepositoryItemComboBox);
                                 break;
                             }
@@ -1915,8 +1915,8 @@ namespace FIS.AppClient.Controls
                                 var strReadOnly = resultTable.Rows[0][column] as string;
                                 var ctrl = (BaseEdit)GetControlByFieldID(field.FieldID);
 
-                                if(!string.IsNullOrEmpty(strReadOnly))
-                                    switch(strReadOnly.ToUpper())
+                                if (!string.IsNullOrEmpty(strReadOnly))
+                                    switch (strReadOnly.ToUpper())
                                     {
                                         case "Y":
                                             SetReadOnly(ctrl, true);
@@ -1952,7 +1952,7 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-        public  void ShowDialogModule(IWin32Window owner)
+        public void ShowDialogModule(IWin32Window owner)
         {
             ShowDialogModule(owner, false);
         }
@@ -1967,7 +1967,7 @@ namespace FIS.AppClient.Controls
                 var frmOwner = (XtraForm)Parent;
                 frmOwner.Activate();
                 InitializeModuleData();
-                if(execute) Execute();
+                if (execute) Execute();
                 frmOwner.ShowDialog(owner);
             }
 
@@ -2017,9 +2017,9 @@ namespace FIS.AppClient.Controls
                     if (!IsFile)
                     {
                         frmOwner.Show(owner);
-                    }                    
+                    }
                     //END TRUNGTT
-                 }
+                }
 
                 if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.TABPAGE)
                 {
@@ -2041,7 +2041,7 @@ namespace FIS.AppClient.Controls
                 if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.NOWINDOW)
                 {
                     InitializeModuleData();
-                    Execute();                    
+                    Execute();
                 }
             }
             //EDIT BY TRUNGTT - 23.08.2011 - DOCKING MODULE
@@ -2070,7 +2070,7 @@ namespace FIS.AppClient.Controls
                             };
                     }
                 }
-            }            
+            }
         }
 
         private delegate void CloseModuleInvoker();
@@ -2091,7 +2091,7 @@ namespace FIS.AppClient.Controls
             //    if (ModuleInfo.UIType == CODES.DEFMOD.UITYPE.POPUP)
             //    {
             //        var frmOwner = (XtraForm)Parent;
-                    
+
             //        if (frmOwner.Owner != null)
             //        {
             //            frmOwner.Owner.Activate();
@@ -2176,16 +2176,16 @@ namespace FIS.AppClient.Controls
             errorProvider.ClearErrors();
 
             var commonFieldSupportedModule = this as ICommonFieldSupportedModule;
-            if(commonFieldSupportedModule != null)
+            if (commonFieldSupportedModule != null)
             {
-                if(commonFieldSupportedModule.ValidateRequire && !ValidateCommonFieldSupportedModule(commonFieldSupportedModule))
+                if (commonFieldSupportedModule.ValidateRequire && !ValidateCommonFieldSupportedModule(commonFieldSupportedModule))
                 {
                     result = false;
                 }
             }
 
             var columnFieldSupportedModule = this as IColumnFieldSupportedModule;
-            if(columnFieldSupportedModule != null)
+            if (columnFieldSupportedModule != null)
             {
                 UpdateStoreRepositories();
             }
@@ -2210,7 +2210,7 @@ namespace FIS.AppClient.Controls
 
         private bool ValidateValue(ValidateInfo validateInfo, object value, string fieldLabel, out string errorDescription)
         {
-            if(value != null && value.ToString() != "" && validateInfo != null)
+            if (value != null && value.ToString() != "" && validateInfo != null)
             {
                 // Regex
                 if (!string.IsNullOrEmpty(validateInfo.RegularMatch) && !Regex.IsMatch(value.ToString(), validateInfo.RegularMatch))
@@ -2246,7 +2246,7 @@ namespace FIS.AppClient.Controls
                         errorDescription = Language.GetValidateNumber(validateInfo.ValidateName, fieldLabel);
                         return false;
                     }
-                }                                                
+                }
             }
 
             errorDescription = null;
@@ -2255,13 +2255,13 @@ namespace FIS.AppClient.Controls
 
         private bool ValidateSyntaxValue(ModuleFieldInfo fieldInfo, List<string> values, string fieldLabel, out string errorDescription)
         {
-            using(var ctrSA = new SAController())
+            using (var ctrSA = new SAController())
             {
                 try
                 {
                     ctrSA.ValidateFieldInfoSyntax(ModuleInfo.ModuleID, ModuleInfo.SubModule, fieldInfo.FieldID, values);
                 }
-                catch(FaultException ex)
+                catch (FaultException ex)
                 {
                     errorDescription = ex.ToMessage(new object[] { fieldLabel });
                     return false;
@@ -2280,12 +2280,12 @@ namespace FIS.AppClient.Controls
                 {
                     var control = _CommonControlByID[field.FieldID];
                     if (control == null || !control.Visible || !control.Enabled) return true;
-                    
+
                     //var value = this[field.FieldID];
                     var value = control.Text;
                     ProcExpression validateSyntax = null;
 
-                    var fieldLabel = module.CommonLayout.GetItemByControl(control).Text;                    
+                    var fieldLabel = module.CommonLayout.GetItemByControl(control).Text;
                     var checkNull = field.Nullable == CODES.DEFMODFLD.NULLABLE.NO;
 
                     string errorDescription = null;
@@ -2353,7 +2353,7 @@ namespace FIS.AppClient.Controls
                     ProcExpression validateSyntax = null;
 
                     var fieldLabel = module.CommonLayout.GetItemByControl(control).Text;
-                    var checkNull = field.Nullable == CODES.DEFMODFLD.NULLABLE.NO;                    
+                    var checkNull = field.Nullable == CODES.DEFMODFLD.NULLABLE.NO;
 
                     string errorDescription = null;
                     bool isSuccess = true;
@@ -2367,15 +2367,15 @@ namespace FIS.AppClient.Controls
                         }
                     }
 
-                    if (isSuccess && field.TxCheck !=null)
-                    {                        
-                        DateTime dtServerDate = App.Environment.ServerInfo.ServerNow;                        
+                    if (isSuccess && field.TxCheck != null)
+                    {
+                        DateTime dtServerDate = App.Environment.ServerInfo.ServerNow;
                         //var dtvalue = this[field.FieldID].ToString().DecodeAny(field);
                         var dtvalue = this[field.FieldID].ToString();
                         switch (field.FieldType)
-                        {                            
+                        {
                             case CODES.DEFMODFLD.FLDTYPE.DATE:
-                            #region Apply rule check TxDate vs Now
+                                #region Apply rule check TxDate vs Now
                                 int intPosition = field.TxCheck.IndexOf("[");
                                 string formular = field.TxCheck.Substring(0, intPosition);
                                 //int result = DateTime.Compare(Convert.ToDateTime(dtvalue, App.Environment.ServerInfo.Culture), dtServerDate);
@@ -2417,10 +2417,10 @@ namespace FIS.AppClient.Controls
                                 break;
                             # endregion
                             default:
-                                break;                          
-                        }           
-                
-#region Apply Rule Static   
+                                break;
+                        }
+
+                        #region Apply Rule Static   
                         switch (field.TxCheck)
                         {
                             case CODES.DEFMODFLD.TXCHECK.CHECKRYEAR:
@@ -2429,12 +2429,12 @@ namespace FIS.AppClient.Controls
                                 {
                                     errorDescription = Language.GetDateValidateText(fieldLabel);
                                     isSuccess = false;
-                                } 
+                                }
                                 break;
                             default:
                                 break;
                         }
-#endregion
+                        #endregion
                     }
 
                     if (isSuccess && validateName != null)
@@ -2480,18 +2480,18 @@ namespace FIS.AppClient.Controls
                     }
 
                     return isSuccess;
-                }                
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ShowError(ex);
                 return false;
             }
         }
-        
+
         public void ShowError(Exception ex)
         {
-            if(ex is FaultException)
+            if (ex is FaultException)
                 frmInfo.ShowError(Language.Title, (FaultException)ex, this);
             else
                 frmInfo.ShowError(Language.Title, ErrorUtils.CreateError(ex), this);
@@ -2504,14 +2504,14 @@ namespace FIS.AppClient.Controls
             ctrl.Properties.ReadOnly = isReadOnly;
             ctrl.Properties.AllowFocused = !isReadOnly;
 
-            var repoButtonEdit = ctrl.Properties as RepositoryItemButtonEdit;            
+            var repoButtonEdit = ctrl.Properties as RepositoryItemButtonEdit;
             if (repoButtonEdit != null)
             {
                 foreach (EditorButton button in repoButtonEdit.Buttons)
                 {
                     button.Enabled = !isReadOnly;
 #if DEBUG
-                    if ((string) button.Tag == "DEBUG_EDIT")
+                    if ((string)button.Tag == "DEBUG_EDIT")
                     {
                         button.Enabled = true;
                     }
@@ -2604,7 +2604,7 @@ namespace FIS.AppClient.Controls
                                 {
                                     foreach (var operand in procExpression.Operands)
                                     {
-                                        if(operand.Type == OperandType.NAME)
+                                        if (operand.Type == OperandType.NAME)
                                         {
                                             var dependEdit = (BaseEdit)GetControlByFieldID(operand.NameOrValue);
                                             dependEdit.EditValueChanged +=
@@ -2688,7 +2688,7 @@ namespace FIS.AppClient.Controls
                                                     }
                                                     catch (Exception ex)
                                                     {
-                                                         ShowError(ex);
+                                                        ShowError(ex);
                                                     }
                                                 };
                                         }
@@ -2746,7 +2746,7 @@ namespace FIS.AppClient.Controls
                                         {
                                             try
                                             {
-                                                LoadGridViewListSource(edit);                                                
+                                                LoadGridViewListSource(edit);
                                             }
                                             catch (Exception ex)
                                             {
@@ -2847,7 +2847,7 @@ namespace FIS.AppClient.Controls
             }
         }
         //End TrungTT
-        
+
         protected void LoadComboxListSource(PopupContainerEdit popupEdit, FlowLayoutPanel popupPanel)
         {
             var procExpression = popupPanel.Tag as ProcExpression;
@@ -2865,7 +2865,7 @@ namespace FIS.AppClient.Controls
             {
                 var sourceList = App.Environment.GetSourceList(ModuleInfo, fieldInfo,
                     (from operand in procExpression.Operands
-                     select 
+                     select
                         operand.Type == OperandType.VALUE ?
                             operand.NameOrValue :
                             (
@@ -2882,16 +2882,16 @@ namespace FIS.AppClient.Controls
                      }).ToArray());
             }
         }
-        
+
         //add by TrungTT - 28.11.2011 - Load GridView ListSource 2 param
         protected void LoadGridViewListSource(ModuleFieldInfo fieldInfo, GridControl gridView)
         {
-           
+
             var procExpression = gridView.Tag as ProcExpression;
             if (procExpression != null)
             {
                 DataContainer container;
-                try 
+                try
                 {
                     using (SAController ctrlSA = new SAController())
                     {
@@ -2905,33 +2905,33 @@ namespace FIS.AppClient.Controls
                                          )).ToList());
 
                         DataSet dsResult = container.DataSet;
-                        
+
                         gridView.DataSource = container.DataTable;
                         gridView.ViewRegistered += new ViewOperationEventHandler(gridView_ViewRegistered);
                         //TuDq them
                         if (container.DataTable.Rows.Count > 0)
                         {
-                            
+
                             GridView gv = new GridView(gridView);
                             RepositoryItemMemoEdit ritem = new RepositoryItemMemoEdit();
                             gridView.RepositoryItems.Add(ritem);
                             gridView.MainView = gv;
-                            gv.OptionsView.RowAutoHeight = true;                            
-                            DataColumnCollection  columns = container.DataTable.Columns;
+                            gv.OptionsView.RowAutoHeight = true;
+                            DataColumnCollection columns = container.DataTable.Columns;
                             if (columns.Contains("DESCRIPTION"))
                             {
                                 gv.Columns["DESCRIPTION"].ColumnEdit = ritem;
                                 gv.Columns["DESCRIPTION"].OptionsColumn.FixedWidth = true;
-                                gv.Columns["DESCRIPTION"].Width = 300;      
+                                gv.Columns["DESCRIPTION"].Width = 300;
                             }
-                                                      
+
                             List<string> values = new List<string>();
                             values.Add(ModuleInfo.ModuleID);
                             DataContainer con;
                             ctrlSA.ExecuteProcedureFillDataset(out con, "sp_gridColLang", values);
                             DataTable dt = con.DataTable;
-                            for(int i=0;i<gv.Columns.Count;i++)
-                            {                                                              
+                            for (int i = 0; i < gv.Columns.Count; i++)
+                            {
                                 for (int j = 0; j < dt.Rows.Count; j++)
                                 {
                                     string langname = Convert.ToString(dt.Rows[j]["LANGNAME"]);
@@ -2947,10 +2947,10 @@ namespace FIS.AppClient.Controls
                                 }
                             }
                             gv.BestFitColumns();
-                            
+
                         }
                         //
-                      }
+                    }
                 }
                 catch (FaultException ex)
                 {
@@ -2962,12 +2962,12 @@ namespace FIS.AppClient.Controls
                 }
             }
         }
-       
+
 
         public void gridView_ViewRegistered(object sender, ViewOperationEventArgs e)
         {
-            
-            Console.WriteLine("ViewRegistered: Name={0}, LevelName={1}, IsDetailView={2}", e.View.Name,e.View.LevelName, e.View.IsDetailView);
+
+            Console.WriteLine("ViewRegistered: Name={0}, LevelName={1}, IsDetailView={2}", e.View.Name, e.View.LevelName, e.View.IsDetailView);
             if (e.View is GridView & i == 0)
             {
                 view = ((GridView)e.View);
@@ -2976,7 +2976,7 @@ namespace FIS.AppClient.Controls
                     view.PopulateColumns();
 
                     view.BestFitColumns();
-                    
+
                     view.OptionsBehavior.Editable = false;
                     view.OptionsCustomization.AllowFilter = false;
                     view.OptionsMenu.EnableColumnMenu = false;
@@ -2997,7 +2997,7 @@ namespace FIS.AppClient.Controls
                         string fieldName = gridColumn.Name.ToString();
                         gridColumn.Caption = LangUtils.Translate(LangType.LABEL_FIELD, fieldName, fieldName);
                     }
-                    i=1;
+                    i = 1;
                     view.DoubleClick += new EventHandler(view_DoubleClick);
                 };
             }
@@ -3029,7 +3029,7 @@ namespace FIS.AppClient.Controls
                         string fieldName = gridColumn.Name.ToString();
                         gridColumn.Caption = LangUtils.Translate(LangType.LABEL_FIELD, fieldName, fieldName);
                     }
-                    i=2;
+                    i = 2;
                     view1.DoubleClick += new EventHandler(view1_DoubleClick);
                 };
             }
@@ -3056,7 +3056,7 @@ namespace FIS.AppClient.Controls
                         if (gridColumn.Name == "colCONTENT")
                             view2.Columns["CONTENT"].Visible = false;
                     }
-                    
+
                     foreach (GridColumn gridColumn in view2.Columns)
                     {
                         string fieldName = gridColumn.Name.ToString();
@@ -3066,7 +3066,7 @@ namespace FIS.AppClient.Controls
                     view2.DoubleClick += new EventHandler(view2_DoubleClick);
                 };
             }
-            
+
         }
         //End TrungTT
 
@@ -3080,44 +3080,44 @@ namespace FIS.AppClient.Controls
                 {
                     if (gridColumn.Name == "colCONTENT")
                     {
-                       
-                            var selectedRows = view.GetFocusedDataRow();
-                            try
-                            {
-                                RichEditControl rtb = new RichEditControl();
-                                
-                               rtb.Document.HtmlText = selectedRows["CONTENT"].ToString();
-                                rtb.Dock = DockStyle.Fill;
-                                rtb.ReadOnly = true;
-                                PopupContainerControl popupControl = new PopupContainerControl();
-                                popupControl.Controls.Add(rtb);
-                                //popupControl.AutoSizeMode = AutoSizeMode.GrowOnly;
-                                popupControl.AutoSize = true;
-                                popupControl.Width = 800;
-                                popupControl.Height = 240;
 
-                                PopupContainerEdit editor = new PopupContainerEdit();
-                                editor.Properties.PopupControl = popupControl;
-                                Controls.Add(editor);
+                        var selectedRows = view.GetFocusedDataRow();
+                        try
+                        {
+                            RichEditControl rtb = new RichEditControl();
 
-                                editor.Top = 200;
+                            rtb.Document.HtmlText = selectedRows["CONTENT"].ToString();
+                            rtb.Dock = DockStyle.Fill;
+                            rtb.ReadOnly = true;
+                            PopupContainerControl popupControl = new PopupContainerControl();
+                            popupControl.Controls.Add(rtb);
+                            //popupControl.AutoSizeMode = AutoSizeMode.GrowOnly;
+                            popupControl.AutoSize = true;
+                            popupControl.Width = 800;
+                            popupControl.Height = 240;
 
-                                editor.ShowPopup();
-                                
-                               
-                            }
-                            catch (FaultException ex)
-                            {
-                                ShowError(ex);
-                            }
-                            catch (Exception ex)
-                            {
-                                ShowError(ex);
-                            }
+                            PopupContainerEdit editor = new PopupContainerEdit();
+                            editor.Properties.PopupControl = popupControl;
+                            Controls.Add(editor);
+
+                            editor.Top = 200;
+
+                            editor.ShowPopup();
+
 
                         }
+                        catch (FaultException ex)
+                        {
+                            ShowError(ex);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowError(ex);
+                        }
+
                     }
-                }   
+                }
+            }
         }
         protected void view1_DoubleClick(object sender, EventArgs e)
         {
@@ -3151,7 +3151,7 @@ namespace FIS.AppClient.Controls
                             editor.Top = 200;
 
                             editor.ShowPopup();
-                            
+
 
                         }
                         catch (FaultException ex)
@@ -3199,7 +3199,7 @@ namespace FIS.AppClient.Controls
                             editor.Top = 200;
 
                             editor.ShowPopup();
-                            
+
 
                         }
                         catch (FaultException ex)
@@ -3214,7 +3214,7 @@ namespace FIS.AppClient.Controls
                     }
                 }
             }
-        }  
+        }
         //end NghiaLX
 
         protected void LoadComboBoxListSource(ModuleFieldInfo fieldInfo, FlowLayoutPanel popupPanel)
@@ -3458,11 +3458,11 @@ namespace FIS.AppClient.Controls
 
                 return gridColumn;
             }
-            catch(FaultException)
+            catch (FaultException)
             {
                 throw;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ErrorUtils.CreateError(ex);
             }
@@ -3472,7 +3472,7 @@ namespace FIS.AppClient.Controls
         {
             if (fieldInfo.ControlType == CODES.DEFMODFLD.CTRLTYPE.TEXTAREA)
             {
-                var repository = new RepositoryItemMemoEdit {Tag = fieldInfo};
+                var repository = new RepositoryItemMemoEdit { Tag = fieldInfo };
                 return repository;
             }
             //TUDQ them
@@ -3485,17 +3485,17 @@ namespace FIS.AppClient.Controls
             if (fieldInfo.ControlType == CODES.DEFMODFLD.CTRLTYPE.COMBOBOX)
             {
                 var repository = new RepositoryItemImageComboBox
-                                     {
-                                         SmallImages = ThemeUtils.Image16,
-                                         Tag = fieldInfo
-                                     };
+                {
+                    SmallImages = ThemeUtils.Image16,
+                    Tag = fieldInfo
+                };
 
                 if (fieldInfo.IconOnly == CODES.DEFMODFLD.ICONONLY.YES)
                 {
                     repository.GlyphAlignment = HorzAlignment.Center;
                 }
 
-                if(string.IsNullOrEmpty(fieldInfo.ListSource))
+                if (string.IsNullOrEmpty(fieldInfo.ListSource))
                 {
                     throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_FIELD_NOT_CONFIG_LISTSOURCE, string.Format("{0}.{1}", fieldInfo.ModuleID, fieldInfo.FieldID));
                 }
@@ -3516,7 +3516,7 @@ namespace FIS.AppClient.Controls
                     var editButton = new EditorButton(ButtonPredefines.Ellipsis);
                     repository.Buttons.Add(editButton);
 
-                    repository.ButtonClick += delegate(object sender, ButtonPressedEventArgs e)
+                    repository.ButtonClick += delegate (object sender, ButtonPressedEventArgs e)
                     {
                         if (e.Button.Kind == ButtonPredefines.Ellipsis)
                         {
@@ -3533,10 +3533,10 @@ namespace FIS.AppClient.Controls
 
         protected void UpdateStoreRepositories()
         {
-            foreach(var fieldInfo in ColumnFields)
+            foreach (var fieldInfo in ColumnFields)
             {
                 var fieldID = fieldInfo.FieldID;
-                if(StoreRepositories.ContainsKey(fieldID))
+                if (StoreRepositories.ContainsKey(fieldID))
                 {
                     UpdateStoreRepositories(fieldInfo, StoreRepositories[fieldID]);
                 }
@@ -3552,7 +3552,7 @@ namespace FIS.AppClient.Controls
             {
                 if (operand.Type == OperandType.NAME)
                 {
-                    var dependEdit = (BaseEdit) GetControlByFieldID(operand.NameOrValue);
+                    var dependEdit = (BaseEdit)GetControlByFieldID(operand.NameOrValue);
                     dependEdit.EditValueChanged +=
                         delegate
                             {
@@ -3617,7 +3617,7 @@ namespace FIS.AppClient.Controls
                 column.DisplayFormat.FormatString = fieldInfo.FieldFormat;
             }
         }
-        
+
         public static void ApplyFormatInfo(ModuleFieldInfo fieldInfo, BaseEdit baseEdit)
         {
             if (!string.IsNullOrEmpty(fieldInfo.FieldFormat))
@@ -3640,15 +3640,15 @@ namespace FIS.AppClient.Controls
                         break;
                 }
 
-                if(formatType != FormatType.None)
+                if (formatType != FormatType.None)
                 {
                     baseEdit.Properties.DisplayFormat.FormatType = formatType;
                     baseEdit.Properties.EditFormat.FormatType = formatType;
                 }
-                
+
                 if (baseEdit.Properties is RepositoryItemTextEdit)
                 {
-                    if(!baseEdit.Properties.ReadOnly && maskType != MaskType.None)
+                    if (!baseEdit.Properties.ReadOnly && maskType != MaskType.None)
                     {
                         var repoMask = baseEdit.Properties as RepositoryItemTextEdit;
                         repoMask.Mask.MaskType = maskType;
@@ -3728,9 +3728,9 @@ namespace FIS.AppClient.Controls
         {
             if (ModuleInfo.UIType != CODES.DEFMOD.UITYPE.NOWINDOW)
             {
-                if(Parent != null)
+                if (Parent != null)
                 {
-                    for (var i = 0; i < Parent.Controls.Count; )
+                    for (var i = 0; i < Parent.Controls.Count;)
                     {
                         var control = Parent.Controls[i];
                         if (control is ucWaitingBox)

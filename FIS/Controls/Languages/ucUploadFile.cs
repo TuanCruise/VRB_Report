@@ -1,9 +1,8 @@
 ﻿using FIS.Entities;
-using FIS.Utils;
 
 namespace FIS.AppClient.Controls
 {
-    public partial class ucUploadFile 
+    public partial class ucUploadFile
     {
 
         class UploadFileLanguage : ModuleLanguage
@@ -25,7 +24,7 @@ namespace FIS.AppClient.Controls
 
         public override void InitializeLanguage()
         {
-         base.InitializeLanguage();
+            base.InitializeLanguage();
         }
     }
 }

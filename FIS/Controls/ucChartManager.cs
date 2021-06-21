@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.Windows.Forms;
-using DevExpress.Skins;
+﻿using DevExpress.Skins;
+using DevExpress.XtraCharts;
 using DevExpress.XtraEditors;
+using DevExpress.XtraLayout;
+using FIS.AppClient.Interface;
 using FIS.Base;
 using FIS.Controllers;
 using FIS.Entities;
-using FIS.Extensions;
 using FIS.Utils;
-using FIS.AppClient.Interface;
-using DevExpress.XtraCharts;
-using System.Drawing;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Threading;
-using System.IO;
+using System.Drawing;
 using System.Drawing.Imaging;
-using DevExpress.XtraLayout;
+using System.IO;
+using System.ServiceModel;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -578,7 +577,7 @@ namespace FIS.AppClient.Controls
                         diagram.AxisX.Label.Antialiasing = true;
                         //diagram.AxisX.Label.Staggered = true;
 
-                        
+
                         diagram.AxisY.Range.MaxValue = Int64.Parse(tblResult.Rows[0]["MAXVAL"].ToString());
                         diagram.AxisY.Range.MinValue = Int64.Parse(tblResult.Rows[0]["MINVAL"].ToString());
                         diagram.AxisY.NumericOptions.Precision = 1;
@@ -586,7 +585,7 @@ namespace FIS.AppClient.Controls
 
                         // Access the type-specific options of the diagram.
                         diagram.EnableAxisXZooming = false;
-                         
+
                         //Tùy biến đồ thị
                         // Hide the legend (if necessary).
                         chartMain.Legend.Font = new Font("Tahoma", 7);
@@ -713,7 +712,7 @@ namespace FIS.AppClient.Controls
                                     diagram.AxisX.Label.Font = new Font("Tahoma", 7);
                                     //--------------------------------------------------------------------------------
 
-                                    chartMain.CustomDrawAxisLabel += delegate(object sender, CustomDrawAxisLabelEventArgs e)
+                                    chartMain.CustomDrawAxisLabel += delegate (object sender, CustomDrawAxisLabelEventArgs e)
                                     {
                                         if (e.Item.Axis == diagram.AxisX)
                                         {
@@ -910,7 +909,7 @@ namespace FIS.AppClient.Controls
                                     ((LineSeriesView)indexSeries.View).LineMarkerOptions.FillStyle.FillMode = FillMode.Solid;
                                     indexSeries.Assign(indexAxis);
                                     //----------------------------------------------------------------------------------------
-                                    chartMain.CustomDrawAxisLabel += delegate(object sender, CustomDrawAxisLabelEventArgs e)
+                                    chartMain.CustomDrawAxisLabel += delegate (object sender, CustomDrawAxisLabelEventArgs e)
                                     {
                                         if (e.Item.Axis == diagraM.AxisX)
                                         {
@@ -1085,7 +1084,7 @@ namespace FIS.AppClient.Controls
 
                                     break;
 
-                                //End
+                                    //End
                             }
                             #endregion
 

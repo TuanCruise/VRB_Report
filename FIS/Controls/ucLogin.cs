@@ -1,13 +1,12 @@
-using System;
-using System.Drawing;
-using System.ServiceModel;
-using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using FIS.AppClient.Utils;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using FIS.AppClient.Utils;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -85,9 +84,9 @@ namespace FIS.AppClient.Controls
             if (App.Environment.ClientInfo.SessionKey == null)
             {
                 MainProcess.Close();
-            }            
+            }
         }
-        private void ExecuteLogin(string strUser,string strPass)
+        private void ExecuteLogin(string strUser, string strPass)
         {
             try
             {
@@ -111,14 +110,14 @@ namespace FIS.AppClient.Controls
             {
                 using (var ctrlSA = new SAController())
                 {
-                    Session session;                    
-                    ctrlSA.CreateUserSession(out session, txtUsername.Text, txtPassword.Text);                                                           
+                    Session session;
+                    ctrlSA.CreateUserSession(out session, txtUsername.Text, txtPassword.Text);
                     MainProcess.LoginToSystem(session);
                     if (session.ChkLog == 1)
                     {
-                        frmInfo.ShowWarning("Error System", "Tài khoản của bạn đăng nhập lần đầu hoặc mật khẩu của bạn đã hết hạn. \n Bạn nên thay đổi mật khẩu để đảm bảo an toàn bảo mật khi sử dụng hệ thống !", this);                    
+                        frmInfo.ShowWarning("Error System", "Tài khoản của bạn đăng nhập lần đầu hoặc mật khẩu của bạn đã hết hạn. \n Bạn nên thay đổi mật khẩu để đảm bảo an toàn bảo mật khi sử dụng hệ thống !", this);
                         MainProcess.ExecuteModule("02913", "MAD");
-                    }                    
+                    }
                 }
                 CloseModule();
             }
@@ -146,16 +145,16 @@ namespace FIS.AppClient.Controls
                 {
                     using (var ctrlSA = new SAController())
                     {
-                        Session session;                        
+                        Session session;
                         ctrlSA.CreateUserSession(out session, txtUsername.Text, txtPassword.Text);
-                        
+
 
                         MainProcess.LoginToSystem(session);
                         if (session.ChkLog == 1)
-                        {                            
+                        {
                             frmInfo.ShowWarning("Error System", "Tài khoản của bạn đăng nhập lần đầu hoặc mật khẩu của bạn đã hết hạn. \n Bạn nên thay đổi mật khẩu để đảm bảo an toàn bảo mật khi sử dụng hệ thống !", this);
                             MainProcess.ExecuteModule("02913", "MAD");
-                        }    
+                        }
                     }
                     CloseModule();
                 }
@@ -170,6 +169,6 @@ namespace FIS.AppClient.Controls
             }
         }
 
-                
+
     }
 }

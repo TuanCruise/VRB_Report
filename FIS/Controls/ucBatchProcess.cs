@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Windows.Forms;
+﻿using DevExpress.XtraEditors.Controls;
+using FIS.AppClient.Interface;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraEditors.Controls;
-using System.Threading;
-using FIS.AppClient.Interface;
-using FIS.Base;
-using DevExpress.XtraReports.UI;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using DevExpress.XtraRichEdit;
-using DevExpress.XtraRichEdit.API.Native;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Controls
 {
@@ -22,7 +18,7 @@ namespace FIS.AppClient.Controls
         IParameterFieldSupportedModule
     {
         private Dictionary<int, FaultException> ProcessErrors { get; set; }
-        
+
         public string Markets
         {
             get
@@ -64,13 +60,13 @@ namespace FIS.AppClient.Controls
         private void BuildBatch()
         {
             List<BatchInfo> colBatchs;
-            using(var ctrlSA = new SAController())
+            using (var ctrlSA = new SAController())
             {
                 ctrlSA.ListBatchInfo(out colBatchs, ModuleInfo.ModuleID);
             }
 
             chkLstBatchName.BeginUpdate();
-            foreach(var batch in colBatchs)
+            foreach (var batch in colBatchs)
             {
                 var caption = Language.GetLabelText(batch.BatchName);
                 chkLstBatchName.Items.Add(new CheckedListBoxItem(batch, caption));
@@ -92,7 +88,7 @@ namespace FIS.AppClient.Controls
             btnBatch.Enabled = false;
             chkLstBatchName.Enabled = false;
             tabbedControlGroup1.SelectedTabPage = tabBatchLog;
-            
+
             var batchThread = new BatchThread(
                 (from CheckedListBoxItem item in chkLstBatchName.CheckedItems
                  select item.Value as BatchInfo).ToArray());
@@ -103,7 +99,7 @@ namespace FIS.AppClient.Controls
                 Invoke(new BatchEndDelegate(BatchEnd));
             };
 
-            batchThread.ProcessComplete += delegate(BatchInfo batch, bool isDone, FaultException ex)
+            batchThread.ProcessComplete += delegate (BatchInfo batch, bool isDone, FaultException ex)
             {
                 try
                 {
@@ -151,14 +147,13 @@ namespace FIS.AppClient.Controls
             }
         }
 
-        class BatchThread 
+        class BatchThread
         {
             private readonly BatchInfo[] m_Batchs;
             public event OnProcessComplete ProcessComplete;
             public event EventHandler EndBatch;
             public delegate void OnProcessComplete(BatchInfo batch, bool isDone, FaultException ex);
             private Thread thread { get; set; }
-            public string strMarket;
 
             public BatchThread(BatchInfo[] batchs)
             {
@@ -167,59 +162,24 @@ namespace FIS.AppClient.Controls
 
             private void Process()
             {
-                if (strMarket == null)
+                foreach (var batch in m_Batchs)
                 {
-                    foreach (var batch in m_Batchs)
+                    try
                     {
-                        try
-                        {                           
-                                using (var ctrlSA = new SAController())
-                                {
-                                    ctrlSA.ExecuteBatch(batch.ModuleID, batch.BatchName);
-                                }                                
-                            
-                            if (ProcessComplete != null)
-                            {
-                                ProcessComplete(batch, true, null);
-                            }
-                        }
-                        catch (FaultException ex)
+                        if (ProcessComplete != null)
                         {
-                            ProcessComplete(batch, false, ex);
-                        }
-                        catch (Exception ex)
-                        {
-                            ProcessComplete(batch, false, ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_UNKNOWN, ex.Message));
+                            ProcessComplete(batch, true, null);
                         }
                     }
-                }
-                else 
-                {
-                    foreach (var batch in m_Batchs)
+                    catch (FaultException ex)
                     {
-                        try
-                        {                            
-                            using (var ctrlSA = new SAController())
-                            {
-                                ctrlSA.ExecuteBatchMarket(batch.ModuleID, batch.BatchName, strMarket);
-                                //ctrlSA.ExecuteBatchMarket(batch.ModuleID, strMarket);
-                            }
-                            
-                            if (ProcessComplete != null)
-                            {
-                                ProcessComplete(batch, true, null);
-                            }                            
-                        }
-                        catch (FaultException ex)
-                        {
-                            ProcessComplete(batch, false, ex);
-                            return;
-                        }
-                        catch (Exception ex)
-                        {
-                            ProcessComplete(batch, false, ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_UNKNOWN, ex.Message));
-                            return;
-                        }
+                        ProcessComplete(batch, false, ex);
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        ProcessComplete(batch, false, ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_UNKNOWN, ex.Message));
+                        return;
                     }
                 }
                 if (EndBatch != null) EndBatch(this, new EventArgs());
@@ -252,7 +212,7 @@ namespace FIS.AppClient.Controls
             }
         }
 
-      
-        
+
+
     }
 }

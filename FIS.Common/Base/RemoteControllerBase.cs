@@ -1,8 +1,8 @@
-﻿using System.ServiceModel;
-using System.ServiceModel.Channels;
-using FIS.Common;
+﻿using FIS.Common;
 using FIS.Utils;
 using System;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace FIS.Base
 {
@@ -38,13 +38,13 @@ namespace FIS.Base
                         m_Binding = CommonUtils.CreateHttpBinding();
                     }
                     m_EndpointAddress = new EndpointAddress(App.Configs.ServiceUri + "/" + GetType().Name);
-                }                                
+                }
             }
             catch (Exception ex)
             {
                 throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_CONNECT_TO_SERVER_FAIL, ex.Message);
             }
-            
+
         }
     }
 }

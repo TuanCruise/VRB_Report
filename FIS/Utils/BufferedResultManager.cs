@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using FIS.Base;
+﻿using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace FIS.AppClient.Utils
 {
     public class BufferedResultManager : DataTable
     {
-        private readonly int m_MaxPageSize = App.Environment.ClientInfo.UserProfile.MaxPageSize; 
+        private readonly int m_MaxPageSize = App.Environment.ClientInfo.UserProfile.MaxPageSize;
 
         public ModuleInfo ModuleInfo { get; private set; }
         public string LastSearchResultKey { get; private set; }
@@ -64,7 +64,7 @@ namespace FIS.AppClient.Utils
         public BufferedResultManager(ModuleInfo moduleInfo, string lastSearchResultKey, DateTime lastSearchTime)
         {
             ModuleInfo = moduleInfo;
-            ColumnFields = 
+            ColumnFields =
                 FieldUtils.GetModuleFields(
                     ModuleInfo.ModuleID,
                     CODES.DEFMODFLD.FLDGROUP.SEARCH_COLUMN
@@ -77,7 +77,7 @@ namespace FIS.AppClient.Utils
         {
             base.Dispose(disposing);
 
-            if(disposing)
+            if (disposing)
             {
                 if (LastSearchResultKey != null)
                 {

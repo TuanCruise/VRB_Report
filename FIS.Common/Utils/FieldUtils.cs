@@ -74,10 +74,10 @@ namespace FIS.Utils
         }
 
         public static ModuleFieldInfo GetModuleFieldByName(string moduleID, string fieldGroup, string fieldName)
-        {            
-            var fieldInfos =  (from field in AllCaches.ModuleFieldsInfo
-                    where field.ModuleID == moduleID && field.FieldGroup == fieldGroup && field.FieldName == fieldName
-                    select field).ToArray();
+        {
+            var fieldInfos = (from field in AllCaches.ModuleFieldsInfo
+                              where field.ModuleID == moduleID && field.FieldGroup == fieldGroup && field.FieldName == fieldName
+                              select field).ToArray();
 
             if (fieldInfos.Length == 0) throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_FIELD_NOT_FOUND, fieldName);
             if (fieldInfos.Length > 1) throw ErrorUtils.CreateErrorWithSubMessage(ERR_SYSTEM.ERR_SYSTEM_FIELD_DUPLICATED, fieldName);
@@ -174,7 +174,7 @@ namespace FIS.Utils
                     case CODES.DEFMODFLD.FLDTYPE.DOUBLE:
                         return System.Convert.ToDouble(value, App.Environment.ClientInfo.Culture);
                     case CODES.DEFMODFLD.FLDTYPE.DATE:
-                        if(string.IsNullOrEmpty(fieldInfo.FieldFormat))
+                        if (string.IsNullOrEmpty(fieldInfo.FieldFormat))
                             return DateTime.ParseExact(value.ToString(), CONSTANTS.DEFAULT_DATETIME_FORMAT, null);
                         return DateTime.ParseExact(value.ToString(), fieldInfo.FieldFormat, null);
                     default:
@@ -272,7 +272,7 @@ namespace FIS.Utils
                             (from Match match in matches
                              select match.Groups["VALUE"].Value.Trim()).ToArray()
                         );
-                } 
+                }
             }
 
             if (value == null && fieldInfo.Nullable == CODES.DEFMODFLD.NULLABLE.YES)
@@ -280,8 +280,8 @@ namespace FIS.Utils
 
             switch (fieldInfo.FieldType)
             {
-                case CODES.DEFMODFLD.FLDTYPE.DATE:                    
-                    return string.Format(App.Environment.ServerInfo.Culture, "{0:d}", value);                    
+                case CODES.DEFMODFLD.FLDTYPE.DATE:
+                    return string.Format(App.Environment.ServerInfo.Culture, "{0:d}", value);
                 default:
                     if (value == null) return null;
 
@@ -302,17 +302,17 @@ namespace FIS.Utils
             // If value is null or string.Empty return null
             if (value == null || value == DBNull.Value || (value is string && ((string)value) == string.Empty))
                 return null;
-            
+
             // If type of value same as typeof field return value
             if (value.GetType() == FieldUtils.GetType(fieldInfo.FieldType))
                 return value;
 
             // If value is string, correct typeof value
-            if(value is string && !string.IsNullOrEmpty(fieldInfo.FieldFormat))
+            if (value is string && !string.IsNullOrEmpty(fieldInfo.FieldFormat))
             {
-                return Decode((string) value, fieldInfo);
+                return Decode((string)value, fieldInfo);
             }
-            
+
             // Other Convert Value
             switch (fieldInfo.FieldType)
             {
@@ -355,27 +355,27 @@ namespace FIS.Utils
                     return Convert.ToDecimal(value, App.Environment.ServerInfo.Culture);
                 case CODES.DEFMODFLD.FLDTYPE.DATE:
                 case CODES.DEFMODFLD.FLDTYPE.DATETIME:
-                        try
+                    try
+                    {
+                        return DateTime.Now.Date.AddDays(double.Parse(value));
+                    }
+                    catch
+                    {
+                        if (!string.IsNullOrEmpty(fieldInfo.FieldFormat))
                         {
-                            return DateTime.Now.Date.AddDays(double.Parse(value));
+                            return Convert.ToDateTime(value, App.Environment.ServerInfo.Culture);
+                            // return DateTime.ParseExact(value, fieldInfo.FieldFormat, App.Environment.ServerInfo.Culture);
                         }
-                        catch
-                        {
-                            if (!string.IsNullOrEmpty(fieldInfo.FieldFormat))
-                            {
-                                return Convert.ToDateTime(value, App.Environment.ServerInfo.Culture);
-                               // return DateTime.ParseExact(value, fieldInfo.FieldFormat, App.Environment.ServerInfo.Culture);
-                            }
 
-                            return DateTime.Parse(value, App.Environment.ServerInfo.Culture);
-                        }
+                        return DateTime.Parse(value, App.Environment.ServerInfo.Culture);
+                    }
                 case CODES.DEFMODFLD.FLDTYPE.STRING:
-                        // Set cho truong hop doi voi thang Defaulvalue
-                        if (value == "YYYY" && !string.IsNullOrEmpty(fieldInfo.DefaultValue))
-                        { 
-                            value = DateTime.Now.Year.ToString();
-                        }
-                        return value;
+                    // Set cho truong hop doi voi thang Defaulvalue
+                    if (value == "YYYY" && !string.IsNullOrEmpty(fieldInfo.DefaultValue))
+                    {
+                        value = DateTime.Now.Year.ToString();
+                    }
+                    return value;
                 default:
                     return value;
             }

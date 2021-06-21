@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using FIS.Utils;
+﻿using FIS.Base;
 using FIS.Common;
 using FIS.Controllers;
-using FIS.Base;
 using FIS.Entities;
+using FIS.Utils;
+using System.Collections.Generic;
+using System.Data;
 
 namespace FIS.AppClient
 {
@@ -37,7 +31,7 @@ namespace FIS.AppClient
                     sUrl = string.Format(sUrl, strUserName, strPassword);
                     wbNDTNN.Navigate(sUrl);
                 }
-            }                    
+            }
         }
     }
 }

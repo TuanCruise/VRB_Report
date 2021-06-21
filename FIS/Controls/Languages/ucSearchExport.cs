@@ -5,7 +5,7 @@ namespace FIS.AppClient.Controls
 {
     public partial class ucSearchExport
     {
-    
+
         class SearchExportLanguage : ModuleLanguage
         {
             public string SheetName { get; set; }

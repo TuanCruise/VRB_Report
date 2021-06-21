@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using Aspose.Cells;
-using System.Drawing;
+﻿using Aspose.Cells;
 using FIS.Common;
 using FIS.Entities;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
-using System.Collections;
-using FIS.Base;
 
 
 namespace FIS.Utils
@@ -33,7 +31,7 @@ namespace FIS.Utils
             Headers = headers;
             Fields = fields;
             ModuleInfo = moduleInfo;
-            ListSources = new Dictionary<object,string>[columns.Length];
+            ListSources = new Dictionary<object, string>[columns.Length];
             OddStyles = new Style[columns.Length];
             EvenStyles = new Style[columns.Length];
         }
@@ -68,7 +66,7 @@ namespace FIS.Utils
             style.Pattern = BackgroundType.Solid;
             style.Font.Color = headerTextColor;
             style.ForegroundColor = headerBackgroundColor;
-            style.Pattern = BackgroundType.Solid;            
+            style.Pattern = BackgroundType.Solid;
             style.HorizontalAlignment = TextAlignmentType.Center;
             ApplyBorder(style, borderColor, CellBorderType.Thin);
 
@@ -100,23 +98,23 @@ namespace FIS.Utils
 
             return book;
         }
-        private static TextAlignmentType ApplyAlign(string textalign,string fldtype)
+        private static TextAlignmentType ApplyAlign(string textalign, string fldtype)
         {
             switch (textalign)
             {
                 case CODES.DEFMODFLD.TEXTALIGN.LEFT:
-                   return TextAlignmentType.Left;
+                    return TextAlignmentType.Left;
                 case CODES.DEFMODFLD.TEXTALIGN.RIGHT:
-                   return TextAlignmentType.Right;
+                    return TextAlignmentType.Right;
                 default:
-                   if (fldtype == CODES.DEFMODFLD.FLDTYPE.STRING || fldtype == CODES.DEFMODFLD.FLDTYPE.DATE)
-                   {
-                       return TextAlignmentType.Left;
-                   }
-                   else
-                   {
-                       return TextAlignmentType.Right;
-                   }                   
+                    if (fldtype == CODES.DEFMODFLD.FLDTYPE.STRING || fldtype == CODES.DEFMODFLD.FLDTYPE.DATE)
+                    {
+                        return TextAlignmentType.Left;
+                    }
+                    else
+                    {
+                        return TextAlignmentType.Right;
+                    }
             }
         }
 
@@ -192,7 +190,7 @@ namespace FIS.Utils
         }
 
         public void ExportDataTable(Worksheet workSheet, DataTable table)
-        {                      
+        {
             var headerStyle = workSheet.Workbook.Styles["HeaderStyle"];
             //workSheet.Cells.StandardHeight = 30;
             int MaxRowHeader = 0;
@@ -204,10 +202,10 @@ namespace FIS.Utils
                 picture.Height = 100;
                 picture.Width = 600;
                 MaxRowHeader = 6;
-            }                        
+            }
 
             //write header manual
-            ExportHeaderInfo = GetExportHeaderParams(ModuleInfo.ModuleID);            
+            ExportHeaderInfo = GetExportHeaderParams(ModuleInfo.ModuleID);
             if (ExportHeaderInfo.Count > 0)
             {
                 foreach (var headerRow in ExportHeaderInfo)
@@ -224,24 +222,24 @@ namespace FIS.Utils
                 {
                     workSheet.Cells[MaxRowHeader, i].PutValue(Headers[i]);
                     workSheet.Cells[MaxRowHeader, i].SetStyle(headerStyle);
-                }            
-            } 
-           
-            var rowIndex = MaxRowHeader +1;
+                }
+            }
+
+            var rowIndex = MaxRowHeader + 1;
             foreach (DataRow row in table.Rows)
             {
-                for(var i = 0; i < Columns.Length; i++)
+                for (var i = 0; i < Columns.Length; i++)
                 {
                     var cellValue = row[Columns[i]];
                     if (ListSources[i] != null)
                     {
                         if (ListSources[i].ContainsKey(cellValue))
-                            workSheet.Cells[rowIndex, i].PutValue(ListSources[i][cellValue]);                       
+                            workSheet.Cells[rowIndex, i].PutValue(ListSources[i][cellValue]);
                     }
                     else
                         //workSheet.Cells[rowIndex, i].PutValue(cellValue);
                         workSheet.Cells[rowIndex, i].PutValue(cellValue.DecodeAny(Fields[i]));
-                    
+
                     if (rowIndex % 2 == 1)
                         workSheet.Cells[rowIndex, i].SetStyle(OddStyles[i]);
                     else
@@ -252,30 +250,30 @@ namespace FIS.Utils
                         case CONSTANTS.FLDTYPEDEC:
                             if (Fields[i].FieldName != "STT")
                             {
-                                workSheet.Cells[rowIndex, i].Style.Custom = CONSTANTS.FLDFORMATDEC;                                
+                                workSheet.Cells[rowIndex, i].Style.Custom = CONSTANTS.FLDFORMATDEC;
                             }
                             break;
                         case CONSTANTS.FLDTYPEDTE:
-                            workSheet.Cells[rowIndex, i].Style.Custom = Fields[i].FieldFormat;                        
+                            workSheet.Cells[rowIndex, i].Style.Custom = Fields[i].FieldFormat;
                             break;
-                    }                    
+                    }
                 }
 
                 rowIndex++;
             }
             var maxRow = rowIndex++;
-            
-            string CellAt; 
+
+            string CellAt;
             for (var i = 0; i < Columns.Length; i++)
             {
                 string cellname = CellsHelper.ColumnIndexToName(i);
                 string CellNameStart = cellname + 1;
-                string CellNameStop = cellname + maxRow.ToString() ;
+                string CellNameStop = cellname + maxRow.ToString();
 
                 if (maxRow % 2 == 1)
                     workSheet.Cells[maxRow, i].SetStyle(OddStyles[i]);
                 else
-                    workSheet.Cells[maxRow, i].SetStyle(EvenStyles[i]);                
+                    workSheet.Cells[maxRow, i].SetStyle(EvenStyles[i]);
                 //wrap                
                 if (Fields[i].WrapText == CONSTANTS.Yes)
                 {
@@ -287,7 +285,7 @@ namespace FIS.Utils
                         style.IsTextWrapped = true;
                         obj.SetStyle(style);
                     }
-                }                
+                }
                 // end wrap
                 //workSheet.Cells[maxRow, 0].PutValue(maxRow);                                                                      
                 //GroupSummaries = FieldUtils.GetModuleGroupSummary(ModuleInfo.ModuleID, ModuleInfo.ModuleType);
@@ -302,16 +300,15 @@ namespace FIS.Utils
                     else
                     {
                         workSheet.Cells[maxRow, i].Formula = "=SUM(" + CellNameStart + ":" + CellNameStop + ")";
-                    }                    
+                    }
                     workSheet.Cells[maxRow, i].Style.Custom = CONSTANTS.FLDFORMATDEC;
-                }                
+                }
             }
 
             MaxRowHeader = MaxRowHeader + 1;
             int iRows = MaxRowHeader + 1;
             int startRowGroup = MaxRowHeader + 1;
             int endRowGroup = MaxRowHeader + 1;
-            string cellValuePre = null;
             //// Group rao lai da
             //for (var j = 0; j < Columns.Length; j++)
             //{
@@ -326,9 +323,9 @@ namespace FIS.Utils
             //                workSheet.Cells.InsertRow(startRowGroup - 1);
             //                workSheet.Cells[startRowGroup - 1, 1].PutValue(cellValue);
             //                cellValuePre = cellValue;
-                           
+
             //            }
-                        
+
             //            //if (cellValuePre != cellValue)
             //            //{
             //            //    cellValuePre = cellValue;
@@ -371,17 +368,18 @@ namespace FIS.Utils
             //        //}
             //    }
             //}                       
-            
-            workSheet.Outline.SummaryRowBelow = false; 
+
+            workSheet.Outline.SummaryRowBelow = false;
             workSheet.AutoFitRows();
-            
+
         }
 
         public static List<ExportHeader> GetExportHeaderParams(string moduleID)
         {
             return (from param in AllCaches.ExportHeaders
-                    where param.ModuleID == moduleID  select param).ToList();
-        }            
+                    where param.ModuleID == moduleID
+                    select param).ToList();
+        }
     }
 }
 

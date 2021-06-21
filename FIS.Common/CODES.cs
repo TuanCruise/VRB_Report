@@ -50,7 +50,7 @@ namespace FIS
                 public const string VIEW = "00";
                 public const string ADD = "01";
                 public const string EDIT = "02";
-                public const string DELETE = "03";   
+                public const string DELETE = "03";
                 public const string EXPORT_EXCEL = "04";
                 public const string EXPORT_PDF = "05";
                 public const string EXPORT_WORD = "06";
@@ -137,7 +137,7 @@ namespace FIS
                 public const string BLOCKED = "B";
                 public const string SINGLE_INSTANCE = "S";
                 public const string MULTI_INSTANCE = "M";
-                public const string FEEDBACK = "F"; 
+                public const string FEEDBACK = "F";
             }
             public static class PROBLEMTYPE
             {
@@ -377,7 +377,7 @@ namespace FIS
                 public const string LOOKUPVALUES = "LV";
                 public const string UPLOADFILE = "UF";
                 public const string RICHTEXTEDITOR = "RT";
-                public const string GRIDVIEW = "GV";                
+                public const string GRIDVIEW = "GV";
                 //TuDQ them
                 public const string RADIOGROUP = "RG";
                 //End
@@ -474,7 +474,7 @@ namespace FIS
                 public const string YES = "Y";
                 public const string MULTI_ROWS = "MR";
             }
-           
+
         }
         namespace DEFMODBTNPARAM
         {
@@ -520,7 +520,7 @@ namespace FIS
             public static class SHOWSUCCESS
             {
                 public const string YES = "Y";
-                public const string NO = "N";                
+                public const string NO = "N";
             }
             public static class APROVE
             {

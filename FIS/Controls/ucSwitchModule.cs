@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using FIS.AppClient.Interface;
+﻿using FIS.AppClient.Interface;
+using FIS.AppClient.Utils;
 using FIS.Controllers;
 using FIS.Entities;
-using FIS.AppClient.Utils;
+using System.Collections.Generic;
 
 namespace FIS.AppClient.Controls
 {
@@ -34,18 +34,18 @@ namespace FIS.AppClient.Controls
                 }
                 else
                 {
-                    ctrlSA.ExecuteSwitchModule(out targetModule, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);                    
+                    ctrlSA.ExecuteSwitchModule(out targetModule, ModuleInfo.ModuleID, ModuleInfo.SubModule, values);
                     //tudq them
                     if (SwitchInfo.SwitchStore.ToUpper() == "SP_SWITCH_MAINTAIN_LOG" || SwitchInfo.SwitchStore.ToUpper() == "SP_SWITCH_VIEW_TLLOGMEMBER")
                         Program.txnum = values[1];
                     //
-                    if (SwitchInfo.SwitchStore.ToUpper() == "SP_SWITCH_APPROVE" )
+                    if (SwitchInfo.SwitchStore.ToUpper() == "SP_SWITCH_APPROVE")
                         Program.txnum = values[1]; //HUYVQ: Fix 2 -> 1: bỏ BUROWID
 
                     if (SwitchInfo.SwitchStore.ToUpper() == "SP_SWITCH_IMP")
                     {
                         Program.rptid = values[1];
-                        if(values.Count > 2)
+                        if (values.Count > 2)
                             Program.rptlogID = values[2];
                     }
                     var module = MainProcess.CreateModuleInstance(targetModule);
@@ -62,7 +62,7 @@ namespace FIS.AppClient.Controls
                     };
 
                     module.ShowModule(owner);
-                }                
+                }
             }
         }
         #endregion

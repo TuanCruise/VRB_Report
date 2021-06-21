@@ -8,7 +8,7 @@ namespace FIS.Common
         {
             public static string ConnectionString { get; set; }
             public static string ServiceUri { get; set; }
-            public static string ServiceUriHttp { get; set; }  
+            public static string ServiceUriHttp { get; set; }
             public static string UpdatedToDateVersion { get; set; }
             public static string UseProxy { get; set; }
             public static string ProxyUrl { get; set; }
@@ -17,13 +17,13 @@ namespace FIS.Common
 
             static Configs()
             {
-                ConnectionString = ConfigurationSettings.AppSettings["ConnectionString"];
-                ServiceUri = ConfigurationSettings.AppSettings["ServiceUri"];
-                ServiceUriHttp = ConfigurationSettings.AppSettings["ServiceUriHttp"];
-                UseProxy = ConfigurationSettings.AppSettings["UseProxy"];
-                ProxyUrl = ConfigurationSettings.AppSettings["proxyUrl"];
-                ProxyUser = ConfigurationSettings.AppSettings["proxyUser"];
-                ProxyPass = ConfigurationSettings.AppSettings["proxyPass"];  
+                ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];// ConfigurationSettings.AppSettings["ConnectionString"];
+                ServiceUri = ConfigurationManager.AppSettings["ServiceUri"];// ConfigurationSettings.AppSettings["ServiceUri"];
+                ServiceUriHttp = ConfigurationManager.AppSettings["ServiceUriHttp"];// ConfigurationSettings.AppSettings["ServiceUriHttp"];
+                UseProxy = ConfigurationManager.AppSettings["UseProxy"];// ConfigurationSettings.AppSettings["UseProxy"];
+                ProxyUrl = ConfigurationManager.AppSettings["proxyUrl"];// ConfigurationSettings.AppSettings["proxyUrl"];
+                ProxyUser = ConfigurationManager.AppSettings["proxyUser"];// ConfigurationSettings.AppSettings["proxyUser"];
+                ProxyPass = ConfigurationManager.AppSettings["proxyPass"];// ConfigurationSettings.AppSettings["proxyPass"];
             }
         }
     }

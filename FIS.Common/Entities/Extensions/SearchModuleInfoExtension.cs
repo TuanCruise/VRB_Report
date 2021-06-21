@@ -2,7 +2,7 @@
 {
     public static class SearchModuleInfoExtension
     {
-        public static void SetAsLookUpWindow(this SearchModuleInfo obj,string columnValue)
+        public static void SetAsLookUpWindow(this SearchModuleInfo obj, string columnValue)
         {
             obj.ShowAsLookUpWindow = true;
             obj.ColumnValue = columnValue;

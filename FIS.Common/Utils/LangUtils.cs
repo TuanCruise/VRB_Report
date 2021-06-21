@@ -1,11 +1,10 @@
-﻿using System;
+﻿using DevExpress.XtraBars;
+using FIS.Common;
+using FIS.Entities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using DevExpress.XtraBars;
-using DevExpress.XtraPrinting.Native;
-using FIS.Common;
-using FIS.Entities;
 
 namespace FIS.Utils
 {
@@ -46,15 +45,15 @@ namespace FIS.Utils
 
     public static class LangUtils
     {
-//#if DEBUG
+        //#if DEBUG
         public static List<string> CaptureLanguage { get; set; }
-//#endif
+        //#endif
 
         static LangUtils()
         {
-//#if DEBUG
+            //#if DEBUG
             CaptureLanguage = new List<string>();
-//#endif
+            //#endif
         }
 
         public static void LoadLangFromCache()
@@ -69,7 +68,7 @@ namespace FIS.Utils
             }
         }
 
-//#if DEBUG
+        //#if DEBUG
         public static void RefreshLanguage()
         {
             App.Environment.InitializeLanguage();
@@ -82,7 +81,7 @@ namespace FIS.Utils
                 }
             }
         }
-//#endif
+        //#endif
 
         public static string TranslateBasic(string @default, string languageName)
         {
@@ -297,7 +296,7 @@ namespace FIS.Utils
             modTypeParams.Insert(0, moduleInfo.ModuleTypeName);
 
             langValue = Translate(type, true, modTypeParams.ToArray());
-            if(langValue != null) return langValue;
+            if (langValue != null) return langValue;
 
             return Translate(type, false, modParams.ToArray());
         }

@@ -12,7 +12,8 @@ namespace FIS.AppClient.Controls
         IParameterFieldSupportedModule
     {
         #region Properties & Members
-        public ExecProcModuleInfo ExecProcInfo {
+        public ExecProcModuleInfo ExecProcInfo
+        {
             get
             {
                 return (ExecProcModuleInfo)ModuleInfo;
@@ -44,7 +45,7 @@ namespace FIS.AppClient.Controls
             SetupSeparator();
             SetupLanguageTool();
 
-            if(Parent != null)
+            if (Parent != null)
                 Parent.ContextMenuStrip = Context;
 #endif
         }

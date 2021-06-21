@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.Windows.Forms;
-using DevExpress.XtraBars;
+﻿using DevExpress.XtraBars;
 using DevExpress.XtraTab;
 using FIS.AppClient.Controls;
 using FIS.AppClient.Interface;
@@ -10,7 +6,10 @@ using FIS.Common;
 using FIS.Controllers;
 using FIS.Entities;
 using FIS.Utils;
-using DevExpress.XtraBars.Ribbon.ViewInfo;
+using System;
+using System.Collections.Generic;
+using System.ServiceModel;
+using System.Windows.Forms;
 
 namespace FIS.AppClient.Utils
 {
@@ -29,18 +28,18 @@ namespace FIS.AppClient.Utils
 
         public static MainProcess Instance { get; set; }
 
-//#if DEBUG
+        //#if DEBUG
         internal bool IsAdvanceDeveloperMode { get; set; }
-//#endif
+        //#endif
         #endregion
 
         public MainProcess(Form mainForm)
         {
             m_mainForm = mainForm;
             Instance = this;
-///#if DEBUG
+            ///#if DEBUG
             IsAdvanceDeveloperMode = false;
-//#endif
+            //#endif
         }
 
         public static void CloseAllModules()
@@ -56,7 +55,7 @@ namespace FIS.AppClient.Utils
 
         public static Form GetMainForm()
         {
-            if(Instance != null)
+            if (Instance != null)
                 return Instance.m_mainForm;
             return null;
         }
@@ -155,7 +154,7 @@ namespace FIS.AppClient.Utils
                         case STATICMODULE.COLUMNEXPORT:
                             ucModule = new ucColumnExport();
                             break;
-                        //END
+                            //END
                     }
                     break;
                 case CODES.DEFMOD.MODTYPE.SEARCHMASTER:
@@ -181,7 +180,7 @@ namespace FIS.AppClient.Utils
                     ucModule = new ucTreeView();
                     break;
                 case CODES.DEFMOD.MODTYPE.EXPESSION:
-                    ucModule= new ucExpression();
+                    ucModule = new ucExpression();
                     break;
 
                 case CODES.DEFMOD.MODTYPE.TRANS:
@@ -205,8 +204,8 @@ namespace FIS.AppClient.Utils
                     break;
                 //edit by TrungTT - 3.2.2012 - Export Statistic
                 case CODES.DEFMOD.MODTYPE.STATISTICSMASTER:
-                    switch(moduleInfo.SubModule)
-                    {                    
+                    switch (moduleInfo.SubModule)
+                    {
                         case CODES.DEFMOD.SUBMOD.MODULE_MAIN:
                             ucModule = new ucStatisticsMaster();
                             break;
@@ -222,7 +221,7 @@ namespace FIS.AppClient.Utils
                 case CODES.DEFMOD.MODTYPE.REPORTMASTER:
                     ucModule = new ucReportMaster();
                     break;
-                //END TRUNGTT
+                    //END TRUNGTT
             }
             if (ucModule != null)
             {
@@ -232,7 +231,7 @@ namespace FIS.AppClient.Utils
             return ucModule;
         }
         //add by TrungTT - 7.5.2012
-        public static ucModule CreateModuleInstance(string moduleID, string subModule,string CallModule)
+        public static ucModule CreateModuleInstance(string moduleID, string subModule, string CallModule)
         {
             var moduleInfo = ModuleUtils.GetModuleInfo(moduleID, subModule);
             return CreateModuleInstance(moduleInfo);
@@ -275,7 +274,7 @@ namespace FIS.AppClient.Utils
 
         #region Execute Module
 
-//#if DEBUG
+        //#if DEBUG
         public static void ForceLoad(string moduleID)
         {
             using (var ctrlSA = new SAController())
@@ -305,12 +304,12 @@ namespace FIS.AppClient.Utils
                 return;
             }
         }
-//#endif
+        //#endif
         private void _ExecuteModule(string moduleID)
         {
             try
             {
-//#if DEBUG
+                //#if DEBUG
                 if (moduleID == "ADVANCE=ON")
                 {
                     IsAdvanceDeveloperMode = true;
@@ -374,10 +373,10 @@ namespace FIS.AppClient.Utils
                     var module = CreateModuleInstance(moduleID);
                     module.ShowModule(m_mainForm);
                 }
-//#else
-//                var module = CreateModuleInstance(moduleID);
-//                module.ShowModule(m_mainForm);
-//#endif
+                //#else
+                //                var module = CreateModuleInstance(moduleID);
+                //                module.ShowModule(m_mainForm);
+                //#endif
             }
             catch (FaultException ex)
             {
@@ -439,7 +438,7 @@ namespace FIS.AppClient.Utils
                         LogoutFromSystem(true);
                     }
                     break;
-                case "MNU_HELP":                    
+                case "MNU_HELP":
                     Help.ShowHelp(m_mainForm, "Help\\Help.chm");
                     break;
                 case "MNU_ABOUT_US":
@@ -448,12 +447,12 @@ namespace FIS.AppClient.Utils
                     break;
                 case CONSTANTS.MENU_NAME_NDTNN:
                     var frmOwner = new frmAddIn();
-                    frmOwner.Activate();                    
+                    frmOwner.Activate();
                     frmOwner.MdiParent = MainProcess.GetMainForm();
                     frmOwner.Show();
                     break;
                 default:
-                    if(moduleID != null && subModule != null)
+                    if (moduleID != null && subModule != null)
                         ExecuteModule(moduleID, subModule);
                     break;
             }
@@ -463,7 +462,7 @@ namespace FIS.AppClient.Utils
         {
             ExecuteModule(moduleID, subModule, false);
         }
-        
+
         public static void ExecuteModule(string moduleID, string subModule, bool execute)
         {
             Instance._ExecuteModule(moduleID, subModule, execute);
@@ -521,7 +520,7 @@ namespace FIS.AppClient.Utils
                 {
                     appRegistry.SetValue("UserName", userName);
                     appRegistry.SetValue("Password", password);
-                    appRegistry.SetValue("SaveLogin", "Y");                    
+                    appRegistry.SetValue("SaveLogin", "Y");
                 }
                 else
                 {
@@ -576,9 +575,9 @@ namespace FIS.AppClient.Utils
 
         private void _LoginToSystem(Session session)
         {
-            
-            
-            
+
+
+
             App.Environment.ClientInfo.SessionKey = session.SessionKey;
             App.Environment.ClientInfo.UserName = session.Username;
 
