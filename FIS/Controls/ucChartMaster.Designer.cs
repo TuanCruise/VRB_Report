@@ -85,7 +85,6 @@
             superToolTip4.Items.Add(toolTipItem4);
             this.ctrlToolTip.SetSuperTip(this.mainChart, superToolTip4);
             this.mainChart.TabIndex = 4;
-            this.mainChart.ObjectHotTracked += new DevExpress.XtraCharts.HotTrackEventHandler(this.mainChart_ObjectHotTracked);
             // 
             // layoutControlGroup1
             // 

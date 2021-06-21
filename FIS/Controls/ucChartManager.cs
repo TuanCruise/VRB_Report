@@ -25,11 +25,9 @@ namespace FIS.AppClient.Controls
         public ucChartManager()
         {
             InitializeComponent();
-            //add by TrungTT - 11.8.2010 
 #if DEBUG
             chartLayout.AllowCustomizationMenu = true;
 #endif
-            //end TrungTT
         }
 
         #region Properties & Members
@@ -126,7 +124,6 @@ namespace FIS.AppClient.Controls
 
         #region Events
 
-        private Thread chartThread;
         private DateTime lastSwitch;
 
         private void btnCommit_Click(object sender, EventArgs e)
@@ -229,7 +226,6 @@ namespace FIS.AppClient.Controls
             }
             catch (Exception ex)
             {
-                chartThread.Abort();
                 ShowError(ex);
             }
         }
@@ -1444,7 +1440,6 @@ namespace FIS.AppClient.Controls
             }
             catch (Exception ex)
             {
-                chartThread.Abort();
                 ShowError(ex);
             }
         }
@@ -1643,7 +1638,6 @@ namespace FIS.AppClient.Controls
             }
             catch (Exception ex)
             {
-                chartThread.Abort();
                 ShowError(ex);
             }
         }

@@ -29,8 +29,6 @@ namespace FIS.AppClient.Controls
             lbTitle.Text = Language.Title;
         }
 
-        RichEditControl richEdit;
-
         protected override void LoadCommandFields()
         {
             base.LoadCommandFields();

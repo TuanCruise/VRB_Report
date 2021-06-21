@@ -21,7 +21,6 @@ namespace FIS.AppClient
     public partial class frmMainRibbon : RibbonForm, IMain
     {
         internal MainProcess Process { get; set; }
-        private readonly Form m_mainForm;
         public delegate void workerFunctionDelegate(string strText);
         public delegate void RunNewsDelegate(string strText);
         public frmMainRibbon()

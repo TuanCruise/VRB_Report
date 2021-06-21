@@ -13,7 +13,7 @@ namespace FIS.FReader
 
         static Configs()
         {
-            HOMEDirectory = ConfigurationSettings.AppSettings["HOMEDirectory"];
+            HOMEDirectory = ConfigurationManager.AppSettings["HOMEDirectory"];
         }
     }
 }
