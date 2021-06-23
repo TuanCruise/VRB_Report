@@ -227,6 +227,7 @@
         public const string ORACLE_MODULE_ID = "PV_MODID";
 
         public const string REPORT_PARAMETER = "ReportParameter";
+        public const string SAOKE_DAY_PARAM = "PV_STATEMENTDATE";
 
         public const string ORACLE_EXCEPTION_PARAMETER_NAME = "PROC_RETURN";
         public const string ORACLE_OUT_PARAMETER_SECID = "SECID";

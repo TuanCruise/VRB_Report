@@ -924,6 +924,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <None Include="Reports\RPT086.repx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Reports\RPT100.repx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

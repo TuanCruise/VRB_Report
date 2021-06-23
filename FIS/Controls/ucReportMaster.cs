@@ -178,6 +178,9 @@ namespace FIS.AppClient.Controls
                           List<string> Values;
                           GetOracleParameterValues(out Values, ReportInfo.StoreName);
                           ctrlSA.ExecuteMaintainReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
+                          // Show success
+                          frmInfo.ShowInfo("Gửi Email sao kê", "Đã gửi sao kê thành công !", this);
+                          CloseModule();
                       }
                   }
                   catch (FaultException ex)
@@ -193,20 +196,28 @@ namespace FIS.AppClient.Controls
                       UnLockUserAction();
                   }
               }, this);
-
-            CurrentThread.ProcessComplete += ExecuteFetchResult_ProcessCompleteMail;
             CurrentThread.Start();
         }
 
         private void ExportReportToPdf()
         {
             DataContainer container;
+            string pStatementDate= DateTime.Now.ToString();
             try
             {
                 using (SAController ctrlSA = new SAController())
                 {
                     List<string> Values;
                     GetOracleParameterValues(out Values, ReportInfo.StoreName);
+
+                    var fields = GetModuleFields();
+                    foreach (var field in fields)
+                    {
+                        if (!string.IsNullOrEmpty(field.ParameterName) && field.ParameterName.ToUpper()== CONSTANTS.SAOKE_DAY_PARAM)
+                        {
+                            pStatementDate = this[field.FieldID].Encode(field);
+                        }
+                    }
                     //Tao tung bao cao mot va ket xuat ra file PDF
                     List<string> paras = new List<string>(Values[0].ToString().Split(','));
                     #region Create Data
@@ -215,7 +226,6 @@ namespace FIS.AppClient.Controls
                         List<string> value = new List<string>();
                         value.Add(para);
                         value.Add(Values[1].ToString());
-                        value.Add(Values[2].ToString());
                         ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, value);
 
                         var dsResult = container.DataSet;
@@ -242,7 +252,7 @@ namespace FIS.AppClient.Controls
                         dsResult.WriteXml(baseRptPath + ".xml", XmlWriteMode.WriteSchema);
                         var report = XtraReport.FromFile(baseRptPath + ".repx", true);
                         report.XmlDataPath = baseRptPath + ".xml";
-                        var fileName = para + "_" + Convert.ToDateTime(Values[2].ToString(), CultureInfo.InvariantCulture).ToShortDateString().Replace("/", "") + ".pdf";
+                        var fileName = para + "_" + Convert.ToDateTime(pStatementDate, CultureInfo.InvariantCulture).ToShortDateString().Replace("/", "") + ".pdf";
 
                         System.IO.Directory.CreateDirectory(ExportPath);
 
@@ -359,6 +369,9 @@ namespace FIS.AppClient.Controls
                    try
                    {
                        ExportReportToPdf();
+                       // Show success
+                       frmInfo.ShowInfo("Kết xuất sao kê ra file PDF", "Đã kết xuất thành công !", this);
+                       CloseModule();
                    }
                    catch (Exception ex)
                    {
@@ -370,19 +383,7 @@ namespace FIS.AppClient.Controls
                    }
                }, this);
 
-            CurrentThread.ProcessComplete += ExecuteFetchResult_ProcessComplete;
             CurrentThread.Start();
         }
-        public void ExecuteFetchResult_ProcessComplete(object sender, EventArgs e)
-        {
-            frmInfo.ShowInfo("Kết xuất sao kê ra file PDF", "Đã kết xuất thành công !", this);
-            CloseModule();
-        }
-        public void ExecuteFetchResult_ProcessCompleteMail(object sender, EventArgs e)
-        {
-            frmInfo.ShowInfo("Gửi Email sao kê", "Đã gửi sao kê thành công !", this);
-            CloseModule();
-        }
-
     }
 }
