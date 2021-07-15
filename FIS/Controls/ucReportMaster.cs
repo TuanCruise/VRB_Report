@@ -103,65 +103,71 @@ namespace FIS.AppClient.Controls
 
         public override void Execute()
         {
-            try
-            {
-                if (ModuleInfo.SendEmail == CONSTANTS.Yes)
+            new WorkerThread(
+                delegate
                 {
-                    ExecuteReportAndSendMail();
-                }
-                else
-                {
-                    using (SAController ctrlSA = new SAController())
+                    try
                     {
-                        DataContainer container;
-                        #region Create Data
-                        List<string> Values;
-                        GetOracleParameterValues(out Values, ReportInfo.StoreName);
-                        ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
-
-                        var dsResult = container.DataSet;
-
-                        var dt = new DataTable(CONSTANTS.REPORT_PARAMETER);
-                        foreach (var field in CommonFields)
+                        LockUserAction();
+                        if (ModuleInfo.SendEmail == CONSTANTS.Yes)
                         {
-                            var name = field.FieldName;
-                            var col = new DataColumn(name, FieldUtils.GetType(field.FieldType));
-                            dt.Columns.Add(col);
+                            ExecuteReportAndSendMail();
                         }
-
-                        var row = dt.NewRow();
-                        dt.Rows.Add(row);
-                        dsResult.Tables.Add(dt);
-
-                        foreach (var field in CommonFields)
+                        else
                         {
-                            row[field.FieldName] = this[field.FieldID];
+                            using (SAController ctrlSA = new SAController())
+                            {
+                                DataContainer container;
+                                #region Create Data
+                                List<string> Values;
+                                GetOracleParameterValues(out Values, ReportInfo.StoreName);
+                                ctrlSA.ExecuteReport(out container, ModuleInfo.ModuleID, ModuleInfo.SubModule, Values);
+
+                                var dsResult = container.DataSet;
+
+                                var dt = new DataTable(CONSTANTS.REPORT_PARAMETER);
+                                foreach (var field in CommonFields)
+                                {
+                                    var name = field.FieldName;
+                                    var col = new DataColumn(name, FieldUtils.GetType(field.FieldType));
+                                    dt.Columns.Add(col);
+                                }
+
+                                var row = dt.NewRow();
+                                dt.Rows.Add(row);
+                                dsResult.Tables.Add(dt);
+
+                                foreach (var field in CommonFields)
+                                {
+                                    row[field.FieldName] = this[field.FieldID];
+                                }
+
+                                #endregion
+                                #region Create Report
+                                dsResult.WriteXml(baseRptPath + ".xml", XmlWriteMode.WriteSchema);
+                                var report = XtraReport.FromFile(baseRptPath + ".repx", true);
+                                report.XmlDataPath = baseRptPath + ".xml";
+
+                                string strProcedureName = ReportInfo.StoreName.ToString();
+                                string strReportName = ReportInfo.ReportName.ToString();
+
+                                #endregion
+                                report.RequestParameters = false;
+                                report.ShowPreviewDialog();
+                            }
                         }
-
-                        #endregion
-                        #region Create Report
-                        dsResult.WriteXml(baseRptPath + ".xml", XmlWriteMode.WriteSchema);
-                        var report = XtraReport.FromFile(baseRptPath + ".repx", true);
-                        report.XmlDataPath = baseRptPath + ".xml";
-
-                        string strProcedureName = ReportInfo.StoreName.ToString();
-                        string strReportName = ReportInfo.ReportName.ToString();
-
-                        #endregion
-                        report.RequestParameters = false;
-                        report.ShowPreviewDialog();
+                        //RequireRefresh = true;                
                     }
-                }
-                //RequireRefresh = true;                
-            }
-            catch (FaultException ex)
-            {
-                ShowError(ex);
-            }
-            catch (Exception ex)
-            {
-                ShowError(ex);
-            }
+                    catch (Exception ex)
+                    {
+                        ShowError(ex);
+                    }
+                    finally
+                    {
+                        UnLockUserAction();
+                    }
+                },
+            this).Start();
         }
 
         private void ExecuteReportAndSendMail()
